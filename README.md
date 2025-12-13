@@ -89,14 +89,21 @@ The app works great without a server, but you can optionally run a local Saxon-H
 #### Windows
 1. Navigate to the `server` folder
 2. **Double-click** `install.bat`
-3. After installation, **double-click** `start-server.bat`
+3. After installation, choose:
+   - **Production**: Double-click `start-server.bat`
+   - **Development** (auto-restart): Double-click `start-server-dev.bat`
 
 #### Mac / Linux
 ```bash
 cd server
-chmod +x install.sh start-server.sh
+chmod +x install.sh start-server.sh start-server-dev.sh
 ./install.sh
+
+# Production mode
 ./start-server.sh
+
+# Development mode (auto-restart on file changes)
+./start-server-dev.sh
 ```
 
 #### Using npm (All Platforms)
@@ -104,7 +111,12 @@ chmod +x install.sh start-server.sh
 cd server
 npm install
 npm run install-server
+
+# Production mode
 npm start
+
+# Development mode (with auto-restart on file changes)
+npm run dev
 ```
 
 The installer will automatically:

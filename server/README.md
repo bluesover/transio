@@ -25,7 +25,9 @@ Optional server-side XSLT transformation API using Saxon-HE (Java) for enhanced 
 1. Open the `server` folder
 2. Double-click **`install.bat`**
 3. Follow the prompts
-4. After installation, double-click **`start-server.bat`** to run the server
+4. After installation, choose how to run:
+   - **Production**: Double-click **`start-server.bat`**
+   - **Development** (with auto-restart): Double-click **`start-server-dev.bat`**
 
 #### Mac / Linux
 1. Open Terminal
@@ -43,7 +45,11 @@ Optional server-side XSLT transformation API using Saxon-HE (Java) for enhanced 
    ```
 5. After installation, start the server:
    ```bash
+   # Production mode
    ./start-server.sh
+   
+   # Development mode (with auto-restart)
+   ./start-server-dev.sh
    ```
 
 #### Using npm (All Platforms)
@@ -51,10 +57,31 @@ Optional server-side XSLT transformation API using Saxon-HE (Java) for enhanced 
 cd server
 npm install
 npm run install-server
+
+# Production mode
 npm start
+
+# Development mode (auto-restart on file changes)
+npm run dev
 ```
 
 The server will start on `http://localhost:3001`
+
+### Development Mode Features
+
+When running in development mode (`npm run dev` or `start-server-dev.sh/bat`):
+
+- 🔄 **Auto-restart** on file changes (index.js, scripts/*.js, .env)
+- 📝 **Real-time updates** - edit code and see changes immediately
+- ⌨️  **Manual restart** - type `rs` and press Enter
+- 🎨 **Colored output** for better readability
+- 🔍 **Verbose logging** for debugging
+
+Perfect for:
+- Developing new features
+- Testing XSLT transformations
+- Debugging issues
+- API endpoint modifications
 
 ### Installing Java
 

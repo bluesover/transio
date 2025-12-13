@@ -1,0 +1,22 @@
+{
+  "watch": [
+    "index.js",
+    "scripts/*.js",
+    ".env"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "temp/*",
+    "saxon/*",
+    "node_modules/*",
+    "*.log"
+  ],
+  "exec": "node index.js",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "restartable": "rs",
+  "colours": true,
+  "delay": 500,
+  "verbose": true
+}
