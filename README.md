@@ -62,6 +62,14 @@ npm run dev
 | **[DEPLOY_CHECKLIST.md](./DEPLOY_CHECKLIST.md)** | ✅ Pre-deployment testing checklist | QA testing |
 | **[LOCAL_SETUP_GUIDE.md](./LOCAL_SETUP_GUIDE.md)** | 💻 Run locally with file system access | Local development |
 
+### 🌐 Custom Domain Setup (transio.org)
+
+| Guide | Purpose | Who It's For |
+|-------|---------|--------------|
+| **[DNS_SETUP_GUIDE.md](./DNS_SETUP_GUIDE.md)** | 🌍 Complete DNS configuration for transio.org | Domain owners |
+| **[CUSTOM_DOMAIN_QUICK_REFERENCE.md](./CUSTOM_DOMAIN_QUICK_REFERENCE.md)** | ⚡ 5-minute DNS setup cheat sheet | Quick reference |
+| **[DNS_ARCHITECTURE.md](./DNS_ARCHITECTURE.md)** | 🏗️ Infrastructure & architecture diagrams | Technical deep dive |
+
 ---
 
 ## Features
