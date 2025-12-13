@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { toast, Toaster } from 'sonner'
-import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight, FileCsv, RocketLaunch, Flask } from '@phosphor-icons/react'
+import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight, FileCsv, RocketLaunch, Flask, LockKey, LockKeyOpen } from '@phosphor-icons/react'
 import { CodeEditor } from './components/CodeEditor'
 import { VersionPanel } from './components/VersionPanel'
 import { SnippetsSheet } from './components/SnippetsSheet'
@@ -388,23 +388,46 @@ function App() {
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <Select 
-            value={safeXsltVersion} 
-            onValueChange={(v) => {
-              setManualVersionSelection(true)
-              setXsltVersion(v as XSLTVersion)
-              addLogEntry('settings', `Changed XSLT version to ${v}`)
-            }}
-          >
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="Select XSLT Version" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1.0">XSLT 1.0</SelectItem>
-              <SelectItem value="2.0">XSLT 2.0 ⚠️</SelectItem>
-              <SelectItem value="3.0">XSLT 3.0 ⚠️</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-1">
+            <Select 
+              value={safeXsltVersion} 
+              onValueChange={(v) => {
+                setManualVersionSelection(true)
+                setXsltVersion(v as XSLTVersion)
+                addLogEntry('settings', `Changed XSLT version to ${v}`)
+              }}
+              disabled={!manualVersionSelection}
+            >
+              <SelectTrigger className="w-32">
+                <SelectValue placeholder="Select XSLT Version" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1.0">XSLT 1.0</SelectItem>
+                <SelectItem value="2.0">XSLT 2.0 ⚠️</SelectItem>
+                <SelectItem value="3.0">XSLT 3.0 ⚠️</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            <Button 
+              variant={manualVersionSelection ? "default" : "outline"} 
+              size="icon" 
+              onClick={() => {
+                setManualVersionSelection(!manualVersionSelection)
+                if (manualVersionSelection) {
+                  const detected = detectXSLTVersion(safeXsltInput)
+                  setXsltVersion(detected)
+                  toast.success(`Auto-detect enabled (${detected})`)
+                  addLogEntry('settings', `Enabled auto-detect XSLT version (detected: ${detected})`)
+                } else {
+                  toast.success('Manual mode enabled')
+                  addLogEntry('settings', 'Enabled manual XSLT version selection')
+                }
+              }}
+              title={manualVersionSelection ? "Manual mode: Click to enable auto-detect" : "Auto-detect mode: Click to enable manual selection"}
+            >
+              {manualVersionSelection ? <LockKey weight="bold" /> : <LockKeyOpen weight="bold" />}
+            </Button>
+          </div>
 
           <Select value={safeEditorTheme} onValueChange={(v) => setEditorTheme(v as EditorTheme)}>
             <SelectTrigger className="w-40">
