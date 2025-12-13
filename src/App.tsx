@@ -363,7 +363,6 @@ function App() {
           </Button>
         </div>
       </header>
-
       <main className="flex-1 overflow-hidden">
         {isMobile ? (
           <div className="h-full flex flex-col">
@@ -482,7 +481,7 @@ function App() {
                       </Button>
                     </div>
                   </div>
-                  <div className="flex-1 overflow-hidden">
+                  <div className="flex-1 overflow-hidden bg-slate-900 border-gray-900">
                     <CodeEditor value={safeXmlInput} onChange={setXmlInput} language="xml" theme={safeEditorTheme} />
                   </div>
                 </Card>
@@ -554,26 +553,23 @@ function App() {
           </div>
         )}
       </main>
-
       <SaveVersionDialog
         open={saveDialogOpen}
         onOpenChange={setSaveDialogOpen}
         onSave={handleSaveVersion}
       />
-
       <SnippetsSheet
         open={snippetsOpen}
         onOpenChange={setSnippetsOpen}
         onInsert={handleInsertSnippet}
         currentVersion={safeXsltVersion}
       />
-
       <KeyboardShortcutsDialog
         open={helpDialogOpen}
         onOpenChange={setHelpDialogOpen}
       />
     </div>
-  )
+  );
 }
 
 export default App
