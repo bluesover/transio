@@ -123,9 +123,13 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
       throw new Error('Saxon-JS module not properly loaded')
     }
 
+    const serializer = new XMLSerializer()
+    const xmlString = serializer.serializeToString(xmlDoc)
+    const xsltString = serializer.serializeToString(xsltDoc)
+
     const transformOptions: any = {
-      stylesheetNode: xsltDoc.documentElement,
-      sourceNode: xmlDoc.documentElement,
+      stylesheetText: xsltString,
+      sourceText: xmlString,
       destination: 'serialized',
       stylesheetParams: {}
     }
@@ -164,7 +168,17 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
     if (error instanceof Error) {
       errorMessage = error.message
       
-      if (errorMessage.includes('abstractNode') || errorMessage.includes('nodeType')) {
+      if (errorMessage.includes('uninitialized variable') || errorMessage.includes('Cannot access')) {
+        errorMessage = `XSLT ${version} Saxon-JS Error:\n\n` +
+          `Saxon-JS encountered an error processing this XSLT ${version} stylesheet. ` +
+          `This typically occurs with complex variable declarations or advanced features.\n\n` +
+          `📌 RECOMMENDED SOLUTIONS:\n\n` +
+          `1. Use XSLT 1.0 (fully supported in all browsers)\n` +
+          `2. Check variable initialization in your stylesheet\n` +
+          `3. Ensure all variables are defined before use\n` +
+          `4. For production: Pre-compile stylesheets to SEF format with Saxon-EE\n\n` +
+          `Technical error: ${error.message}`
+      } else if (errorMessage.includes('abstractNode') || errorMessage.includes('nodeType')) {
         errorMessage = `XSLT ${version} Browser Limitation:\n\n` +
           `The browser's XSLT processor encountered an internal error processing advanced XSLT ${version} features. ` +
           `Saxon-JS has limited support for direct stylesheet transformation in browsers.\n\n` +
