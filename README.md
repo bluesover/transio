@@ -8,6 +8,19 @@ A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, a
 
 Transio is a free, open-source, privacy-first XML transformation tool that runs entirely in your browser. No data is ever sent to any server - all processing happens locally on your computer.
 
+### 🆕 NEW: One-Click Server Installer!
+
+**👉 [START_HERE_SERVER.md](./START_HERE_SERVER.md) ← Click here for server installation!**
+
+Install the optional Saxon-HE server in under 3 minutes:
+- ✅ **Windows:** Double-click `server/install.bat`
+- ✅ **Mac/Linux:** Run `./server/install.sh`
+- ✅ **Automatic:** Downloads Saxon-HE, configures everything, tests server
+
+**Why?** Unlocks full XSLT 2.0/3.0 support (grouping, advanced regex, large files)
+
+**Not sure?** See [BROWSER_VS_SERVER.md](./BROWSER_VS_SERVER.md) comparison
+
 ## 🚀 **Deploy Your Own Instance in 5 Minutes!**
 
 ✅ **100% Free Hosting** - Deploy to GitHub Pages, Netlify, Vercel, or Cloudflare Pages  
@@ -81,47 +94,54 @@ npm run dev
 
 The app works great without a server, but you can optionally run a local Saxon-HE server for enhanced XSLT 2.0/3.0 support.
 
-### Quick Start
+**🤔 Do you need the server?** See [BROWSER_VS_SERVER.md](./BROWSER_VS_SERVER.md) for a comparison.
 
-**Start the server (one-time setup):**
+### ⚡ One-Click Installation
 
+**📖 Complete Installation Guide: [SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)**  
+**📊 All Server Docs: [SERVER_DOCUMENTATION_INDEX.md](./SERVER_DOCUMENTATION_INDEX.md)**
+
+#### Windows
+1. Navigate to the `server` folder
+2. **Double-click** `install.bat`
+3. After installation, **double-click** `start-server.bat`
+
+#### Mac / Linux
 ```bash
-# Mac/Linux
+cd server
+chmod +x install.sh start-server.sh
+./install.sh
 ./start-server.sh
-
-# Windows
-start-server.bat
 ```
 
-Or manually:
-
+#### Using npm (All Platforms)
 ```bash
 cd server
 npm install
-npm run setup
+npm run install-server
 npm start
 ```
+
+The installer will automatically:
+- ✅ Check for Node.js and Java
+- ✅ Install dependencies
+- ✅ Download Saxon-HE
+- ✅ Configure everything
+- ✅ Test the server
 
 **Configure in the app:**
 
 1. Click the **☁️ Cloud icon** in the header
-2. Toggle "Enable Server-Side Processing"
+2. Toggle "Enable Server"
 3. Enter URL: `http://localhost:3001/api`
-4. Click "Test Connection" → Should show "✅ Available"
-5. Click "Save Configuration"
-
-**Troubleshooting:**
-
-If "Test Connection" fails:
-- Make sure server is running (`npm start` in server directory)
-- Check server logs for errors
-- Verify Java is installed: `java -version`
-- See [SERVER_TROUBLESHOOTING.md](./SERVER_TROUBLESHOOTING.md)
+4. Click "Test Connection" → Should show "✅ Connection Successful"
+5. Click "Save"
 
 **Documentation:**
-- 📘 [Server Setup Guide](./SAXON_SERVER_SETUP.md) - Complete setup instructions
-- 🔧 [Troubleshooting Guide](./SERVER_TROUBLESHOOTING.md) - Fix connection issues
-- 🏗️ [Architecture Guide](./SAXON_SERVER_ARCHITECTURE.md) - How it works
+- 📘 **[SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)** - Complete installation guide for all platforms
+- 🔧 [SERVER_TROUBLESHOOTING.md](./SERVER_TROUBLESHOOTING.md) - Fix connection issues
+- 📖 [server/README.md](./server/README.md) - API reference and configuration
+- 🏗️ [SAXON_SERVER_ARCHITECTURE.md](./SAXON_SERVER_ARCHITECTURE.md) - How it works
 
 ---
 

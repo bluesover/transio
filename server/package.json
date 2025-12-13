@@ -8,7 +8,9 @@
     "dev": "node index.js",
     "test": "node test-connection.js",
     "download-saxon": "node scripts/download-saxon.js",
-    "setup": "npm install && npm run download-saxon && node scripts/extract-saxon.js"
+    "setup": "npm install && npm run download-saxon && node scripts/extract-saxon.js",
+    "install-server": "node install.js",
+    "postinstall": "echo '\n🚀 To complete setup, run: npm run install-server\n'"
   },
   "dependencies": {
     "express": "^4.21.2",

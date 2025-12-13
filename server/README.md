@@ -16,20 +16,83 @@ Optional server-side XSLT transformation API using Saxon-HE (Java) for enhanced 
 
 ### Prerequisites
 
-- Node.js 18+ installed
-- Java 11+ installed (`java -version`)
-- npm or yarn
+- **Node.js 18+** - [Download here](https://nodejs.org/)
+- **Java 11+** - Required for Saxon-HE ([Installation guide below](#installing-java))
 
-### Installation
+### One-Click Installation
 
+#### Windows
+1. Open the `server` folder
+2. Double-click **`install.bat`**
+3. Follow the prompts
+4. After installation, double-click **`start-server.bat`** to run the server
+
+#### Mac / Linux
+1. Open Terminal
+2. Navigate to the `server` folder:
+   ```bash
+   cd server
+   ```
+3. Make the installer executable:
+   ```bash
+   chmod +x install.sh
+   ```
+4. Run the installer:
+   ```bash
+   ./install.sh
+   ```
+5. After installation, start the server:
+   ```bash
+   ./start-server.sh
+   ```
+
+#### Using npm (All Platforms)
 ```bash
 cd server
 npm install
-npm run setup
+npm run install-server
 npm start
 ```
 
 The server will start on `http://localhost:3001`
+
+### Installing Java
+
+If you don't have Java installed, the installer will guide you. Here are quick installation commands:
+
+#### Windows
+```powershell
+# Using winget (Windows 10/11)
+winget install Microsoft.OpenJDK.17
+
+# Or using Chocolatey
+choco install openjdk17
+
+# Or download manually from:
+# https://adoptium.net/
+```
+
+#### macOS
+```bash
+# Using Homebrew
+brew install openjdk@17
+
+# Or download manually from:
+# https://adoptium.net/
+```
+
+#### Linux
+```bash
+# Ubuntu/Debian
+sudo apt-get update
+sudo apt-get install openjdk-17-jdk
+
+# Fedora/RHEL
+sudo dnf install java-17-openjdk
+
+# Arch Linux
+sudo pacman -S jdk-openjdk
+```
 
 ### Verify Installation
 
