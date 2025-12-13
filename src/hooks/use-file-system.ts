@@ -115,21 +115,21 @@ export function useFileSystem() {
 
   const generateLaunchers = useCallback(async (
     handle: FileSystemDirectoryHandle,
-    appUrl: string = 'https://YOUR_APP_NAME.netlify.app/'
+    appUrl: string = 'https://transio.org'
   ) => {
     const windowsBat = `@echo off
-title XML/XSLT Transformer - Project: ${handle.name}
+title Transio - XML/XSLT Transformer - Project: ${handle.name}
 color 0A
 
 echo ================================================
-echo    XML/XSLT Transformer
+echo    Transio - XML/XSLT Transformer
 echo    Project: ${handle.name}
 echo ================================================
 echo.
 echo Starting application...
 echo.
 
-REM Open your deployed app
+REM Open Transio at transio.org
 start "" "${appUrl}"
 
 echo.
@@ -147,14 +147,14 @@ pause
 clear
 
 echo "================================================"
-echo "   XML/XSLT Transformer"
+echo "   Transio - XML/XSLT Transformer"
 echo "   Project: ${handle.name}"
 echo "================================================"
 echo ""
 echo "Starting application..."
 echo ""
 
-# Open your deployed app
+# Open Transio at transio.org
 if [[ "$OSTYPE" == "darwin"* ]]; then
     open "${appUrl}"
 else

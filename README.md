@@ -1,8 +1,14 @@
-# XML/XSLT Transformer
+# Transio - XML/XSLT Transformer
+
+**Official Website: [https://transio.org](https://transio.org)**
 
 A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, and 3.0 with comprehensive developer features.
 
-## 🚀 **Deploy for FREE in 5 Minutes!**
+## 🌐 About Transio
+
+Transio is a free, open-source, privacy-first XML transformation tool that runs entirely in your browser. No data is ever sent to any server - all processing happens locally on your computer.
+
+## 🚀 **Deploy Your Own Instance in 5 Minutes!**
 
 ✅ **100% Free Hosting** - Deploy to GitHub Pages, Netlify, Vercel, or Cloudflare Pages  
 ✅ **No Backend Required** - Pure frontend application  
@@ -10,6 +16,9 @@ A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, a
 ✅ **No Account Needed** - Start using immediately  
 ✅ **Offline Capable** - Works without internet after loading  
 ✅ **Privacy First** - Zero tracking, zero data collection  
+✅ **Open Source** - MIT License - modify and redistribute freely
+
+Visit **[transio.org](https://transio.org)** to use the hosted version or deploy your own!  
 
 ### 🎯 Quick Deploy (Choose One)
 

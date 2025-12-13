@@ -1,6 +1,10 @@
-# Product Requirements Document: XML/XSLT Transformer
+# Product Requirements Document: Transio - XML/XSLT Transformer
+
+**Official Website: [https://transio.org](https://transio.org)**
 
 A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, and 3.0 with comprehensive developer features including version control, project management, code snippets, and real-time validation.
+
+**Open Source & Free to Deploy**: Transio is open source software (MIT License) that can be deployed anywhere for free. All processing happens locally in the browser with zero data collection.
 
 **Experience Qualities**:
 1. **Efficient**: Streamlined workflow with keyboard shortcuts, auto-save, and instant transformations that keep developers in their flow state

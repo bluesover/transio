@@ -1,7 +1,27 @@
 {
-    "name": "spark-template",
-    "private": true,
-    "version": "0.0.0",
+    "name": "transio-xslt-transformer",
+    "version": "1.0.0",
+    "description": "Professional XML to XSLT transformation tool - Free, open source, and privacy-first",
+    "author": "Transio (https://transio.org)",
+    "license": "MIT",
+    "homepage": "https://transio.org",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/YOUR_USERNAME/transio-xslt-transformer.git"
+    },
+    "keywords": [
+        "xml",
+        "xslt",
+        "xslt-transformer",
+        "xml-transformation",
+        "saxon-js",
+        "xslt-2.0",
+        "xslt-3.0",
+        "open-source",
+        "privacy-first",
+        "browser-based"
+    ],
+    "private": false,
     "type": "module",
     "scripts": {
         "dev": "vite",

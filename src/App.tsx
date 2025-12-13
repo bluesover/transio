@@ -9,6 +9,9 @@ import { ActivityLog } from './components/ActivityLog'
 import { SaveVersionDialog } from './components/SaveVersionDialog'
 import { KeyboardShortcutsDialog } from './components/KeyboardShortcutsDialog'
 import { DonationDialog } from './components/DonationDialog'
+import { DeployInfoDialog } from './components/DeployInfoDialog'
+import { AboutDialog } from './components/AboutDialog'
+import { FooterInfo } from './components/FooterInfo'
 import { Button } from './components/ui/button'
 import { Badge } from './components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select'
@@ -309,7 +312,7 @@ function App() {
     }
 
     try {
-      const appUrl = window.location.origin + window.location.pathname
+      const appUrl = 'https://transio.org'
       await generateLaunchers(folderHandle, appUrl)
       toast.success('Launcher files created')
       addLogEntry('export', 'Generated launch-project.bat and launch-project.sh files')
@@ -354,7 +357,10 @@ function App() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <Lightning weight="bold" className="w-6 h-6 text-primary" />
-            <h1 className="text-xl font-semibold tracking-tight">XML/XSLT Transformer</h1>
+            <div className="flex flex-col">
+              <h1 className="text-xl font-semibold tracking-tight leading-none">Transio</h1>
+              <p className="text-[10px] text-muted-foreground leading-none mt-0.5">transio.org</p>
+            </div>
           </div>
           {folderName && (
             <Badge variant="secondary" className="hidden sm:inline-flex">
@@ -362,6 +368,9 @@ function App() {
               {folderName}
             </Badge>
           )}
+          <Badge variant="outline" className="hidden md:inline-flex text-[10px]">
+            Open Source
+          </Badge>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
@@ -390,6 +399,10 @@ function App() {
           <Button variant="outline" size="icon" onClick={cycleTheme} title={`Theme: ${safeAppTheme} (Click to cycle)`}>
             {safeAppTheme === 'light' ? <Sun weight="bold" /> : <Moon weight="bold" />}
           </Button>
+
+          <AboutDialog />
+
+          <DeployInfoDialog />
 
           <DonationDialog />
 
@@ -522,6 +535,7 @@ function App() {
             <div className="border-t border-border">
               <ActivityLog entries={safeActivityLog} />
             </div>
+            <FooterInfo />
           </div>
         ) : (
           <div className="h-full flex">
@@ -596,6 +610,7 @@ function App() {
               </div>
 
               <ActivityLog entries={safeActivityLog} />
+              <FooterInfo />
             </div>
 
             {safeSidebarOpen && (
