@@ -9,8 +9,9 @@ export function detectXSLTVersion(xslt: string): XSLTVersion {
   return '1.0'
 }
 
-function serializeResult(node: Node | null): string {
+function serializeResult(node: Node | DocumentFragment | null): string {
   if (!node) {
+    console.warn('serializeResult: node is null or undefined')
     return ''
   }
   
@@ -19,7 +20,8 @@ function serializeResult(node: Node | null): string {
   try {
     if (node.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       let result = ''
-      node.childNodes.forEach(child => {
+      const fragment = node as DocumentFragment
+      fragment.childNodes.forEach(child => {
         result += serializer.serializeToString(child)
       })
       return result
@@ -115,16 +117,33 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
       }
     }
 
+    console.log('Attempting Saxon-JS transformation with version:', version)
+    
     const result = await SaxonJS.transform({
       stylesheetNode: xsltDoc,
       sourceNode: xmlDoc,
       destination: 'serialized',
-      stylesheetParams: {}
+      stylesheetParams: {},
+      deliverResultDocument: (uri: string) => {
+        console.log('Result document URI:', uri)
+        return undefined
+      }
     }, 'async')
+
+    console.log('Saxon-JS result:', result)
+
+    if (!result || !result.principalResult) {
+      return {
+        success: false,
+        output: '',
+        error: `Saxon-JS transformation completed but returned no result. This can happen with XSLT ${version} stylesheets that don't produce output, or if Saxon-JS couldn't compile the stylesheet.`,
+        processorUsed: `Saxon-JS (XSLT ${version})`
+      }
+    }
 
     return {
       success: true,
-      output: result.principalResult || '',
+      output: result.principalResult,
       processorUsed: `Saxon-JS (XSLT ${version})`
     }
   } catch (error) {
@@ -133,10 +152,19 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
     if (error instanceof Error) {
       errorMessage = error.message
       
-      if (errorMessage.includes('stylesheetNode')) {
-        errorMessage = `Saxon-JS Error: Unable to process XSLT ${version}. Note: Saxon-JS in browser has limitations. For full XSLT ${version} support, consider using server-side Saxon or pre-compiled SEF files.\n\nOriginal error: ${error.message}`
+      if (errorMessage.includes('stylesheetNode') || errorMessage.includes('not supported')) {
+        errorMessage = `Saxon-JS Error: Unable to process XSLT ${version} stylesheet directly in the browser.\n\n` +
+          `Limitation: Saxon-JS requires stylesheets to be pre-compiled into SEF (Saxon Executable Format) for full XSLT ${version} support. ` +
+          `The browser version has limited support for direct stylesheet transformation.\n\n` +
+          `Suggestions:\n` +
+          `- Use XSLT 1.0 for direct browser transformation\n` +
+          `- Pre-compile your XSLT ${version} stylesheet to SEF format using Saxon EE\n` +
+          `- Use simpler XSLT ${version} constructs that Saxon-JS can handle\n\n` +
+          `Original error: ${error.message}`
       }
     }
+    
+    console.error('Saxon-JS transformation error:', error)
     
     return {
       success: false,

@@ -76,12 +76,16 @@ function App() {
     setActivityLog(current => [entry, ...(current || [])].slice(0, 100))
   }, [setActivityLog])
 
+  const [manualVersionSelection, setManualVersionSelection] = useState(false)
+
   useEffect(() => {
-    const detected = detectXSLTVersion(safeXsltInput)
-    if (detected !== safeXsltVersion) {
-      setXsltVersion(detected)
+    if (!manualVersionSelection) {
+      const detected = detectXSLTVersion(safeXsltInput)
+      if (detected !== safeXsltVersion) {
+        setXsltVersion(detected)
+      }
     }
-  }, [safeXsltInput, safeXsltVersion, setXsltVersion])
+  }, [safeXsltInput, safeXsltVersion, setXsltVersion, manualVersionSelection])
 
   useEffect(() => {
     if (!folderHandle) return
@@ -155,6 +159,7 @@ function App() {
     setXmlInput(version.xml)
     setXsltInput(version.xslt)
     setXsltVersion(version.xsltVersion)
+    setManualVersionSelection(false)
     toast.success(`Loaded version ${version.version}`)
     addLogEntry('load', `Loaded version ${version.version}`)
   }, [setXmlInput, setXsltInput, setXsltVersion, addLogEntry])
@@ -284,6 +289,7 @@ function App() {
 
   const handleInsertSnippet = useCallback((code: string) => {
     setXsltInput(code)
+    setManualVersionSelection(false)
     setSnippetsOpen(false)
     toast.success('Snippet inserted')
     addLogEntry('import', 'Inserted XSLT snippet')
@@ -325,6 +331,7 @@ function App() {
   const handleTestXSLT20Grouping = useCallback(() => {
     setXsltInput(sampleXSLT20Grouping)
     setXsltVersion('2.0')
+    setManualVersionSelection(false)
     toast.success('Loaded XSLT 2.0 grouping example')
     addLogEntry('load', 'Loaded XSLT 2.0 for-each-group test example')
   }, [setXsltInput, setXsltVersion, addLogEntry])
@@ -381,14 +388,21 @@ function App() {
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <Select value={safeXsltVersion} onValueChange={(v) => setXsltVersion(v as XSLTVersion)}>
+          <Select 
+            value={safeXsltVersion} 
+            onValueChange={(v) => {
+              setManualVersionSelection(true)
+              setXsltVersion(v as XSLTVersion)
+              addLogEntry('settings', `Changed XSLT version to ${v}`)
+            }}
+          >
             <SelectTrigger className="w-32">
-              <SelectValue />
+              <SelectValue placeholder="Select XSLT Version" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="1.0">XSLT 1.0</SelectItem>
-              <SelectItem value="2.0">XSLT 2.0</SelectItem>
-              <SelectItem value="3.0">XSLT 3.0</SelectItem>
+              <SelectItem value="2.0">XSLT 2.0 ⚠️</SelectItem>
+              <SelectItem value="3.0">XSLT 3.0 ⚠️</SelectItem>
             </SelectContent>
           </Select>
 
