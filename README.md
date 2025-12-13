@@ -68,8 +68,16 @@ npm run dev
 
 **Cloudflare Pages (Free, Recommended):**
 ```bash
+# Build the project
 npm run build
+
+# Deploy to Cloudflare Pages
 npx wrangler pages deploy dist --project-name=transio
+```
+
+Or use the npm script:
+```bash
+npm run deploy
 ```
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions including custom domain setup.

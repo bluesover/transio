@@ -31,12 +31,11 @@
         "build": "vite build",
         "lint": "eslint .",
         "preview": "vite preview",
-        "deploy:cloudflare": "npm run build && npx wrangler pages deploy dist --project-name=transio",
+        "deploy": "npm run build && npx wrangler pages deploy dist --project-name=transio",
         "server:install": "cd server && npm install",
         "server:start": "cd server && npm start",
         "server:dev": "cd server && npm run dev",
-        "cleanup": "bash cleanup-docs.sh",
-        "sync": "bash sync-repos.sh"
+        "cleanup": "bash cleanup-all.sh"
     },
     "dependencies": {
         "@codemirror/lang-html": "^6.4.11",

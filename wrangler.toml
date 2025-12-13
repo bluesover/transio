@@ -1,13 +1,6 @@
-# Cloudflare Pages Configuration for Transio
-# Note: Most Cloudflare Pages settings are configured in the dashboard
-# This file is optional for Pages but kept for reference
-
 name = "transio"
 compatibility_date = "2024-12-13"
+pages_build_output_dir = "dist"
 
-# Pages projects don't use wrangler.toml for build settings
-# Configure these in Cloudflare Pages dashboard instead:
-# - Build command: npm run build
-# - Build output directory: dist
-# - Root directory: (leave empty)
-# - Node version: 18
+[site]
+bucket = "./dist"
