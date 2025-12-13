@@ -1,4 +1,6 @@
-# Cloudflare Pages Deployment Guide for Transio
+# 🚀 Cloudflare Pages Deployment Guide - Transio.org
+
+Complete guide to deploy Transio to Cloudflare Pages with automatic GitHub Actions deployment. for Transio
 
 Complete guide to deploy Transio (transio.org) to Cloudflare Pages with custom domain configuration and automated deployments.
 
