@@ -9,16 +9,26 @@ export function detectXSLTVersion(xslt: string): XSLTVersion {
   return '1.0'
 }
 
-function serializeResult(node: Node): string {
-  const serializer = new XMLSerializer()
-  if (node.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
-    let result = ''
-    node.childNodes.forEach(child => {
-      result += serializer.serializeToString(child)
-    })
-    return result
+function serializeResult(node: Node | null): string {
+  if (!node) {
+    return ''
   }
-  return serializer.serializeToString(node)
+  
+  const serializer = new XMLSerializer()
+  
+  try {
+    if (node.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+      let result = ''
+      node.childNodes.forEach(child => {
+        result += serializer.serializeToString(child)
+      })
+      return result
+    }
+    return serializer.serializeToString(node)
+  } catch (error) {
+    console.error('Serialization error:', error)
+    return ''
+  }
 }
 
 async function transformWithBrowser(xml: string, xslt: string): Promise<TransformResult> {
@@ -50,6 +60,16 @@ async function transformWithBrowser(xml: string, xslt: string): Promise<Transfor
     const processor = new XSLTProcessor()
     processor.importStylesheet(xsltDoc)
     const result = processor.transformToFragment(xmlDoc, document)
+    
+    if (!result) {
+      return {
+        success: false,
+        output: '',
+        error: 'Transformation failed: result is null. This may happen if the XSLT stylesheet is invalid or empty.',
+        processorUsed: 'Browser XSLTProcessor'
+      }
+    }
+    
     const output = serializeResult(result)
 
     return {
