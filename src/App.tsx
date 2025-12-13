@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { toast, Toaster } from 'sonner'
-import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, UploadSimple, GitBranch, CaretLeft, CaretRight } from '@phosphor-icons/react'
+import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight } from '@phosphor-icons/react'
 import { CodeEditor } from './components/CodeEditor'
 import { VersionPanel } from './components/VersionPanel'
 import { SnippetsSheet } from './components/SnippetsSheet'
@@ -238,17 +238,25 @@ function App() {
     input.click()
   }, [setXsltInput, addLogEntry])
 
-  const handleExportOutput = useCallback(() => {
-    const blob = new Blob([output], { type: 'text/html' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'output.html'
-    a.click()
-    URL.revokeObjectURL(url)
-    toast.success('Output exported')
-    addLogEntry('export', 'Exported transformation output')
-  }, [output, addLogEntry])
+  const handleImportOutput = useCallback(() => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.html,.htm,.xml'
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0]
+      if (file) {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          const content = e.target?.result as string
+          setOutput(content)
+          toast.success('Output imported')
+          addLogEntry('import', `Imported ${file.name}`)
+        }
+        reader.readAsText(file)
+      }
+    }
+    input.click()
+  }, [addLogEntry])
 
   const handleSelectFolder = useCallback(async () => {
     try {
@@ -283,9 +291,9 @@ function App() {
     { key: 'g', ctrl: true, shift: true, action: handleFormatXSLT },
     { key: 'i', ctrl: true, shift: true, action: handleImportXML },
     { key: 'o', ctrl: true, shift: true, action: handleImportXSLT },
-    { key: 'e', ctrl: true, shift: true, action: handleExportOutput },
+    { key: 'e', ctrl: true, shift: true, action: handleImportOutput },
     { key: '?', shift: true, action: () => setHelpDialogOpen(true) },
-  ], [handleTransform, handleFormatXML, handleFormatXSLT, handleImportXML, handleImportXSLT, handleExportOutput])
+  ], [handleTransform, handleFormatXML, handleFormatXSLT, handleImportXML, handleImportXSLT, handleImportOutput])
 
   useKeyboardShortcuts(shortcuts)
 
@@ -430,11 +438,9 @@ function App() {
                         </Badge>
                       )}
                     </div>
-                    {output && (
-                      <Button variant="ghost" size="sm" onClick={handleExportOutput}>
-                        <UploadSimple weight="bold" className="w-4 h-4" />
-                      </Button>
-                    )}
+                    <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output">
+                      <DownloadSimple weight="bold" className="w-4 h-4" />
+                    </Button>
                   </div>
                   <div className="flex-1 w-full overflow-hidden">
                     {lastResult && !lastResult.success ? (
@@ -469,9 +475,9 @@ function App() {
           </div>
         ) : (
           <div className="h-full flex">
-            <div className="flex-1 flex flex-col p-6 gap-4 overflow-hidden" style={{ width: safeSidebarOpen ? 'calc(100% - 320px)' : '100%', transition: 'width 0.3s ease' }}>
-              <div className="grid grid-cols-2 gap-4 flex-1 overflow-hidden">
-                <div className="flex flex-col h-full w-full overflow-hidden">
+            <div className="flex-1 flex flex-col overflow-hidden" style={{ width: safeSidebarOpen ? 'calc(100% - 320px)' : '100%', transition: 'width 0.3s ease' }}>
+              <div className="flex-1 flex flex-col p-6 gap-4 overflow-auto">
+                <div className="flex flex-col w-full min-h-[300px]">
                   <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XML Input</h3>
                     <div className="flex gap-1">
@@ -483,12 +489,12 @@ function App() {
                       </Button>
                     </div>
                   </div>
-                  <div className="flex-1 w-full overflow-hidden">
+                  <div className="h-[300px] w-full overflow-hidden">
                     <CodeEditor value={safeXmlInput} onChange={setXmlInput} language="xml" theme={safeEditorTheme} />
                   </div>
                 </div>
 
-                <div className="flex flex-col h-full w-full overflow-hidden">
+                <div className="flex flex-col w-full min-h-[300px]">
                   <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XSLT Stylesheet</h3>
                     <div className="flex gap-1">
@@ -503,41 +509,39 @@ function App() {
                       </Button>
                     </div>
                   </div>
-                  <div className="flex-1 w-full overflow-hidden">
+                  <div className="h-[300px] w-full overflow-hidden">
                     <CodeEditor value={safeXsltInput} onChange={setXsltInput} language="xml" theme={safeEditorTheme} />
                   </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col flex-1 w-full overflow-hidden">
-                <div className="flex items-center justify-between mb-2 px-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-medium">Output</h3>
-                    {lastResult && (
-                      <Badge variant={lastResult.success ? "default" : "destructive"} className="text-xs">
-                        {lastResult.processorUsed}
-                      </Badge>
+                <div className="flex flex-col w-full min-h-[300px]">
+                  <div className="flex items-center justify-between mb-2 px-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-sm font-medium">Output</h3>
+                      {lastResult && (
+                        <Badge variant={lastResult.success ? "default" : "destructive"} className="text-xs">
+                          {lastResult.processorUsed}
+                        </Badge>
+                      )}
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output">
+                      <DownloadSimple weight="bold" className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <div className="h-[300px] w-full overflow-hidden">
+                    {lastResult && !lastResult.success ? (
+                      <div className="p-4 bg-destructive/10 text-destructive rounded-md border border-destructive/20 h-full overflow-auto">
+                        <p className="font-medium">Transformation Error:</p>
+                        <pre className="mt-2 text-sm whitespace-pre-wrap font-mono">{lastResult.error}</pre>
+                      </div>
+                    ) : output ? (
+                      <CodeEditor value={output} onChange={() => {}} language="html" theme={safeEditorTheme} readOnly />
+                    ) : (
+                      <div className="flex items-center justify-center h-full text-muted-foreground text-sm border border-border rounded-md bg-muted/20">
+                        Click Transform or press Ctrl+Enter to see results
+                      </div>
                     )}
                   </div>
-                  {output && (
-                    <Button variant="ghost" size="sm" onClick={handleExportOutput} title="Export Output">
-                      <UploadSimple weight="bold" className="w-4 h-4" />
-                    </Button>
-                  )}
-                </div>
-                <div className="flex-1 w-full overflow-hidden">
-                  {lastResult && !lastResult.success ? (
-                    <div className="p-4 bg-destructive/10 text-destructive rounded-md border border-destructive/20 h-full overflow-auto">
-                      <p className="font-medium">Transformation Error:</p>
-                      <pre className="mt-2 text-sm whitespace-pre-wrap font-mono">{lastResult.error}</pre>
-                    </div>
-                  ) : output ? (
-                    <CodeEditor value={output} onChange={() => {}} language="html" theme={safeEditorTheme} readOnly />
-                  ) : (
-                    <div className="flex items-center justify-center h-full text-muted-foreground text-sm border border-border rounded-md bg-muted/20">
-                      Click Transform or press Ctrl+Enter to see results
-                    </div>
-                  )}
                 </div>
               </div>
 
