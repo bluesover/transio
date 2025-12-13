@@ -74,12 +74,13 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
     const result = await SaxonJS.transform({
       stylesheetText: xslt,
       sourceText: xml,
-      destination: 'serialized'
+      destination: 'serialized',
+      stylesheetParams: {}
     }, 'async')
 
     return {
       success: true,
-      output: result.principalResult,
+      output: result.principalResult || '',
       processorUsed: `Saxon-JS (XSLT ${version})`
     }
   } catch (error) {

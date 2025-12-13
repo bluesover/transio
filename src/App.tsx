@@ -377,8 +377,8 @@ function App() {
               </TabsList>
 
               <TabsContent value="xml" className="flex-1 p-4 pt-2 m-0">
-                <Card className="h-full flex flex-col p-3">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="h-full flex flex-col">
+                  <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XML Input</h3>
                     <div className="flex gap-1">
                       <Button variant="ghost" size="sm" onClick={handleImportXML}>
@@ -392,12 +392,12 @@ function App() {
                   <div className="flex-1 overflow-hidden">
                     <CodeEditor value={safeXmlInput} onChange={setXmlInput} language="xml" theme={safeEditorTheme} />
                   </div>
-                </Card>
+                </div>
               </TabsContent>
 
               <TabsContent value="xslt" className="flex-1 p-4 pt-2 m-0">
-                <Card className="h-full flex flex-col p-3">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="h-full flex flex-col">
+                  <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XSLT Stylesheet</h3>
                     <div className="flex gap-1">
                       <Button variant="ghost" size="sm" onClick={() => setSnippetsOpen(true)}>
@@ -414,12 +414,12 @@ function App() {
                   <div className="flex-1 overflow-hidden">
                     <CodeEditor value={safeXsltInput} onChange={setXsltInput} language="xml" theme={safeEditorTheme} />
                   </div>
-                </Card>
+                </div>
               </TabsContent>
 
               <TabsContent value="output" className="flex-1 p-4 pt-2 m-0">
-                <Card className="h-full flex flex-col p-3">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="h-full flex flex-col">
+                  <div className="flex items-center justify-between mb-2 px-1">
                     <div className="flex items-center gap-2">
                       <h3 className="text-sm font-medium">Output</h3>
                       {lastResult && (
@@ -436,19 +436,19 @@ function App() {
                   </div>
                   <div className="flex-1 overflow-hidden">
                     {lastResult && !lastResult.success ? (
-                      <div className="p-4 bg-destructive/10 text-destructive rounded-md">
+                      <div className="p-4 bg-destructive/10 text-destructive rounded-md border border-destructive/20">
                         <p className="font-medium">Transformation Error:</p>
                         <pre className="mt-2 text-sm whitespace-pre-wrap">{lastResult.error}</pre>
                       </div>
                     ) : output ? (
                       <CodeEditor value={output} onChange={() => {}} language="html" theme={safeEditorTheme} readOnly />
                     ) : (
-                      <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+                      <div className="flex items-center justify-center h-full text-muted-foreground text-sm border border-border rounded-md bg-muted/20">
                         Click Transform or press Ctrl+Enter to see results
                       </div>
                     )}
                   </div>
-                </Card>
+                </div>
               </TabsContent>
 
               <TabsContent value="versions" className="flex-1 p-4 pt-2 m-0 overflow-auto">
@@ -469,8 +469,8 @@ function App() {
           <div className="h-full flex">
             <div className="flex-1 flex flex-col p-6 gap-4 overflow-auto">
               <div className="grid grid-cols-2 gap-4" style={{ height: '45%' }}>
-                <Card className="flex flex-col p-4">
-                  <div className="flex items-center justify-between mb-3">
+                <div className="flex flex-col">
+                  <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XML Input</h3>
                     <div className="flex gap-1">
                       <Button variant="ghost" size="sm" onClick={handleImportXML} title="Import XML">
@@ -481,13 +481,13 @@ function App() {
                       </Button>
                     </div>
                   </div>
-                  <div className="flex-1 overflow-hidden bg-slate-900 border-gray-900">
+                  <div className="flex-1 overflow-hidden">
                     <CodeEditor value={safeXmlInput} onChange={setXmlInput} language="xml" theme={safeEditorTheme} />
                   </div>
-                </Card>
+                </div>
 
-                <Card className="flex flex-col p-4">
-                  <div className="flex items-center justify-between mb-3">
+                <div className="flex flex-col">
+                  <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XSLT Stylesheet</h3>
                     <div className="flex gap-1">
                       <Button variant="ghost" size="sm" onClick={() => setSnippetsOpen(true)} title="Snippets (Ctrl+K)">
@@ -504,11 +504,11 @@ function App() {
                   <div className="flex-1 overflow-hidden">
                     <CodeEditor value={safeXsltInput} onChange={setXsltInput} language="xml" theme={safeEditorTheme} />
                   </div>
-                </Card>
+                </div>
               </div>
 
-              <Card className="flex flex-col p-4 flex-1">
-                <div className="flex items-center justify-between mb-3">
+              <div className="flex flex-col flex-1">
+                <div className="flex items-center justify-between mb-2 px-1">
                   <div className="flex items-center gap-2">
                     <h3 className="text-sm font-medium">Output</h3>
                     {lastResult && (
@@ -525,19 +525,19 @@ function App() {
                 </div>
                 <div className="flex-1 overflow-hidden">
                   {lastResult && !lastResult.success ? (
-                    <div className="p-4 bg-destructive/10 text-destructive rounded-md">
+                    <div className="p-4 bg-destructive/10 text-destructive rounded-md border border-destructive/20">
                       <p className="font-medium">Transformation Error:</p>
                       <pre className="mt-2 text-sm whitespace-pre-wrap font-mono">{lastResult.error}</pre>
                     </div>
                   ) : output ? (
                     <CodeEditor value={output} onChange={() => {}} language="html" theme={safeEditorTheme} readOnly />
                   ) : (
-                    <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+                    <div className="flex items-center justify-center h-full text-muted-foreground text-sm border border-border rounded-md bg-muted/20">
                       Click Transform or press Ctrl+Enter to see results
                     </div>
                   )}
                 </div>
-              </Card>
+              </div>
 
               <ActivityLog entries={safeActivityLog} />
             </div>

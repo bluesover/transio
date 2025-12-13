@@ -142,3 +142,15 @@ body {
 code, pre, .font-mono {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
 }
+
+.codemirror-wrapper .cm-editor {
+  height: 100%;
+}
+
+.codemirror-wrapper .cm-scroller {
+  overflow: auto;
+}
+
+.codemirror-wrapper {
+  height: 100%;
+}

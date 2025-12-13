@@ -34,7 +34,7 @@ export function VersionPanel({ versions, onLoad, onDelete, onRelease }: VersionP
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp)
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
   }
 
   const sortedVersions = [...versions].sort((a, b) => b.createdAt - a.createdAt)
@@ -70,12 +70,12 @@ export function VersionPanel({ versions, onLoad, onDelete, onRelease }: VersionP
                 const isExpanded = expandedVersions.has(version.id)
                 return (
                   <Collapsible key={version.id} open={isExpanded} onOpenChange={() => toggleVersion(version.id)}>
-                    <Card className="hover:shadow-md transition-shadow">
-                      <CollapsibleTrigger className="w-full p-3 text-left">
+                    <Card className="hover:shadow-md transition-shadow hover:bg-accent/5">
+                      <CollapsibleTrigger className="w-full p-3 text-left hover:bg-accent/5 rounded-md transition-colors">
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h4 className="text-sm font-medium">v{version.version}</h4>
+                              <h4 className="text-sm font-semibold">v{version.version}</h4>
                               <Badge variant="outline" className="text-xs">
                                 XSLT {version.xsltVersion}
                               </Badge>
@@ -88,23 +88,23 @@ export function VersionPanel({ versions, onLoad, onDelete, onRelease }: VersionP
                             <p className="text-xs text-muted-foreground mt-1">{formatDate(version.createdAt)}</p>
                           </div>
                           {isExpanded ? (
-                            <CaretUp weight="bold" className="w-4 h-4 text-muted-foreground" />
+                            <CaretUp weight="bold" className="w-4 h-4 text-muted-foreground shrink-0" />
                           ) : (
-                            <CaretDown weight="bold" className="w-4 h-4 text-muted-foreground" />
+                            <CaretDown weight="bold" className="w-4 h-4 text-muted-foreground shrink-0" />
                           )}
                         </div>
                       </CollapsibleTrigger>
 
                       <CollapsibleContent>
-                        <div className="px-3 pb-3">
+                        <div className="px-3 pb-3 pt-1">
                           {version.description && (
-                            <p className="text-xs text-foreground mb-3">{version.description}</p>
+                            <p className="text-xs text-foreground/90 mb-3 leading-relaxed">{version.description}</p>
                           )}
 
                           {version.releaseNotes && (
-                            <div className="mb-3 p-2 bg-success/10 rounded text-xs">
-                              <p className="font-medium text-success-foreground mb-1">Release Notes:</p>
-                              <p className="text-foreground">{version.releaseNotes}</p>
+                            <div className="mb-3 p-2 bg-success/10 rounded text-xs border border-success/20">
+                              <p className="font-medium text-success mb-1">Release Notes:</p>
+                              <p className="text-foreground/90 leading-relaxed">{version.releaseNotes}</p>
                             </div>
                           )}
 
