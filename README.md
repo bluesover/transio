@@ -80,7 +80,11 @@ Or use the npm script:
 npm run deploy
 ```
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions including custom domain setup.
+📖 **Complete Deployment Guide:** See [CLOUDFLARE_DEPLOYMENT.md](./CLOUDFLARE_DEPLOYMENT.md) for:
+- Custom domain setup (transio.org)
+- GitHub Actions auto-deploy
+- Troubleshooting
+- Production configuration
 
 ---
 
@@ -118,7 +122,7 @@ chmod +x install.sh start-server.sh
 4. Click "Test Connection"
 5. Save
 
-📖 **Complete Server Guide:** See DEPLOYMENT.md
+📖 **Complete Server Guide:** See server/README.md
 
 ---
 

@@ -7,10 +7,10 @@
     "homepage": "https://transio.org",
     "repository": {
         "type": "git",
-        "url": "https://github.com/YOUR_GITHUB_USERNAME/transio.git"
+        "url": "https://github.com/bluesover/transio.org.git"
     },
     "bugs": {
-        "url": "https://github.com/YOUR_GITHUB_USERNAME/transio/issues"
+        "url": "https://github.com/bluesover/transio.org/issues"
     },
     "keywords": [
         "xml",
@@ -34,8 +34,7 @@
         "deploy": "npm run build && npx wrangler pages deploy dist --project-name=transio",
         "server:install": "cd server && npm install",
         "server:start": "cd server && npm start",
-        "server:dev": "cd server && npm run dev",
-        "cleanup": "bash cleanup-all.sh"
+        "server:dev": "cd server && npm run dev"
     },
     "dependencies": {
         "@codemirror/lang-html": "^6.4.11",
