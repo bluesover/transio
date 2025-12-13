@@ -143,14 +143,25 @@ code, pre, .font-mono {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
 }
 
+.codemirror-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .codemirror-wrapper .cm-editor {
   height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .codemirror-wrapper .cm-scroller {
-  overflow: auto;
+  flex: 1;
+  overflow: auto !important;
+  min-height: 0;
 }
 
-.codemirror-wrapper {
-  height: 100%;
+.codemirror-wrapper .cm-gutters {
+  flex-shrink: 0;
 }

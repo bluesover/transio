@@ -367,9 +367,9 @@ function App() {
       </header>
       <main className="flex-1 overflow-hidden">
         {isMobile ? (
-          <div className="h-full flex flex-col">
-            <Tabs defaultValue="xml" className="flex-1 flex flex-col">
-              <TabsList className="mx-4 mt-4">
+          <div className="h-full flex flex-col overflow-hidden">
+            <Tabs defaultValue="xml" className="flex-1 flex flex-col overflow-hidden">
+              <TabsList className="mx-4 mt-4 flex-shrink-0">
                 <TabsTrigger value="xml">XML</TabsTrigger>
                 <TabsTrigger value="xslt">XSLT</TabsTrigger>
                 <TabsTrigger value="output">Output</TabsTrigger>
@@ -378,8 +378,8 @@ function App() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="xml" className="flex-1 p-4 pt-2 m-0">
-                <div className="h-full flex flex-col">
+              <TabsContent value="xml" className="flex-1 p-4 pt-2 m-0 overflow-hidden">
+                <div className="h-full flex flex-col" style={{ minHeight: 0 }}>
                   <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XML Input</h3>
                     <div className="flex gap-1">
@@ -391,14 +391,14 @@ function App() {
                       </Button>
                     </div>
                   </div>
-                  <div className="flex-1 overflow-hidden">
+                  <div className="flex-1 overflow-hidden" style={{ minHeight: 0 }}>
                     <CodeEditor value={safeXmlInput} onChange={setXmlInput} language="xml" theme={safeEditorTheme} />
                   </div>
                 </div>
               </TabsContent>
 
-              <TabsContent value="xslt" className="flex-1 p-4 pt-2 m-0">
-                <div className="h-full flex flex-col">
+              <TabsContent value="xslt" className="flex-1 p-4 pt-2 m-0 overflow-hidden">
+                <div className="h-full flex flex-col" style={{ minHeight: 0 }}>
                   <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XSLT Stylesheet</h3>
                     <div className="flex gap-1">
@@ -413,14 +413,14 @@ function App() {
                       </Button>
                     </div>
                   </div>
-                  <div className="flex-1 overflow-hidden">
+                  <div className="flex-1 overflow-hidden" style={{ minHeight: 0 }}>
                     <CodeEditor value={safeXsltInput} onChange={setXsltInput} language="xml" theme={safeEditorTheme} />
                   </div>
                 </div>
               </TabsContent>
 
-              <TabsContent value="output" className="flex-1 p-4 pt-2 m-0">
-                <div className="h-full flex flex-col">
+              <TabsContent value="output" className="flex-1 p-4 pt-2 m-0 overflow-hidden">
+                <div className="h-full flex flex-col" style={{ minHeight: 0 }}>
                   <div className="flex items-center justify-between mb-2 px-1">
                     <div className="flex items-center gap-2">
                       <h3 className="text-sm font-medium">Output</h3>
@@ -436,9 +436,9 @@ function App() {
                       </Button>
                     )}
                   </div>
-                  <div className="flex-1 overflow-hidden">
+                  <div className="flex-1 overflow-hidden" style={{ minHeight: 0 }}>
                     {lastResult && !lastResult.success ? (
-                      <div className="p-4 bg-destructive/10 text-destructive rounded-md border border-destructive/20">
+                      <div className="p-4 bg-destructive/10 text-destructive rounded-md border border-destructive/20 h-full overflow-auto">
                         <p className="font-medium">Transformation Error:</p>
                         <pre className="mt-2 text-sm whitespace-pre-wrap">{lastResult.error}</pre>
                       </div>
@@ -469,8 +469,8 @@ function App() {
           </div>
         ) : (
           <div className="h-full flex">
-            <div className="flex-1 flex flex-col p-6 gap-4 overflow-auto" style={{ width: safeSidebarOpen ? 'calc(100% - 320px)' : '100%', transition: 'width 0.3s ease' }}>
-              <div className="grid grid-cols-2 gap-4" style={{ height: '45%' }}>
+            <div className="flex-1 flex flex-col p-6 gap-4 overflow-hidden" style={{ width: safeSidebarOpen ? 'calc(100% - 320px)' : '100%', transition: 'width 0.3s ease' }}>
+              <div className="grid grid-cols-2 gap-4" style={{ height: '45%', minHeight: 0 }}>
                 <div className="flex flex-col">
                   <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XML Input</h3>
@@ -509,7 +509,7 @@ function App() {
                 </div>
               </div>
 
-              <div className="flex flex-col flex-1">
+              <div className="flex flex-col flex-1" style={{ minHeight: 0 }}>
                 <div className="flex items-center justify-between mb-2 px-1">
                   <div className="flex items-center gap-2">
                     <h3 className="text-sm font-medium">Output</h3>
@@ -525,9 +525,9 @@ function App() {
                     </Button>
                   )}
                 </div>
-                <div className="flex-1 overflow-hidden">
+                <div className="flex-1 overflow-hidden" style={{ minHeight: 0 }}>
                   {lastResult && !lastResult.success ? (
-                    <div className="p-4 bg-destructive/10 text-destructive rounded-md border border-destructive/20">
+                    <div className="p-4 bg-destructive/10 text-destructive rounded-md border border-destructive/20 h-full overflow-auto">
                       <p className="font-medium">Transformation Error:</p>
                       <pre className="mt-2 text-sm whitespace-pre-wrap font-mono">{lastResult.error}</pre>
                     </div>
