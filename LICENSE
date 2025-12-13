@@ -1,6 +1,6 @@
 MIT License
 
-Copyright GitHub, Inc.
+Copyright (c) 2024 Transio (https://transio.org)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+THIRD-PARTY LICENSES
+
+This software uses the following open source libraries:
+
+1. Saxon-JS (Mozilla Public License 2.0) - https://www.saxonica.com/saxon-js/
+2. React, Vite, Tailwind, CodeMirror, shadcn/ui (MIT License)
+3. All other dependencies as listed in package.json
+
+For detailed license information, see LICENSE_AUDIT.md
