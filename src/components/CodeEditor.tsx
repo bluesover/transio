@@ -51,11 +51,14 @@ export function CodeEditor({
   const getThemeBackground = () => {
     const themeBackgrounds: Record<string, string> = {
       'vscode-dark': '#1e1e1e',
+      'vscode-light': '#ffffff',
       'github-dark': '#0d1117',
+      'github-light': '#ffffff',
       'tokyo-night': '#1a1b26',
       'dracula': '#282a36',
       'monokai': '#272822',
       'solarized-dark': '#002b36',
+      'solarized-light': '#fdf6e3',
       'nord': '#2e3440',
       'gruvbox-dark': '#282828',
       'material-dark': '#212121',

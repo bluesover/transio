@@ -63,11 +63,26 @@ export function useFileSystem() {
     version: TransformVersion
   ) => {
     const sanitizedVersion = version.version.replace(/[^a-z0-9.-]/gi, '_')
-    await Promise.all([
-      saveFile(handle, `version_${version.id}_${sanitizedVersion}.xml`, version.xml),
-      saveFile(handle, `version_${version.id}_${sanitizedVersion}.xslt`, version.xslt)
-    ])
-  }, [saveFile])
+    const versionFolder = `versions`
+    
+    try {
+      const versionDirHandle = await handle.getDirectoryHandle(versionFolder, { create: true })
+      
+      const versionXmlHandle = await versionDirHandle.getFileHandle(`v${sanitizedVersion}.xml`, { create: true })
+      const versionXsltHandle = await versionDirHandle.getFileHandle(`v${sanitizedVersion}.xslt`, { create: true })
+      
+      const xmlWritable = await versionXmlHandle.createWritable()
+      await xmlWritable.write(version.xml)
+      await xmlWritable.close()
+      
+      const xsltWritable = await versionXsltHandle.createWritable()
+      await xsltWritable.write(version.xslt)
+      await xsltWritable.close()
+    } catch (error) {
+      console.error('Failed to save version files:', error)
+      throw error
+    }
+  }, [])
 
   const saveMetadata = useCallback(async (
     handle: FileSystemDirectoryHandle,

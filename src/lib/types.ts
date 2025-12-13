@@ -39,7 +39,7 @@ export interface XSLTSnippet {
   code: string
 }
 
-export type EditorTheme = 'vscode-dark' | 'github-dark' | 'tokyo-night' | 'dracula' | 'monokai' | 'solarized-dark' | 'nord' | 'gruvbox-dark' | 'material-dark' | 'atom-one'
+export type EditorTheme = 'vscode-dark' | 'vscode-light' | 'github-dark' | 'github-light' | 'tokyo-night' | 'dracula' | 'monokai' | 'solarized-dark' | 'solarized-light' | 'nord' | 'gruvbox-dark' | 'material-dark' | 'atom-one'
 
 export interface ServerConfig {
   enabled: boolean

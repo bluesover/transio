@@ -245,13 +245,79 @@ const atomOneHighlight = HighlightStyle.define([
   { tag: tags.name, color: '#d19a66' },
 ])
 
+const vsCodeLight = createTheme({
+  background: '#ffffff',
+  foreground: '#000000',
+  selection: '#add6ff',
+  cursor: '#000000',
+  lineHighlight: '#f0f0f0',
+})
+
+const vsCodeLightHighlight = HighlightStyle.define([
+  { tag: tags.keyword, color: '#0000ff' },
+  { tag: tags.tagName, color: '#800000' },
+  { tag: tags.attributeName, color: '#ff0000' },
+  { tag: tags.string, color: '#a31515' },
+  { tag: tags.comment, color: '#008000' },
+  { tag: tags.bracket, color: '#000000' },
+  { tag: tags.punctuation, color: '#000000' },
+  { tag: tags.content, color: '#000000' },
+  { tag: tags.literal, color: '#a31515' },
+  { tag: tags.name, color: '#ff0000' },
+])
+
+const githubLight = createTheme({
+  background: '#ffffff',
+  foreground: '#24292f',
+  selection: '#b3d7ff',
+  cursor: '#24292f',
+  lineHighlight: '#f6f8fa',
+})
+
+const githubLightHighlight = HighlightStyle.define([
+  { tag: tags.keyword, color: '#cf222e' },
+  { tag: tags.tagName, color: '#116329' },
+  { tag: tags.attributeName, color: '#0550ae' },
+  { tag: tags.string, color: '#0a3069' },
+  { tag: tags.comment, color: '#6e7781' },
+  { tag: tags.bracket, color: '#953800' },
+  { tag: tags.punctuation, color: '#24292f' },
+  { tag: tags.content, color: '#24292f' },
+  { tag: tags.literal, color: '#0a3069' },
+  { tag: tags.name, color: '#0550ae' },
+])
+
+const solarizedLight = createTheme({
+  background: '#fdf6e3',
+  foreground: '#657b83',
+  selection: '#eee8d5',
+  cursor: '#657b83',
+  lineHighlight: '#eee8d5',
+})
+
+const solarizedLightHighlight = HighlightStyle.define([
+  { tag: tags.keyword, color: '#268bd2' },
+  { tag: tags.tagName, color: '#859900' },
+  { tag: tags.attributeName, color: '#b58900' },
+  { tag: tags.string, color: '#2aa198' },
+  { tag: tags.comment, color: '#93a1a1' },
+  { tag: tags.bracket, color: '#cb4b16' },
+  { tag: tags.punctuation, color: '#657b83' },
+  { tag: tags.content, color: '#657b83' },
+  { tag: tags.literal, color: '#2aa198' },
+  { tag: tags.name, color: '#b58900' },
+])
+
 export const editorThemes: Record<string, Extension[]> = {
   'vscode-dark': [vscodeDark, syntaxHighlighting(vscodeDarkHighlight)],
+  'vscode-light': [vsCodeLight, syntaxHighlighting(vsCodeLightHighlight)],
   'github-dark': [githubDark, syntaxHighlighting(githubDarkHighlight)],
+  'github-light': [githubLight, syntaxHighlighting(githubLightHighlight)],
   'tokyo-night': [tokyoNight, syntaxHighlighting(tokyoNightHighlight)],
   'dracula': [dracula, syntaxHighlighting(draculaHighlight)],
   'monokai': [monokai, syntaxHighlighting(monokaiHighlight)],
   'solarized-dark': [solarizedDark, syntaxHighlighting(solarizedDarkHighlight)],
+  'solarized-light': [solarizedLight, syntaxHighlighting(solarizedLightHighlight)],
   'nord': [nord, syntaxHighlighting(nordHighlight)],
   'gruvbox-dark': [gruvboxDark, syntaxHighlighting(gruvboxDarkHighlight)],
   'material-dark': [materialDark, syntaxHighlighting(materialDarkHighlight)],
@@ -260,11 +326,14 @@ export const editorThemes: Record<string, Extension[]> = {
 
 export const themeNames: Record<string, string> = {
   'vscode-dark': 'VS Code Dark',
+  'vscode-light': 'VS Code Light',
   'github-dark': 'GitHub Dark',
+  'github-light': 'GitHub Light',
   'tokyo-night': 'Tokyo Night',
   'dracula': 'Dracula',
   'monokai': 'Monokai',
   'solarized-dark': 'Solarized Dark',
+  'solarized-light': 'Solarized Light',
   'nord': 'Nord',
   'gruvbox-dark': 'Gruvbox Dark',
   'material-dark': 'Material Dark',

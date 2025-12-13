@@ -396,7 +396,20 @@ function App() {
   useEffect(() => {
     document.documentElement.classList.remove('light', 'dark', 'black')
     document.documentElement.classList.add(safeAppTheme)
-  }, [safeAppTheme])
+    
+    const themeMap: Record<'light' | 'dark' | 'black', EditorTheme> = {
+      'light': 'vscode-light',
+      'dark': 'vscode-dark',
+      'black': 'vscode-dark'
+    }
+    
+    const recommendedEditorTheme = themeMap[safeAppTheme]
+    if (safeEditorTheme !== recommendedEditorTheme && !safeEditorTheme.includes('light') && safeAppTheme === 'light') {
+      setEditorTheme(recommendedEditorTheme)
+    } else if (safeEditorTheme.includes('light') && safeAppTheme !== 'light') {
+      setEditorTheme('vscode-dark')
+    }
+  }, [safeAppTheme, safeEditorTheme, setEditorTheme])
 
   const cycleTheme = useCallback(() => {
     const themes: ('light' | 'dark' | 'black')[] = ['light', 'dark', 'black']
