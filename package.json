@@ -27,10 +27,12 @@
         "dev": "vite",
         "kill": "fuser -k 5000/tcp",
         "build": "tsc -b --noCheck && vite build",
+        "build:cloudflare": "npm install --legacy-peer-deps && npm run build",
         "lint": "eslint .",
         "optimize": "vite optimize",
         "preview": "vite preview",
-        "deploy": "npm run build && npx gh-pages -d dist"
+        "deploy": "npm run build && npx gh-pages -d dist",
+        "deploy:cloudflare": "npm run build:cloudflare"
     },
     "dependencies": {
         "@codemirror/lang-html": "^6.4.11",
