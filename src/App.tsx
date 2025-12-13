@@ -8,6 +8,7 @@ import { SnippetsSheet } from './components/SnippetsSheet'
 import { ActivityLog } from './components/ActivityLog'
 import { SaveVersionDialog } from './components/SaveVersionDialog'
 import { KeyboardShortcutsDialog } from './components/KeyboardShortcutsDialog'
+import { DonationDialog } from './components/DonationDialog'
 import { Button } from './components/ui/button'
 import { Badge } from './components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select'
@@ -354,6 +355,8 @@ function App() {
           <Button variant="outline" size="icon" onClick={cycleTheme} title={`Theme: ${safeAppTheme} (Click to cycle)`}>
             {safeAppTheme === 'light' ? <Sun weight="bold" /> : <Moon weight="bold" />}
           </Button>
+
+          <DonationDialog />
 
           <Button variant="outline" size="icon" onClick={() => setHelpDialogOpen(true)} title="Keyboard Shortcuts (?)">
             <Question weight="bold" />
