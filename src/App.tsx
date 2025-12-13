@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { toast, Toaster } from 'sonner'
-import { Lightning, FloppyDisk, Folder, Code, Question, Moon, TextIndent, DownloadSimple, UploadSimple, GitBranch } from '@phosphor-icons/react'
+import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, UploadSimple, GitBranch } from '@phosphor-icons/react'
 import { CodeEditor } from './components/CodeEditor'
 import { VersionPanel } from './components/VersionPanel'
 import { SnippetsSheet } from './components/SnippetsSheet'
@@ -29,6 +29,7 @@ function App() {
   const [output, setOutput] = useState('')
   const [xsltVersion, setXsltVersion] = useKV<XSLTVersion>('xslt-version', '1.0')
   const [editorTheme, setEditorTheme] = useKV<EditorTheme>('editor-theme', 'vscode-dark')
+  const [appTheme, setAppTheme] = useKV<'light' | 'dark' | 'black'>('app-theme', 'dark')
   const [versions, setVersions] = useKV<TransformVersion[]>('xslt-versions', [])
   const [activityLog, setActivityLog] = useKV<ActivityLogEntry[]>('activity-log', [])
 
@@ -36,6 +37,7 @@ function App() {
   const safeXsltInput = xsltInput || sampleXSLT
   const safeXsltVersion = xsltVersion || '1.0'
   const safeEditorTheme = editorTheme || 'vscode-dark'
+  const safeAppTheme = appTheme || 'dark'
   const safeVersions = versions || []
   const safeActivityLog = activityLog || []
   
@@ -285,6 +287,20 @@ function App() {
 
   useKeyboardShortcuts(shortcuts)
 
+  useEffect(() => {
+    document.documentElement.classList.remove('light', 'dark', 'black')
+    document.documentElement.classList.add(safeAppTheme)
+  }, [safeAppTheme])
+
+  const cycleTheme = useCallback(() => {
+    const themes: ('light' | 'dark' | 'black')[] = ['light', 'dark', 'black']
+    const currentIndex = themes.indexOf(safeAppTheme)
+    const nextTheme = themes[(currentIndex + 1) % themes.length]
+    setAppTheme(nextTheme)
+    toast.success(`Theme: ${nextTheme.charAt(0).toUpperCase() + nextTheme.slice(1)}`)
+    addLogEntry('settings', `Changed theme to ${nextTheme}`)
+  }, [safeAppTheme, setAppTheme, addLogEntry])
+
   return (
     <div className="flex flex-col h-screen bg-background">
       <Toaster position="bottom-right" richColors />
@@ -324,6 +340,10 @@ function App() {
               ))}
             </SelectContent>
           </Select>
+
+          <Button variant="outline" size="icon" onClick={cycleTheme} title={`Theme: ${safeAppTheme} (Click to cycle)`}>
+            {safeAppTheme === 'light' ? <Sun weight="bold" /> : <Moon weight="bold" />}
+          </Button>
 
           <Button variant="outline" size="icon" onClick={() => setHelpDialogOpen(true)} title="Keyboard Shortcuts (?)">
             <Question weight="bold" />

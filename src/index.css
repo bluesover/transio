@@ -40,6 +40,68 @@
   --radius: 0.5rem;
 }
 
+.dark {
+  --background: oklch(0.15 0.01 265);
+  --foreground: oklch(0.95 0.01 265);
+  --card: oklch(0.20 0.015 265);
+  --card-foreground: oklch(0.95 0.01 265);
+  --popover: oklch(0.18 0.015 265);
+  --popover-foreground: oklch(0.95 0.01 265);
+  
+  --primary: oklch(0.60 0.25 265);
+  --primary-foreground: oklch(0.98 0.01 265);
+  --secondary: oklch(0.30 0.02 265);
+  --secondary-foreground: oklch(0.95 0.01 265);
+  --accent: oklch(0.65 0.22 25);
+  --accent-foreground: oklch(0.98 0.01 25);
+  
+  --muted: oklch(0.25 0.015 265);
+  --muted-foreground: oklch(0.65 0.01 265);
+  
+  --destructive: oklch(0.60 0.22 25);
+  --destructive-foreground: oklch(0.98 0.01 25);
+  
+  --success: oklch(0.65 0.20 145);
+  --success-foreground: oklch(0.98 0.01 145);
+  --warning: oklch(0.70 0.18 65);
+  --warning-foreground: oklch(0.15 0.03 65);
+  
+  --border: oklch(0.30 0.015 265);
+  --input: oklch(0.30 0.015 265);
+  --ring: oklch(0.60 0.25 265);
+}
+
+.black {
+  --background: oklch(0.08 0.005 265);
+  --foreground: oklch(0.98 0.005 265);
+  --card: oklch(0.12 0.008 265);
+  --card-foreground: oklch(0.98 0.005 265);
+  --popover: oklch(0.10 0.008 265);
+  --popover-foreground: oklch(0.98 0.005 265);
+  
+  --primary: oklch(0.65 0.25 265);
+  --primary-foreground: oklch(0.98 0.01 265);
+  --secondary: oklch(0.18 0.01 265);
+  --secondary-foreground: oklch(0.95 0.005 265);
+  --accent: oklch(0.70 0.22 25);
+  --accent-foreground: oklch(0.98 0.01 25);
+  
+  --muted: oklch(0.15 0.008 265);
+  --muted-foreground: oklch(0.60 0.005 265);
+  
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0.01 25);
+  
+  --success: oklch(0.65 0.20 145);
+  --success-foreground: oklch(0.98 0.01 145);
+  --warning: oklch(0.75 0.18 65);
+  --warning-foreground: oklch(0.98 0.03 65);
+  
+  --border: oklch(0.20 0.008 265);
+  --input: oklch(0.20 0.008 265);
+  --ring: oklch(0.65 0.25 265);
+}
+
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

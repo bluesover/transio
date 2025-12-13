@@ -23,7 +23,7 @@ export interface TransformResult {
 export interface ActivityLogEntry {
   id: string
   timestamp: number
-  type: 'transform' | 'save' | 'load' | 'delete' | 'release' | 'import' | 'export' | 'format' | 'error'
+  type: 'transform' | 'save' | 'load' | 'delete' | 'release' | 'import' | 'export' | 'format' | 'error' | 'settings'
   message: string
   details?: string
 }
