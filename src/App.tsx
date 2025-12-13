@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { toast, Toaster } from 'sonner'
-import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, UploadSimple, GitBranch } from '@phosphor-icons/react'
+import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, UploadSimple, GitBranch, CaretLeft, CaretRight } from '@phosphor-icons/react'
 import { CodeEditor } from './components/CodeEditor'
 import { VersionPanel } from './components/VersionPanel'
 import { SnippetsSheet } from './components/SnippetsSheet'
@@ -32,6 +32,7 @@ function App() {
   const [appTheme, setAppTheme] = useKV<'light' | 'dark' | 'black'>('app-theme', 'dark')
   const [versions, setVersions] = useKV<TransformVersion[]>('xslt-versions', [])
   const [activityLog, setActivityLog] = useKV<ActivityLogEntry[]>('activity-log', [])
+  const [sidebarOpen, setSidebarOpen] = useKV<boolean>('sidebar-open', true)
 
   const safeXmlInput = xmlInput || sampleXML
   const safeXsltInput = xsltInput || sampleXSLT
@@ -40,6 +41,7 @@ function App() {
   const safeAppTheme = appTheme || 'dark'
   const safeVersions = versions || []
   const safeActivityLog = activityLog || []
+  const safeSidebarOpen = sidebarOpen ?? true
   
   const [isTransforming, setIsTransforming] = useState(false)
   const [lastResult, setLastResult] = useState<TransformResult | null>(null)
@@ -467,7 +469,7 @@ function App() {
           </div>
         ) : (
           <div className="h-full flex">
-            <div className="flex-1 flex flex-col p-6 gap-4 overflow-auto">
+            <div className="flex-1 flex flex-col p-6 gap-4 overflow-auto" style={{ width: safeSidebarOpen ? 'calc(100% - 320px)' : '100%', transition: 'width 0.3s ease' }}>
               <div className="grid grid-cols-2 gap-4" style={{ height: '45%' }}>
                 <div className="flex flex-col">
                   <div className="flex items-center justify-between mb-2 px-1">
@@ -542,14 +544,39 @@ function App() {
               <ActivityLog entries={safeActivityLog} />
             </div>
 
-            <div className="w-80 border-l border-border bg-muted/30">
-              <VersionPanel
-                versions={safeVersions}
-                onLoad={handleLoadVersion}
-                onDelete={handleDeleteVersion}
-                onRelease={handleReleaseVersion}
-              />
-            </div>
+            {safeSidebarOpen && (
+              <div className="w-80 border-l border-border bg-muted/30 relative" style={{ transition: 'width 0.3s ease' }}>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="absolute -left-4 top-4 z-10 h-8 w-8 rounded-full bg-card border border-border shadow-md hover:bg-accent"
+                  onClick={() => setSidebarOpen(false)}
+                  title="Hide Version Panel"
+                >
+                  <CaretRight weight="bold" />
+                </Button>
+                <VersionPanel
+                  versions={safeVersions}
+                  onLoad={handleLoadVersion}
+                  onDelete={handleDeleteVersion}
+                  onRelease={handleReleaseVersion}
+                />
+              </div>
+            )}
+
+            {!safeSidebarOpen && (
+              <div className="relative">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="absolute -left-4 top-4 z-10 h-8 w-8 rounded-full bg-card border border-border shadow-md hover:bg-accent"
+                  onClick={() => setSidebarOpen(true)}
+                  title="Show Version Panel"
+                >
+                  <CaretLeft weight="bold" />
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </main>
