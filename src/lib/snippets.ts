@@ -134,6 +134,81 @@ export const xsltSnippets: XSLTSnippet[] = [
 </xsl:for-each-group>`
   },
   {
+    id: 'for-each-group-complete',
+    title: 'XSLT 2.0 Grouping Complete Example',
+    description: 'Full XSLT 2.0 stylesheet with for-each-group, format-number, and aggregation',
+    category: 'boilerplate',
+    xsltVersion: ['2.0', '3.0'],
+    code: `<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="html" indent="yes" encoding="UTF-8"/>
+  
+  <xsl:template match="/">
+    <html>
+      <head>
+        <title>Grouped by Category</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+          h1 { color: #2c3e50; text-align: center; }
+          .category-section { background: white; margin: 20px 0; padding: 20px; border-radius: 8px; }
+          h2 { color: #3498db; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+          .count { background: #3498db; color: white; padding: 4px 12px; border-radius: 20px; margin-left: 10px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+          th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+          th { background: #34495e; color: white; }
+          tr:hover { background: #e8f4f8; }
+          .total { background: #ecf0f1; padding: 15px; margin-top: 15px; border-radius: 8px; font-weight: bold; }
+        </style>
+      </head>
+      <body>
+        <h1>Grouped Data</h1>
+        
+        <xsl:for-each-group select="catalog/book" group-by="@category">
+          <xsl:sort select="current-grouping-key()"/>
+          <div class="category-section">
+            <h2>
+              <xsl:value-of select="current-grouping-key()"/>
+              <span class="count"><xsl:value-of select="count(current-group())"/> items</span>
+            </h2>
+            
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Price</th>
+                  <th>Year</th>
+                </tr>
+              </thead>
+              <tbody>
+                <xsl:for-each select="current-group()">
+                  <xsl:sort select="title"/>
+                  <tr>
+                    <td><xsl:value-of select="title"/></td>
+                    <td><xsl:value-of select="author"/></td>
+                    <td>$<xsl:value-of select="format-number(price, '#,##0.00')"/></td>
+                    <td><xsl:value-of select="year"/></td>
+                  </tr>
+                </xsl:for-each>
+              </tbody>
+            </table>
+            
+            <div class="total">
+              Category Total: $<xsl:value-of select="format-number(sum(current-group()/price), '#,##0.00')"/>
+            </div>
+          </div>
+        </xsl:for-each-group>
+        
+        <div class="total" style="background: #3498db; color: white;">
+          Grand Total: $<xsl:value-of select="format-number(sum(catalog/book/price), '#,##0.00')"/>
+        </div>
+      </body>
+    </html>
+  </xsl:template>
+  
+</xsl:stylesheet>`
+  },
+  {
     id: 'if-statement',
     title: 'If Statement',
     description: 'Simple conditional',

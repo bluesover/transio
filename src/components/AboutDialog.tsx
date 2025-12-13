@@ -1,4 +1,4 @@
-import { Info, Lightning, GithubLogo, Heart, ShieldCheck, Globe } from '@phosphor-icons/react'
+import { Info, Lightning, GithubLogo, Heart, ShieldCheck, Globe, Flask } from '@phosphor-icons/react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
@@ -154,6 +154,25 @@ export function AboutDialog() {
                   <p className="text-muted-foreground text-[11px]">
                     <strong>Note:</strong> Full XSLT 2.0/3.0 requires pre-compiled SEF files or server-side processing. 
                     For complex transformations, consider using server-side Saxon-HE (open source).
+                  </p>
+                </div>
+
+                <div className="bg-primary/10 border border-primary/20 p-3 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Flask weight="bold" className="w-4 h-4 text-primary" />
+                    <p className="font-medium text-primary">Test XSLT 2.0 Grouping</p>
+                  </div>
+                  <p className="text-muted-foreground text-[11px] mb-2">
+                    Click the Flask icon <Flask weight="bold" className="w-3 h-3 inline-block" /> in the header to load a complete XSLT 2.0 example with:
+                  </p>
+                  <ul className="text-[11px] text-muted-foreground space-y-0.5 pl-4">
+                    <li>• for-each-group with group-by</li>
+                    <li>• current-grouping-key() and current-group()</li>
+                    <li>• format-number() function</li>
+                    <li>• sum() aggregation per group</li>
+                  </ul>
+                  <p className="text-[11px] text-muted-foreground mt-2">
+                    This demonstrates Saxon-JS's XSLT 2.0 grouping capabilities with the sample book catalog data.
                   </p>
                 </div>
               </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { toast, Toaster } from 'sonner'
-import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight, FileCsv, RocketLaunch } from '@phosphor-icons/react'
+import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight, FileCsv, RocketLaunch, Flask } from '@phosphor-icons/react'
 import { CodeEditor } from './components/CodeEditor'
 import { VersionPanel } from './components/VersionPanel'
 import { SnippetsSheet } from './components/SnippetsSheet'
@@ -22,7 +22,7 @@ import { useKeyboardShortcuts } from './hooks/use-keyboard-shortcuts'
 import { useFileSystem } from './hooks/use-file-system'
 import { transformXML, detectXSLTVersion, formatXML } from './lib/xslt-processor'
 import { themeNames } from './lib/editor-themes'
-import { sampleXML, sampleXSLT } from './lib/sample-data'
+import { sampleXML, sampleXSLT, sampleXSLT20Grouping } from './lib/sample-data'
 import type { XSLTVersion, EditorTheme, TransformVersion, ActivityLogEntry, TransformResult } from './lib/types'
 
 function App() {
@@ -322,6 +322,13 @@ function App() {
     }
   }, [folderHandle, generateLaunchers, addLogEntry])
 
+  const handleTestXSLT20Grouping = useCallback(() => {
+    setXsltInput(sampleXSLT20Grouping)
+    setXsltVersion('2.0')
+    toast.success('Loaded XSLT 2.0 grouping example')
+    addLogEntry('load', 'Loaded XSLT 2.0 for-each-group test example')
+  }, [setXsltInput, setXsltVersion, addLogEntry])
+
   const shortcuts = useMemo(() => [
     { key: 'Enter', ctrl: true, action: handleTransform },
     { key: 's', ctrl: true, action: () => setSaveDialogOpen(true) },
@@ -412,6 +419,10 @@ function App() {
 
           <Button variant="outline" size="icon" onClick={handleSelectFolder} title="Open Project Folder">
             <Folder weight="bold" />
+          </Button>
+
+          <Button variant="outline" size="icon" onClick={handleTestXSLT20Grouping} title="Test XSLT 2.0 Grouping" className="hidden sm:inline-flex">
+            <Flask weight="bold" />
           </Button>
 
           {folderHandle && (
