@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Trash, DownloadSimple, Rocket } from '@phosphor-icons/react'
+import { Trash, DownloadSimple, Rocket, CaretDown, CaretUp } from '@phosphor-icons/react'
 import { ScrollArea } from './ui/scroll-area'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
@@ -7,6 +7,7 @@ import { Card } from './ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
 import { Textarea } from './ui/textarea'
 import { Label } from './ui/label'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
 import type { TransformVersion } from '@/lib/types'
 
 interface VersionPanelProps {
@@ -20,6 +21,7 @@ export function VersionPanel({ versions, onLoad, onDelete, onRelease }: VersionP
   const [releaseDialogOpen, setReleaseDialogOpen] = useState(false)
   const [selectedVersion, setSelectedVersion] = useState<TransformVersion | null>(null)
   const [releaseNotes, setReleaseNotes] = useState('')
+  const [expandedVersions, setExpandedVersions] = useState<Set<string>>(new Set())
 
   const handleRelease = () => {
     if (selectedVersion) {
@@ -37,6 +39,18 @@ export function VersionPanel({ versions, onLoad, onDelete, onRelease }: VersionP
 
   const sortedVersions = [...versions].sort((a, b) => b.createdAt - a.createdAt)
 
+  const toggleVersion = (versionId: string) => {
+    setExpandedVersions(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(versionId)) {
+        newSet.delete(versionId)
+      } else {
+        newSet.add(versionId)
+      }
+      return newSet
+    })
+  }
+
   return (
     <>
       <div className="h-full flex flex-col">
@@ -52,70 +66,93 @@ export function VersionPanel({ versions, onLoad, onDelete, onRelease }: VersionP
                 No saved versions yet. Press Ctrl+S to save your first version.
               </p>
             ) : (
-              sortedVersions.map(version => (
-                <Card key={version.id} className="p-3 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="text-sm font-medium">v{version.version}</h4>
-                        <Badge variant="outline" className="text-xs">
-                          XSLT {version.xsltVersion}
-                        </Badge>
-                        {version.isReleased && (
-                          <Badge variant="default" className="text-xs bg-success text-success-foreground">
-                            Released
-                          </Badge>
-                        )}
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-1">{formatDate(version.createdAt)}</p>
-                    </div>
-                  </div>
+              sortedVersions.map(version => {
+                const isExpanded = expandedVersions.has(version.id)
+                return (
+                  <Collapsible key={version.id} open={isExpanded} onOpenChange={() => toggleVersion(version.id)}>
+                    <Card className="hover:shadow-md transition-shadow">
+                      <CollapsibleTrigger className="w-full p-3 text-left">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <h4 className="text-sm font-medium">v{version.version}</h4>
+                              <Badge variant="outline" className="text-xs">
+                                XSLT {version.xsltVersion}
+                              </Badge>
+                              {version.isReleased && (
+                                <Badge variant="default" className="text-xs bg-success text-success-foreground">
+                                  Released
+                                </Badge>
+                              )}
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">{formatDate(version.createdAt)}</p>
+                          </div>
+                          {isExpanded ? (
+                            <CaretUp weight="bold" className="w-4 h-4 text-muted-foreground" />
+                          ) : (
+                            <CaretDown weight="bold" className="w-4 h-4 text-muted-foreground" />
+                          )}
+                        </div>
+                      </CollapsibleTrigger>
 
-                  {version.description && (
-                    <p className="text-xs text-foreground mb-3 line-clamp-2">{version.description}</p>
-                  )}
+                      <CollapsibleContent>
+                        <div className="px-3 pb-3">
+                          {version.description && (
+                            <p className="text-xs text-foreground mb-3">{version.description}</p>
+                          )}
 
-                  {version.releaseNotes && (
-                    <div className="mb-3 p-2 bg-success/10 rounded text-xs">
-                      <p className="font-medium text-success-foreground mb-1">Release Notes:</p>
-                      <p className="text-foreground">{version.releaseNotes}</p>
-                    </div>
-                  )}
+                          {version.releaseNotes && (
+                            <div className="mb-3 p-2 bg-success/10 rounded text-xs">
+                              <p className="font-medium text-success-foreground mb-1">Release Notes:</p>
+                              <p className="text-foreground">{version.releaseNotes}</p>
+                            </div>
+                          )}
 
-                  <div className="flex gap-1">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => onLoad(version)}
-                    >
-                      <DownloadSimple weight="bold" className="w-3 h-3 mr-1" />
-                      Load
-                    </Button>
+                          <div className="flex gap-1">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="flex-1"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                onLoad(version)
+                              }}
+                            >
+                              <DownloadSimple weight="bold" className="w-3 h-3 mr-1" />
+                              Load
+                            </Button>
 
-                    {!version.isReleased && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          setSelectedVersion(version)
-                          setReleaseDialogOpen(true)
-                        }}
-                      >
-                        <Rocket weight="bold" className="w-3 h-3" />
-                      </Button>
-                    )}
+                            {!version.isReleased && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setSelectedVersion(version)
+                                  setReleaseDialogOpen(true)
+                                }}
+                              >
+                                <Rocket weight="bold" className="w-3 h-3" />
+                              </Button>
+                            )}
 
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onDelete(version.id)}
-                    >
-                      <Trash weight="bold" className="w-3 h-3" />
-                    </Button>
-                  </div>
-                </Card>
-              ))
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                onDelete(version.id)
+                              }}
+                            >
+                              <Trash weight="bold" className="w-3 h-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CollapsibleContent>
+                    </Card>
+                  </Collapsible>
+                )
+              })
             )}
           </div>
         </ScrollArea>

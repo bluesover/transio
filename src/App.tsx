@@ -441,8 +441,12 @@ function App() {
                         <p className="font-medium">Transformation Error:</p>
                         <pre className="mt-2 text-sm whitespace-pre-wrap">{lastResult.error}</pre>
                       </div>
-                    ) : (
+                    ) : output ? (
                       <CodeEditor value={output} onChange={() => {}} language="html" theme={safeEditorTheme} readOnly />
+                    ) : (
+                      <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+                        Click Transform or press Ctrl+Enter to see results
+                      </div>
                     )}
                   </div>
                 </Card>
@@ -526,8 +530,12 @@ function App() {
                       <p className="font-medium">Transformation Error:</p>
                       <pre className="mt-2 text-sm whitespace-pre-wrap font-mono">{lastResult.error}</pre>
                     </div>
-                  ) : (
+                  ) : output ? (
                     <CodeEditor value={output} onChange={() => {}} language="html" theme={safeEditorTheme} readOnly />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+                      Click Transform or press Ctrl+Enter to see results
+                    </div>
                   )}
                 </div>
               </Card>
