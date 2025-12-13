@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal enabledelayedexpansion
 
 if "%PORT%"=="" set PORT=3001
 
@@ -7,28 +7,32 @@ echo.
 echo 🚀 Starting Transio Saxon-HE Server...
 echo.
 
+REM Check if port is in use
 for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":%PORT%" ^| findstr "LISTENING" 2^>nul') do (
     echo ⚠️  Port %PORT% is already in use
     echo.
-    set /p RESTART="   Would you like to stop the existing server and restart? (y/n): "
+    echo    Attempting to automatically stop the existing server...
     
-    if /i "!RESTART!"=="y" (
-        echo    Stopping existing server...
-        call stop-server.bat %PORT%
+    REM Get PID and kill it
+    for /f "tokens=5" %%p in ('netstat -aon ^| findstr ":%PORT%" ^| findstr "LISTENING"') do (
+        echo    Found process %%p on port %PORT%
+        taskkill /F /PID %%p >nul 2>&1
         timeout /t 2 /nobreak >nul
-    ) else (
+    )
+    
+    REM Check again if port is free
+    for /f "tokens=5" %%b in ('netstat -aon ^| findstr ":%PORT%" ^| findstr "LISTENING" 2^>nul') do (
         echo.
-        echo ❌ Cannot start: Port %PORT% is in use
-        echo    Options:
-        echo    1. Stop the existing server: stop-server.bat
-        echo    2. Use a different port: set PORT=3002 ^&^& start-server.bat
+        echo ❌ Failed to stop existing server
+        echo    Please manually stop the process:
+        echo    1. Run: stop-server.bat
+        echo    2. Or use a different port: set PORT=3002 ^&^& start-server.bat
         echo.
         exit /b 1
     )
-    goto :continue
+    
+    echo    ✅ Existing server stopped successfully
 )
-
-:continue
 
 if not exist "server\" (
     echo ❌ Error: server directory not found

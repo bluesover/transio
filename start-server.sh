@@ -5,24 +5,38 @@ echo ""
 
 PORT=${PORT:-3001}
 
+# Check if port is in use
 if lsof -ti:$PORT > /dev/null 2>&1; then
     echo "⚠️  Port $PORT is already in use"
     echo ""
-    read -p "   Would you like to stop the existing server and restart? (y/n): " -n 1 -r
-    echo ""
+    echo "   Attempting to automatically stop the existing server..."
     
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo "   Stopping existing server..."
-        bash stop-server.sh
+    # Try to stop the server
+    PID=$(lsof -ti:$PORT 2>/dev/null)
+    if [ -n "$PID" ]; then
+        echo "   Found process $PID on port $PORT"
+        kill -TERM $PID 2>/dev/null
         sleep 2
-    else
-        echo ""
-        echo "❌ Cannot start: Port $PORT is in use"
-        echo "   Options:"
-        echo "   1. Stop the existing server: ./stop-server.sh"
-        echo "   2. Use a different port: PORT=3002 ./start-server.sh"
-        echo ""
-        exit 1
+        
+        # Check if process is still running
+        if lsof -ti:$PORT > /dev/null 2>&1; then
+            echo "   Process still running, forcing stop..."
+            kill -9 $PID 2>/dev/null
+            sleep 1
+        fi
+        
+        # Final check
+        if lsof -ti:$PORT > /dev/null 2>&1; then
+            echo ""
+            echo "❌ Failed to stop existing server"
+            echo "   Please manually stop the process:"
+            echo "   1. Run: ./stop-server.sh"
+            echo "   2. Or use a different port: PORT=3002 ./start-server.sh"
+            echo ""
+            exit 1
+        else
+            echo "   ✅ Existing server stopped successfully"
+        fi
     fi
 fi
 

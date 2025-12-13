@@ -124,10 +124,40 @@ The installer will automatically:
 
 **Documentation:**
 - 📘 **[SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)** - Complete installation guide for all platforms
-- 🔧 **[SERVER_TROUBLESHOOTING.md](./SERVER_TROUBLESHOOTING.md)** - Fix connection issues
+- 🔧 **[SERVER_TROUBLESHOOTING_GUIDE.md](./SERVER_TROUBLESHOOTING_GUIDE.md)** - Fix port conflicts and common issues
 - 🏗️ **[SAXON_SERVER_ARCHITECTURE.md](./SAXON_SERVER_ARCHITECTURE.md)** - How it works
 - 🤔 **[BROWSER_VS_SERVER.md](./BROWSER_VS_SERVER.md)** - Do you need the server?
 - 📖 **[server/README.md](./server/README.md)** - Server API reference
+
+### 🔧 Server Troubleshooting
+
+**Common Issue: Port Already in Use?**
+
+The updated scripts **automatically** stop existing servers and restart. Just run:
+
+```bash
+# Mac/Linux
+./start-server.sh
+
+# Windows  
+start-server.bat
+```
+
+**Need More Control?** Use the Server Manager:
+
+```bash
+chmod +x server-manager.sh
+./server-manager.sh
+```
+
+This interactive menu lets you:
+- Start/Stop/Restart server
+- Check server status
+- View logs
+- Full reset (reinstall everything)
+- Access troubleshooting guide
+
+**Manual Solutions:** See [SERVER_TROUBLESHOOTING_GUIDE.md](./SERVER_TROUBLESHOOTING_GUIDE.md)
 
 ---
 
