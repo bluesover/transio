@@ -1,13 +1,13 @@
 # 🚀 Deployment Guide - Transio
 
-Complete guide to deploy Transio to production with custom domain.
+Deploy Transio to Cloudflare Pages with custom domain (transio.org).
 
 ## Prerequisites
 
 - GitHub account
-- Cloudflare account (free)
-- Domain: transio.org (already owned)
-- Local: Node.js 18+, npm
+- Cloudflare account (free - no credit card required)
+- Domain: transio.org 
+- Local: Node.js 18+, npm, git
 
 ## Quick Deploy to Cloudflare Pages
 
@@ -153,31 +153,19 @@ npm run lint
 
 ## Server Deployment (Optional)
 
-If you want to host Saxon-HE server separately:
+Saxon-HE server is optional. The app works fully in browser with XSLT 1.0.
+
+For XSLT 2.0/3.0 large file processing, host the server separately:
 
 ### Deploy to Cloud Provider
 
-**Option 1: Cloudflare Workers**
-```bash
-cd server
-npm install
-npx wrangler deploy
-```
-
-**Option 2: Railway.app (Free)**
+**Option 1: Railway.app (Free)**
 1. Push `server/` to separate GitHub repo
 2. Connect to Railway.app
 3. Railway auto-detects Node.js
-4. Set environment port
+4. Set environment variable: `PORT=3001`
 
-**Option 3: Heroku**
-```bash
-cd server
-heroku create transio-saxon-server
-git push heroku main
-```
-
-**Option 4: VPS (DigitalOcean, Linode)**
+**Option 2: VPS (DigitalOcean, Linode)**
 ```bash
 ssh user@your-server
 git clone https://github.com/YOUR_USERNAME/transio.git
@@ -186,23 +174,12 @@ npm install
 npm start
 ```
 
-### Use PM2 for Production
-
+**Option 3: Local Development Only**
 ```bash
-# Install PM2
-npm install -g pm2
-
-# Start server
+# Run server on your machine
 cd server
-pm2 start npm --name "transio-saxon" -- start
-
-# Enable auto-restart
-pm2 startup
-pm2 save
-
-# Monitor
-pm2 status
-pm2 logs transio-saxon
+./install.sh  # One-time setup
+./start-server.sh
 ```
 
 ## Monitoring
@@ -333,12 +310,6 @@ git push
 
 ## Support
 
-- **Issues**: https://github.com/YOUR_USERNAME/transio/issues
-- **Email**: support@transio.org
-- **Documentation**: https://transio.org
-
-## License
-
-Mozilla Public License 2.0 (MPL-2.0)
-
-Open source and free forever! 🎉
+- **GitHub Issues**: https://github.com/YOUR_USERNAME/transio/issues
+- **Website**: https://transio.org
+- **Open Source**: MIT License - Free forever! 🎉

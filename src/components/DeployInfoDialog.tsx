@@ -30,7 +30,7 @@ export function DeployInfoDialog() {
                 <Check weight="bold" className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-medium text-sm">100% Free Hosting</p>
-                  <p className="text-xs text-muted-foreground">Deploy to GitHub Pages, Netlify, Vercel, or Cloudflare Pages</p>
+                  <p className="text-xs text-muted-foreground">Deploy to Cloudflare Pages - free forever with unlimited bandwidth</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -67,53 +67,41 @@ export function DeployInfoDialog() {
               <div className="space-y-3">
                 <div className="p-3 bg-muted rounded-lg border border-border">
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary">GitHub Pages</Badge>
-                    <span className="text-xs text-muted-foreground">Most Popular</span>
+                    <Badge variant="secondary">Cloudflare Pages</Badge>
+                    <span className="text-xs text-muted-foreground">Recommended</span>
                   </div>
                   <code className="text-xs block bg-background p-2 rounded border border-border font-mono">
-                    npm install && npm run deploy
+                    npm run build<br/>
+                    npx wrangler pages deploy dist --project-name=transio
                   </code>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Live at: https://YOUR_USERNAME.github.io/
+                    Free hosting with custom domain support
                   </p>
                 </div>
 
                 <div className="p-3 bg-muted rounded-lg border border-border">
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary">Netlify</Badge>
-                    <span className="text-xs text-muted-foreground">Easiest</span>
-                  </div>
-                  <code className="text-xs block bg-background p-2 rounded border border-border font-mono">
-                    npm run build
-                  </code>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Drag 'dist' folder to netlify.com/drop
-                  </p>
-                </div>
-
-                <div className="p-3 bg-muted rounded-lg border border-border">
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary">Vercel</Badge>
-                    <span className="text-xs text-muted-foreground">Fastest</span>
-                  </div>
-                  <code className="text-xs block bg-background p-2 rounded border border-border font-mono">
-                    npx vercel --prod
-                  </code>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Follow prompts - live in 60 seconds
-                  </p>
-                </div>
-
-                <div className="p-3 bg-muted rounded-lg border border-border">
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary">Local</Badge>
-                    <span className="text-xs text-muted-foreground">Development</span>
+                    <Badge variant="secondary">Local Development</Badge>
+                    <span className="text-xs text-muted-foreground">Testing</span>
                   </div>
                   <code className="text-xs block bg-background p-2 rounded border border-border font-mono">
                     npm install && npm run dev
                   </code>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Open http://localhost:5173
+                    Open http://localhost:5173 in your browser
+                  </p>
+                </div>
+
+                <div className="p-3 bg-muted rounded-lg border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <Badge variant="secondary">Saxon Server (Optional)</Badge>
+                    <span className="text-xs text-muted-foreground">XSLT 2.0/3.0</span>
+                  </div>
+                  <code className="text-xs block bg-background p-2 rounded border border-border font-mono">
+                    cd server && ./install.sh && ./start-server.sh
+                  </code>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Enhanced XSLT 2.0/3.0 support with Saxon-HE
                   </p>
                 </div>
               </div>
@@ -130,19 +118,19 @@ export function DeployInfoDialog() {
               <div className="space-y-2 text-xs">
                 <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
                   <span>Complete Deployment Guide</span>
-                  <Badge variant="outline" className="text-[10px]">DEPLOYMENT_GUIDE.md</Badge>
+                  <Badge variant="outline" className="text-[10px]">DEPLOYMENT.md</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
-                  <span>5-Minute Quick Start</span>
-                  <Badge variant="outline" className="text-[10px]">DEPLOY_NOW.md</Badge>
+                  <span>User Documentation</span>
+                  <Badge variant="outline" className="text-[10px]">README.md</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
-                  <span>Step-by-Step for Beginners</span>
-                  <Badge variant="outline" className="text-[10px]">SIMPLE_DEPLOY_GUIDE.md</Badge>
+                  <span>Product Requirements</span>
+                  <Badge variant="outline" className="text-[10px]">PRD.md</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
-                  <span>Local Development Setup</span>
-                  <Badge variant="outline" className="text-[10px]">LOCAL_SETUP_GUIDE.md</Badge>
+                  <span>Server Setup Guide</span>
+                  <Badge variant="outline" className="text-[10px]">server/README.md</Badge>
                 </div>
               </div>
             </div>

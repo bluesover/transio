@@ -66,25 +66,13 @@ npm run dev
 
 ### Deploy Your Own (5 Minutes)
 
-**Cloudflare Pages (Recommended):**
+**Cloudflare Pages (Free, Recommended):**
 ```bash
 npm run build
 npx wrangler pages deploy dist --project-name=transio
 ```
 
-**GitHub Pages:**
-```bash
-npm run build
-npm run deploy
-```
-
-**Netlify:**
-```bash
-npm run build
-# Drag 'dist' folder to netlify.com/drop
-```
-
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions including custom domain setup.
 
 ---
 
