@@ -187,8 +187,10 @@ All dependencies are **100% open source** with permissive licenses:
 
 ## 📚 Documentation
 
+- **[PRD.md](./PRD.md)** - Product Requirements Document
 - **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deploy to production with Cloudflare Pages
-- **[LICENSE](./LICENSE)** - Mozilla Public License 2.0
+- **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)** - Project organization guide
+- **[LICENSE](./LICENSE)** - MIT License
 
 ---
 

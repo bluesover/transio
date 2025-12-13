@@ -28,6 +28,7 @@ This software uses the following open source libraries:
 
 1. Saxon-JS (Mozilla Public License 2.0) - https://www.saxonica.com/saxon-js/
 2. React, Vite, Tailwind, CodeMirror, shadcn/ui (MIT License)
-3. All other dependencies as listed in package.json
+3. Phosphor Icons, Sonner, and other dependencies (MIT License)
 
-For detailed license information, see LICENSE_AUDIT.md
+All dependencies use permissive open-source licenses compatible with commercial use.
+See package.json for complete dependency list.
