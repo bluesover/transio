@@ -34,7 +34,7 @@ export function CodeEditor({
   ]
 
   return (
-    <div className="h-full w-full overflow-hidden rounded-md border border-border/50">
+    <div className="h-full w-full overflow-auto rounded-md border border-border/50 bg-transparent">
       <CodeMirror
         value={value}
         onChange={handleChange}
@@ -53,8 +53,8 @@ export function CodeEditor({
           autocompletion: true,
           syntaxHighlighting: true,
         }}
-        className="text-sm font-mono h-full codemirror-wrapper"
-        style={{ height: '100%', fontSize: '14px' }}
+        className="text-sm font-mono h-full w-full codemirror-wrapper"
+        style={{ height: '100%', width: '100%', fontSize: '14px' }}
       />
     </div>
   )

@@ -145,12 +145,14 @@ code, pre, .font-mono {
 
 .codemirror-wrapper {
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .codemirror-wrapper .cm-editor {
   height: 100%;
+  width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -160,8 +162,13 @@ code, pre, .font-mono {
   flex: 1;
   overflow: auto !important;
   min-height: 0;
+  width: 100%;
 }
 
 .codemirror-wrapper .cm-gutters {
   flex-shrink: 0;
+}
+
+.codemirror-wrapper .cm-content {
+  width: 100%;
 }

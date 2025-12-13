@@ -43,21 +43,29 @@ export function ActivityLog({ entries }: ActivityLogProps) {
         <h3 className="text-sm font-medium">Activity Log</h3>
       </div>
       <ScrollArea className="h-32">
-        <div className="p-2 space-y-1">
-          {entries.map(entry => (
-            <div key={entry.id} className="flex items-start gap-2 px-2 py-1.5 rounded hover:bg-muted/50 transition-colors">
-              <div className="mt-0.5">{getIcon(entry.type)}</div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-xs text-foreground">{entry.message}</span>
-                  <span className="text-xs text-muted-foreground">{formatTime(entry.timestamp)}</span>
-                </div>
-                {entry.details && (
-                  <p className="text-xs text-muted-foreground mt-0.5 truncate">{entry.details}</p>
-                )}
-              </div>
-            </div>
-          ))}
+        <div className="w-full">
+          <table className="w-full text-xs">
+            <thead className="sticky top-0 bg-muted/50 border-b border-border">
+              <tr>
+                <th className="px-2 py-1.5 text-left font-medium text-muted-foreground w-12">#</th>
+                <th className="px-2 py-1.5 text-left font-medium text-muted-foreground w-10">Type</th>
+                <th className="px-2 py-1.5 text-left font-medium text-muted-foreground">Message</th>
+                <th className="px-2 py-1.5 text-left font-medium text-muted-foreground">Details</th>
+                <th className="px-2 py-1.5 text-left font-medium text-muted-foreground w-24">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.map((entry, index) => (
+                <tr key={entry.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
+                  <td className="px-2 py-1.5 text-muted-foreground font-mono">{entries.length - index}</td>
+                  <td className="px-2 py-1.5">{getIcon(entry.type)}</td>
+                  <td className="px-2 py-1.5 text-foreground">{entry.message}</td>
+                  <td className="px-2 py-1.5 text-muted-foreground truncate max-w-[300px]">{entry.details || '-'}</td>
+                  <td className="px-2 py-1.5 text-muted-foreground font-mono whitespace-nowrap">{formatTime(entry.timestamp)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </ScrollArea>
     </div>
