@@ -11,6 +11,7 @@ import { KeyboardShortcutsDialog } from './components/KeyboardShortcutsDialog'
 import { DonationDialog } from './components/DonationDialog'
 import { DeployInfoDialog } from './components/DeployInfoDialog'
 import { AboutDialog } from './components/AboutDialog'
+import { XSLTInfoDialog } from './components/XSLTInfoDialog'
 import { FooterInfo } from './components/FooterInfo'
 import { Button } from './components/ui/button'
 import { Badge } from './components/ui/badge'
@@ -427,6 +428,8 @@ function App() {
             >
               {manualVersionSelection ? <LockKey weight="bold" /> : <LockKeyOpen weight="bold" />}
             </Button>
+
+            <XSLTInfoDialog />
           </div>
 
           <Select value={safeEditorTheme} onValueChange={(v) => setEditorTheme(v as EditorTheme)}>

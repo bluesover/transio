@@ -9,7 +9,7 @@ export function detectXSLTVersion(xslt: string): XSLTVersion {
   return '1.0'
 }
 
-function serializeResult(node: Node | DocumentFragment | null): string {
+function serializeResult(node: Node | DocumentFragment | null | undefined): string {
   if (!node) {
     console.warn('serializeResult: node is null or undefined')
     return ''
@@ -18,7 +18,7 @@ function serializeResult(node: Node | DocumentFragment | null): string {
   const serializer = new XMLSerializer()
   
   try {
-    if (node.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+    if ('nodeType' in node && node.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       let result = ''
       const fragment = node as DocumentFragment
       fragment.childNodes.forEach(child => {
@@ -91,8 +91,6 @@ async function transformWithBrowser(xml: string, xslt: string): Promise<Transfor
 
 async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersion): Promise<TransformResult> {
   try {
-    const SaxonJS = await import('saxon-js')
-    
     const parser = new DOMParser()
     const xmlDoc = parser.parseFromString(xml, 'text/xml')
     const xsltDoc = parser.parseFromString(xslt, 'text/xml')
@@ -103,7 +101,7 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
         success: false,
         output: '',
         error: `XML Parse Error: ${xmlError.textContent}`,
-        processorUsed: `Saxon-JS (XSLT ${version})`
+        processorUsed: `Open Source XSLT ${version}`
       }
     }
 
@@ -113,58 +111,79 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
         success: false,
         output: '',
         error: `XSLT Parse Error: ${xsltError.textContent}`,
-        processorUsed: `Saxon-JS (XSLT ${version})`
+        processorUsed: `Open Source XSLT ${version}`
       }
     }
 
-    console.log('Attempting Saxon-JS transformation with version:', version)
+    console.log('Attempting XSLT transformation with version:', version)
     
-    const result = await SaxonJS.transform({
-      stylesheetNode: xsltDoc,
-      sourceNode: xmlDoc,
+    const SaxonJS = await import('saxon-js')
+    
+    if (!SaxonJS || typeof SaxonJS.transform !== 'function') {
+      throw new Error('Saxon-JS module not properly loaded')
+    }
+
+    const transformOptions: any = {
+      stylesheetNode: xsltDoc.documentElement,
+      sourceNode: xmlDoc.documentElement,
       destination: 'serialized',
-      stylesheetParams: {},
-      deliverResultDocument: (uri: string) => {
-        console.log('Result document URI:', uri)
-        return undefined
-      }
-    }, 'async')
+      stylesheetParams: {}
+    }
 
-    console.log('Saxon-JS result:', result)
+    const result = await SaxonJS.transform(transformOptions, 'async')
 
-    if (!result || !result.principalResult) {
-      return {
-        success: false,
-        output: '',
-        error: `Saxon-JS transformation completed but returned no result. This can happen with XSLT ${version} stylesheets that don't produce output, or if Saxon-JS couldn't compile the stylesheet.`,
-        processorUsed: `Saxon-JS (XSLT ${version})`
+    console.log('XSLT transformation result:', result)
+
+    if (result && typeof result === 'object' && 'principalResult' in result) {
+      const output = result.principalResult
+      if (typeof output === 'string' && output.length > 0) {
+        return {
+          success: true,
+          output,
+          processorUsed: `Saxon-JS (XSLT ${version})`
+        }
       }
     }
 
     return {
-      success: true,
-      output: result.principalResult,
+      success: false,
+      output: '',
+      error: `XSLT ${version} transformation completed but produced no output.\n\n` +
+        `This can happen when:\n` +
+        `- The stylesheet has no matching templates\n` +
+        `- XSLT ${version} features are not fully supported in browser\n` +
+        `- The output method or result structure is incompatible\n\n` +
+        `Try using XSLT 1.0 for guaranteed browser compatibility.`,
       processorUsed: `Saxon-JS (XSLT ${version})`
     }
   } catch (error) {
-    let errorMessage = 'Saxon-JS transformation failed'
+    console.error('XSLT transformation error:', error)
+    
+    let errorMessage = 'XSLT transformation failed'
     
     if (error instanceof Error) {
       errorMessage = error.message
       
-      if (errorMessage.includes('stylesheetNode') || errorMessage.includes('not supported')) {
-        errorMessage = `Saxon-JS Error: Unable to process XSLT ${version} stylesheet directly in the browser.\n\n` +
-          `Limitation: Saxon-JS requires stylesheets to be pre-compiled into SEF (Saxon Executable Format) for full XSLT ${version} support. ` +
-          `The browser version has limited support for direct stylesheet transformation.\n\n` +
-          `Suggestions:\n` +
-          `- Use XSLT 1.0 for direct browser transformation\n` +
-          `- Pre-compile your XSLT ${version} stylesheet to SEF format using Saxon EE\n` +
-          `- Use simpler XSLT ${version} constructs that Saxon-JS can handle\n\n` +
-          `Original error: ${error.message}`
+      if (errorMessage.includes('abstractNode') || errorMessage.includes('nodeType')) {
+        errorMessage = `XSLT ${version} Browser Limitation:\n\n` +
+          `The browser's XSLT processor encountered an internal error processing advanced XSLT ${version} features. ` +
+          `Saxon-JS has limited support for direct stylesheet transformation in browsers.\n\n` +
+          `📌 RECOMMENDED SOLUTIONS:\n\n` +
+          `1. Use XSLT 1.0 (fully supported in all browsers)\n` +
+          `2. Simplify XSLT ${version} features (avoid complex XPath expressions)\n` +
+          `3. For production: Pre-compile stylesheets to SEF format\n\n` +
+          `Technical error: ${error.message}`
+      } else if (errorMessage.includes('stylesheetNode') || errorMessage.includes('sourceNode')) {
+        errorMessage = `Saxon-JS Configuration Error:\n\n` +
+          `Unable to initialize XSLT ${version} transformation. ` +
+          `The stylesheet or source document structure is incompatible with Saxon-JS browser mode.\n\n` +
+          `For XSLT ${version}/3.0 features, Saxon-JS requires:\n` +
+          `- Pre-compiled SEF (Saxon Executable Format) files\n` +
+          `- Server-side compilation with Saxon EE\n\n` +
+          `Alternative: Use XSLT 1.0 for direct browser transformation.\n\n` +
+          `Error details: ${error.message}`
       }
     }
-    
-    console.error('Saxon-JS transformation error:', error)
     
     return {
       success: false,
