@@ -95,6 +95,91 @@ export function useFileSystem() {
     return { xml, xslt, versions }
   }, [readFile])
 
+  const exportToCSV = useCallback(async (
+    handle: FileSystemDirectoryHandle,
+    versions: TransformVersion[]
+  ) => {
+    const headers = 'Version,Description,Created,XSLT_Version,Released,Release_Notes,XML_Lines,XSLT_Lines\n'
+    const rows = versions.map(v => {
+      const xmlLines = v.xml.split('\n').length
+      const xsltLines = v.xslt.split('\n').length
+      const created = new Date(v.createdAt).toISOString()
+      const description = (v.description || '').replace(/"/g, '""').replace(/\n/g, ' ')
+      const releaseNotes = (v.releaseNotes || '').replace(/"/g, '""').replace(/\n/g, ' ')
+      return `"${v.version}","${description}","${created}","${v.xsltVersion}","${v.isReleased ? 'Yes' : 'No'}","${releaseNotes}",${xmlLines},${xsltLines}`
+    }).join('\n')
+    
+    const csv = headers + rows
+    await saveFile(handle, 'project-export.csv', csv)
+  }, [saveFile])
+
+  const generateLaunchers = useCallback(async (
+    handle: FileSystemDirectoryHandle,
+    appUrl: string = 'https://YOUR_APP_NAME.netlify.app/'
+  ) => {
+    const windowsBat = `@echo off
+title XML/XSLT Transformer - Project: ${handle.name}
+color 0A
+
+echo ================================================
+echo    XML/XSLT Transformer
+echo    Project: ${handle.name}
+echo ================================================
+echo.
+echo Starting application...
+echo.
+
+REM Open your deployed app
+start "" "${appUrl}"
+
+echo.
+echo Application opened in browser.
+echo Your project data is in this folder.
+echo.
+echo Click the Folder button in the app to
+echo select this folder and load your project.
+echo.
+pause
+`
+
+    const macLinuxSh = `#!/bin/bash
+
+clear
+
+echo "================================================"
+echo "   XML/XSLT Transformer"
+echo "   Project: ${handle.name}"
+echo "================================================"
+echo ""
+echo "Starting application..."
+echo ""
+
+# Open your deployed app
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    open "${appUrl}"
+else
+    xdg-open "${appUrl}" 2>/dev/null || 
+    firefox "${appUrl}" 2>/dev/null ||
+    google-chrome "${appUrl}" 2>/dev/null
+fi
+
+echo ""
+echo "Application opened in browser."
+echo "Your project data is in this folder."
+echo ""
+echo "Click the Folder button in the app to"
+echo "select this folder and load your project."
+echo ""
+echo "Press any key to close..."
+read -n 1 -s
+`
+
+    await Promise.all([
+      saveFile(handle, 'launch-project.bat', windowsBat),
+      saveFile(handle, 'launch-project.sh', macLinuxSh)
+    ])
+  }, [saveFile])
+
   return {
     folderHandle,
     folderName,
@@ -102,6 +187,8 @@ export function useFileSystem() {
     saveCurrentFiles,
     saveVersionFiles,
     saveMetadata,
-    loadProject
+    loadProject,
+    exportToCSV,
+    generateLaunchers
   }
 }

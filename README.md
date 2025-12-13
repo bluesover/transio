@@ -2,6 +2,40 @@
 
 A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, and 3.0 with comprehensive developer features.
 
+## 🚀 **FREE Deployment & Local-Only Data Storage**
+
+✅ **100% Free Hosting** - Deploy to GitHub Pages, Netlify, Vercel, or Cloudflare Pages  
+✅ **No Backend Required** - Pure frontend application  
+✅ **Local Data Only** - All your data stays on your computer  
+✅ **No Account Needed** - Start using immediately  
+✅ **Offline Capable** - Works without internet after loading  
+✅ **Privacy First** - Zero tracking, zero data collection  
+
+### Quick Deploy Options
+
+**GitHub Pages (Recommended):**
+```bash
+npm run deploy
+# Your app is live at: https://YOUR_USERNAME.github.io/xslt-transformer/
+```
+
+**Netlify:**
+```bash
+npm run build
+# Drag the 'dist' folder to netlify.com/drop
+```
+
+**Run Locally:**
+```bash
+npm install
+npm run dev
+# Open http://localhost:5173
+```
+
+📚 **Full Guides:**
+- [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) - Complete hosting instructions for 6 free platforms
+- [LOCAL_SETUP_GUIDE.md](./LOCAL_SETUP_GUIDE.md) - Run locally with all data on your PC
+
 ## Features
 
 ### Core Transformation
@@ -36,6 +70,9 @@ A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, a
 - **Version Files**: Saves each version as separate XML/XSLT files
 - **Metadata Persistence**: Stores version metadata in versions.json
 - **Project Loading**: Load entire projects from local folders
+- **CSV Export**: Export all version data to spreadsheet-compatible CSV
+- **Launcher Scripts**: Generate .bat (Windows) and .sh (Mac/Linux) files to quick-launch projects
+- **Project Structure**: Organized folder with current files, versions, logs, and metadata
 
 ### XSLT Snippets
 - **40+ Templates**: Ready-to-use XSLT patterns and boilerplate
@@ -85,18 +122,84 @@ Apply different templates based on element types or attributes.
 ### Multiple Output Files (XSLT 2.0+)
 Use result-document to generate separate files for each item.
 
+## 💾 Data Storage & Privacy
+
+### 100% Local Storage
+
+This app stores **ALL data locally on your computer**. Nothing is uploaded to any server.
+
+**Two Storage Mechanisms:**
+
+1. **Browser Storage (IndexedDB)**
+   - Automatic storage via Spark's useKV hooks
+   - Stores: XML, XSLT, versions, logs, settings
+   - Persists between sessions (survives browser restart)
+   - Can be cleared if you clear browser data
+   - No setup required
+
+2. **File System (Your Folder)**
+   - Optional but recommended
+   - Click folder icon to select a project folder
+   - Files created:
+     - `current.xml` - Your active XML document
+     - `current.xslt` - Your active XSLT stylesheet
+     - `versions.json` - Version control metadata
+     - `version_*.xml` - Version snapshots
+     - `version_*.xslt` - Version stylesheets
+     - `project-export.csv` - Spreadsheet export
+     - `launch-project.bat` - Windows launcher
+     - `launch-project.sh` - Mac/Linux launcher
+   - Auto-saves every 1 second after changes
+   - Real files on your disk (permanent)
+   - Only works in Chrome, Edge, Brave
+
+### CSV Export
+
+Export all your version data to CSV format:
+
+1. Open a project folder (click folder icon)
+2. Click the CSV icon (📄) in header
+3. Find `project-export.csv` in your folder
+4. Open with Excel, Google Sheets, or any spreadsheet app
+
+**CSV includes:**
+- Version numbers and descriptions
+- Creation timestamps
+- XSLT versions used
+- Release status and notes
+- Line counts for each version
+
+### Launcher Files
+
+Generate quick-launch scripts for your projects:
+
+1. Open a project folder
+2. Click the Rocket icon (🚀) in header
+3. Two files are created:
+   - `launch-project.bat` (Windows)
+   - `launch-project.sh` (Mac/Linux)
+4. Double-click to open the app with your project
+
+**Perfect for:**
+- Sharing projects with teammates
+- Quick project switching
+- Desktop shortcuts
+- Portable project folders
+
 ## Browser Compatibility & File System Access
 
 ### Full Support (Chromium browsers)
-- **Chrome, Edge, Opera**: All features including File System API
+- **Chrome, Edge, Opera, Brave**: All features including File System API
 - File imports/exports work without issues
 - Project folder management with auto-save
+- CSV export and launcher generation
 
 ### Limited Support (Non-Chromium browsers)
 - **Firefox, Safari**: All transformation features work, but no File System API
 - File imports still work via standard file picker
 - No project folder management or auto-save to disk
 - All data persists in browser storage via Spark KV
+- No CSV export or launcher generation
 
 ### File Import/Export CORS Issues
 
@@ -109,6 +212,7 @@ When using the file import feature (Ctrl+Shift+I/O), browsers enforce CORS polic
    - Host the app on any static hosting service (Netlify, Vercel, GitHub Pages, Cloudflare Pages)
    - HTTPS deployments don't have CORS issues with File System API
    - Users can still access local files through the browser's file picker
+   - See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for 6 free hosting options
 
 2. **Local Development: Use the Dev Server**
    - Always run `npm run dev` instead of opening `index.html` directly
@@ -131,14 +235,22 @@ When using the file import feature (Ctrl+Shift+I/O), browsers enforce CORS polic
 # Build for production
 npm run build
 
-# Deploy the 'dist' folder to any static host
-# Examples:
-# - Netlify: netlify deploy --dir=dist
-# - Vercel: vercel --prod
-# - GitHub Pages: push to gh-pages branch
+# Option 1: Deploy to GitHub Pages
+npm run deploy
+
+# Option 2: Deploy to Netlify (drag & drop)
+# Go to netlify.com/drop and drag the 'dist' folder
+
+# Option 3: Deploy to Vercel
+npx vercel --prod
+
+# Option 4: Deploy to Cloudflare Pages
+npx wrangler pages deploy dist
 ```
 
 Once deployed, all file operations work correctly through the browser's security model.
+
+See **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** for complete deployment instructions.
 
 ## Technical Stack
 

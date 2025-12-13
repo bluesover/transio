@@ -9,7 +9,8 @@
         "build": "tsc -b --noCheck && vite build",
         "lint": "eslint .",
         "optimize": "vite optimize",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "deploy": "npm run build && npx gh-pages -d dist"
     },
     "dependencies": {
         "@codemirror/lang-html": "^6.4.11",

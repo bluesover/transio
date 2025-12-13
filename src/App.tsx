@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { toast, Toaster } from 'sonner'
-import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight } from '@phosphor-icons/react'
+import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight, FileCsv, RocketLaunch } from '@phosphor-icons/react'
 import { CodeEditor } from './components/CodeEditor'
 import { VersionPanel } from './components/VersionPanel'
 import { SnippetsSheet } from './components/SnippetsSheet'
@@ -57,7 +57,9 @@ function App() {
     saveCurrentFiles,
     saveVersionFiles,
     saveMetadata,
-    loadProject
+    loadProject,
+    exportToCSV,
+    generateLaunchers
   } = useFileSystem()
 
   const addLogEntry = useCallback((type: ActivityLogEntry['type'], message: string, details?: string) => {
@@ -284,6 +286,39 @@ function App() {
     addLogEntry('import', 'Inserted XSLT snippet')
   }, [setXsltInput, addLogEntry])
 
+  const handleExportCSV = useCallback(async () => {
+    if (!folderHandle) {
+      toast.error('Please select a project folder first')
+      return
+    }
+
+    try {
+      await exportToCSV(folderHandle, safeVersions)
+      toast.success('Project exported to CSV')
+      addLogEntry('export', 'Exported project data to project-export.csv')
+    } catch (error) {
+      toast.error('Failed to export CSV')
+      console.error('CSV export error:', error)
+    }
+  }, [folderHandle, safeVersions, exportToCSV, addLogEntry])
+
+  const handleGenerateLaunchers = useCallback(async () => {
+    if (!folderHandle) {
+      toast.error('Please select a project folder first')
+      return
+    }
+
+    try {
+      const appUrl = window.location.origin + window.location.pathname
+      await generateLaunchers(folderHandle, appUrl)
+      toast.success('Launcher files created')
+      addLogEntry('export', 'Generated launch-project.bat and launch-project.sh files')
+    } catch (error) {
+      toast.error('Failed to generate launchers')
+      console.error('Launcher generation error:', error)
+    }
+  }, [folderHandle, generateLaunchers, addLogEntry])
+
   const shortcuts = useMemo(() => [
     { key: 'Enter', ctrl: true, action: handleTransform },
     { key: 's', ctrl: true, action: () => setSaveDialogOpen(true) },
@@ -365,6 +400,18 @@ function App() {
           <Button variant="outline" size="icon" onClick={handleSelectFolder} title="Open Project Folder">
             <Folder weight="bold" />
           </Button>
+
+          {folderHandle && (
+            <>
+              <Button variant="outline" size="icon" onClick={handleExportCSV} title="Export to CSV">
+                <FileCsv weight="bold" />
+              </Button>
+
+              <Button variant="outline" size="icon" onClick={handleGenerateLaunchers} title="Generate Launcher Files">
+                <RocketLaunch weight="bold" />
+              </Button>
+            </>
+          )}
 
           <Button variant="outline" size="icon" onClick={() => setSaveDialogOpen(true)} title="Save Version (Ctrl+S)">
             <FloppyDisk weight="bold" />
