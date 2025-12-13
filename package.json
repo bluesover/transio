@@ -7,7 +7,7 @@
     "homepage": "https://transio.org",
     "repository": {
         "type": "git",
-        "url": "https://github.com/YOUR_USERNAME/transio-xslt-transformer.git"
+        "url": "https://github.com/YOUR_GITHUB_USERNAME/transio.git"
     },
     "keywords": [
         "xml",
