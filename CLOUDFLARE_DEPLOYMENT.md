@@ -277,8 +277,6 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -299,24 +297,19 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm ci
 
       - name: Build project
         run: npm run build
         env:
           NODE_ENV: production
-          CI: false
 
-      - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: transio
-          directory: dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref_name }}
-          wranglerVersion: '3'
+          command: pages deploy dist --project-name=transio
 ```
 
 ### 4. Test Auto-Deploy
@@ -344,6 +337,8 @@ Go to your GitHub repo → **"Actions"** tab to watch the deployment live.
 ```toml
 name = "transio"
 compatibility_date = "2024-12-13"
+
+pages_build_output_dir = "dist"
 
 [assets]
 directory = "./dist"
