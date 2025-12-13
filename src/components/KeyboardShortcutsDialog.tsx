@@ -12,6 +12,7 @@ const shortcuts = [
   { keys: 'Ctrl+K', description: 'Open snippets panel' },
   { keys: 'Ctrl+Shift+F', description: 'Format XML' },
   { keys: 'Ctrl+Shift+G', description: 'Format XSLT' },
+  { keys: 'Ctrl+Shift+H', description: 'Format Output (auto-detects language)' },
   { keys: 'Ctrl+Shift+I', description: 'Import XML file' },
   { keys: 'Ctrl+Shift+O', description: 'Import XSLT file' },
   { keys: 'Ctrl+Shift+E', description: 'Export output' },

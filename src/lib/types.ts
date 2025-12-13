@@ -1,5 +1,7 @@
 export type XSLTVersion = '1.0' | '2.0' | '3.0'
 
+export type OutputLanguage = 'xml' | 'html' | 'json' | 'text' | 'csv' | 'svg'
+
 export interface TransformVersion {
   id: string
   version: string

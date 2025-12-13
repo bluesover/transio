@@ -23,9 +23,10 @@ import { useIsMobile } from './hooks/use-mobile'
 import { useKeyboardShortcuts } from './hooks/use-keyboard-shortcuts'
 import { useFileSystem } from './hooks/use-file-system'
 import { transformXML, detectXSLTVersion, formatXML } from './lib/xslt-processor'
+import { detectOutputLanguage, formatOutput, getLanguageForCodeMirror } from './lib/output-formatter'
 import { themeNames } from './lib/editor-themes'
 import { sampleXML, sampleXSLT, sampleXSLT20Grouping } from './lib/sample-data'
-import type { XSLTVersion, EditorTheme, TransformVersion, ActivityLogEntry, TransformResult, ServerConfig } from './lib/types'
+import type { XSLTVersion, EditorTheme, TransformVersion, ActivityLogEntry, TransformResult, ServerConfig, OutputLanguage } from './lib/types'
 
 function App() {
   const isMobile = useIsMobile()
@@ -55,6 +56,7 @@ function App() {
   const [snippetsOpen, setSnippetsOpen] = useState(false)
   const [helpDialogOpen, setHelpDialogOpen] = useState(false)
   const [serverConfigOpen, setServerConfigOpen] = useState(false)
+  const [outputLanguage, setOutputLanguage] = useState<OutputLanguage>('text')
   
   const [serverConfig, setServerConfig] = useKV<ServerConfig>('server-config', {
     enabled: false,
@@ -133,11 +135,15 @@ function App() {
       setLastResult(result)
 
       if (result.success) {
-        setOutput(result.output)
-        toast.success(`Transformation successful (${result.duration?.toFixed(0)}ms)`)
-        addLogEntry('transform', `Transformation successful using ${result.processorUsed}`, `Duration: ${result.duration?.toFixed(0)}ms`)
+        const detectedLang = detectOutputLanguage(result.output)
+        setOutputLanguage(detectedLang)
+        const formatted = formatOutput(result.output, detectedLang)
+        setOutput(formatted)
+        toast.success(`Transformation successful (${result.duration?.toFixed(0)}ms) - ${detectedLang.toUpperCase()} detected`)
+        addLogEntry('transform', `Transformation successful using ${result.processorUsed}`, `Duration: ${result.duration?.toFixed(0)}ms, Output: ${detectedLang.toUpperCase()}`)
       } else {
         setOutput('')
+        setOutputLanguage('text')
         toast.error('Transformation failed')
         addLogEntry('error', 'Transformation failed', result.error)
       }
@@ -227,6 +233,17 @@ function App() {
     toast.success('XSLT formatted')
     addLogEntry('format', 'Formatted XSLT')
   }, [safeXsltInput, setXsltInput, addLogEntry])
+
+  const handleFormatOutput = useCallback(() => {
+    if (!output) {
+      toast.error('No output to format')
+      return
+    }
+    const formatted = formatOutput(output, outputLanguage)
+    setOutput(formatted)
+    toast.success(`Output formatted as ${outputLanguage.toUpperCase()}`)
+    addLogEntry('format', `Formatted output as ${outputLanguage.toUpperCase()}`)
+  }, [output, outputLanguage, addLogEntry])
 
   const handleImportXML = useCallback(() => {
     const input = document.createElement('input')
@@ -367,11 +384,12 @@ function App() {
     { key: 'k', ctrl: true, action: () => setSnippetsOpen(true) },
     { key: 'f', ctrl: true, shift: true, action: handleFormatXML },
     { key: 'g', ctrl: true, shift: true, action: handleFormatXSLT },
+    { key: 'h', ctrl: true, shift: true, action: handleFormatOutput },
     { key: 'i', ctrl: true, shift: true, action: handleImportXML },
     { key: 'o', ctrl: true, shift: true, action: handleImportXSLT },
     { key: 'e', ctrl: true, shift: true, action: handleImportOutput },
     { key: '?', shift: true, action: () => setHelpDialogOpen(true) },
-  ], [handleTransform, handleFormatXML, handleFormatXSLT, handleImportXML, handleImportXSLT, handleImportOutput])
+  ], [handleTransform, handleFormatXML, handleFormatXSLT, handleFormatOutput, handleImportXML, handleImportXSLT, handleImportOutput])
 
   useKeyboardShortcuts(shortcuts)
 
@@ -588,10 +606,20 @@ function App() {
                           {lastResult.processorUsed}
                         </Badge>
                       )}
+                      {output && (
+                        <Badge variant="outline" className="text-xs uppercase">
+                          {outputLanguage}
+                        </Badge>
+                      )}
                     </div>
-                    <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output">
-                      <DownloadSimple weight="bold" className="w-4 h-4" />
-                    </Button>
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="sm" onClick={handleFormatOutput} title="Format Output" disabled={!output}>
+                        <TextIndent weight="bold" className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output">
+                        <DownloadSimple weight="bold" className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                   <div className="flex-1 w-full overflow-hidden">
                     {lastResult && !lastResult.success ? (
@@ -600,7 +628,7 @@ function App() {
                         <pre className="mt-2 text-sm whitespace-pre-wrap">{lastResult.error}</pre>
                       </div>
                     ) : output ? (
-                      <CodeEditor value={output} onChange={() => {}} language="html" theme={safeEditorTheme} readOnly />
+                      <CodeEditor value={output} onChange={() => {}} language={getLanguageForCodeMirror(outputLanguage)} theme={safeEditorTheme} readOnly />
                     ) : (
                       <div className="flex items-center justify-center h-full text-muted-foreground text-sm border border-border rounded-md bg-muted/20">
                         Click Transform or press Ctrl+Enter to see results
@@ -675,10 +703,20 @@ function App() {
                           {lastResult.processorUsed}
                         </Badge>
                       )}
+                      {output && (
+                        <Badge variant="outline" className="text-xs uppercase">
+                          {outputLanguage}
+                        </Badge>
+                      )}
                     </div>
-                    <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output">
-                      <DownloadSimple weight="bold" className="w-4 h-4" />
-                    </Button>
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="sm" onClick={handleFormatOutput} title="Format Output" disabled={!output}>
+                        <TextIndent weight="bold" className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output">
+                        <DownloadSimple weight="bold" className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                   <div className="h-[300px] w-full overflow-hidden">
                     {lastResult && !lastResult.success ? (
@@ -687,7 +725,7 @@ function App() {
                         <pre className="mt-2 text-sm whitespace-pre-wrap font-mono">{lastResult.error}</pre>
                       </div>
                     ) : output ? (
-                      <CodeEditor value={output} onChange={() => {}} language="html" theme={safeEditorTheme} readOnly />
+                      <CodeEditor value={output} onChange={() => {}} language={getLanguageForCodeMirror(outputLanguage)} theme={safeEditorTheme} readOnly />
                     ) : (
                       <div className="flex items-center justify-center h-full text-muted-foreground text-sm border border-border rounded-md bg-muted/20">
                         Click Transform or press Ctrl+Enter to see results
