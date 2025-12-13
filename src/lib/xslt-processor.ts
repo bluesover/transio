@@ -71,9 +71,33 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
   try {
     const SaxonJS = await import('saxon-js')
     
+    const parser = new DOMParser()
+    const xmlDoc = parser.parseFromString(xml, 'text/xml')
+    const xsltDoc = parser.parseFromString(xslt, 'text/xml')
+
+    const xmlError = xmlDoc.querySelector('parsererror')
+    if (xmlError) {
+      return {
+        success: false,
+        output: '',
+        error: `XML Parse Error: ${xmlError.textContent}`,
+        processorUsed: `Saxon-JS (XSLT ${version})`
+      }
+    }
+
+    const xsltError = xsltDoc.querySelector('parsererror')
+    if (xsltError) {
+      return {
+        success: false,
+        output: '',
+        error: `XSLT Parse Error: ${xsltError.textContent}`,
+        processorUsed: `Saxon-JS (XSLT ${version})`
+      }
+    }
+
     const result = await SaxonJS.transform({
-      stylesheetText: xslt,
-      sourceText: xml,
+      stylesheetNode: xsltDoc,
+      sourceNode: xmlDoc,
       destination: 'serialized',
       stylesheetParams: {}
     }, 'async')
@@ -84,10 +108,20 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
       processorUsed: `Saxon-JS (XSLT ${version})`
     }
   } catch (error) {
+    let errorMessage = 'Saxon-JS transformation failed'
+    
+    if (error instanceof Error) {
+      errorMessage = error.message
+      
+      if (errorMessage.includes('stylesheetNode')) {
+        errorMessage = `Saxon-JS Error: Unable to process XSLT ${version}. Note: Saxon-JS in browser has limitations. For full XSLT ${version} support, consider using server-side Saxon or pre-compiled SEF files.\n\nOriginal error: ${error.message}`
+      }
+    }
+    
     return {
       success: false,
       output: '',
-      error: error instanceof Error ? error.message : 'Saxon-JS transformation failed',
+      error: errorMessage,
       processorUsed: `Saxon-JS (XSLT ${version})`
     }
   }

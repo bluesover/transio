@@ -1,4 +1,4 @@
-import { Globe, GithubLogo, Heart } from '@phosphor-icons/react'
+import { Globe, GithubLogo, Heart, Info } from '@phosphor-icons/react'
 import { Badge } from './ui/badge'
 
 export function FooterInfo() {
@@ -23,6 +23,20 @@ export function FooterInfo() {
           <Badge variant="outline" className="text-[10px] px-1.5 py-0">
             Privacy First
           </Badge>
+        </div>
+        
+        <div className="hidden lg:flex items-center gap-1.5">
+          <span>•</span>
+          <a 
+            href="https://github.com/YOUR_USERNAME/transio/blob/main/XSLT_SUPPORT_GUIDE.md" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 hover:text-primary transition-colors"
+            title="XSLT 2.0/3.0 Support Details"
+          >
+            <Info weight="bold" className="w-3 h-3" />
+            <span>XSLT Support Guide</span>
+          </a>
         </div>
       </div>
 

@@ -86,6 +86,81 @@ npm run dev
 - **Real-time Validation**: Syntax error detection with line numbers
 - **Performance Metrics**: Shows transformation time and processor used
 
+### ⚠️ Important: XSLT 2.0/3.0 Support & Saxon-JS
+
+**XSLT 1.0**: ✅ **Fully Supported**
+- Uses the browser's built-in XSLTProcessor
+- 100% open-source and free
+- Works offline completely
+- No limitations
+
+**XSLT 2.0/3.0**: ⚠️ **Limited Browser Support**
+
+This application uses **Saxon-JS** (by Saxonica) for XSLT 2.0/3.0 transformations. Saxon-JS is **open-source** and licensed under the Mozilla Public License 2.0 (MPL-2.0).
+
+**Key Facts about Saxon-JS:**
+- ✅ **Open Source**: MPL-2.0 license - free to use, modify, and distribute
+- ✅ **Commercial Use Allowed**: Can be used in commercial applications
+- ⚠️ **Browser Limitations**: Saxon-JS has architectural constraints when running in browsers
+
+**How Saxon-JS Works:**
+
+Saxon-JS has two modes:
+
+1. **SEF Files (Recommended for Production)**
+   - XSLT stylesheets must be pre-compiled into SEF (Saxon Executable Format) files
+   - Pre-compilation is done using Saxon-EE (Enterprise Edition) on the server/build step
+   - SEF files load and execute very fast in the browser
+   - ❌ Requires Saxon-EE license for compilation step
+   - ✅ Perfect for production apps with fixed stylesheets
+
+2. **Direct XSLT (What This App Uses)**
+   - Attempts to parse and execute XSLT directly in browser using `stylesheetNode`
+   - ⚠️ **Limited Functionality**: Saxon-JS's browser runtime has reduced XSLT 2.0/3.0 support when not using SEF files
+   - May fail on complex XSLT 2.0/3.0 features
+   - Works for basic XSLT 2.0 features like:
+     - `<xsl:for-each-group>` (simple grouping)
+     - Basic XPath 2.0 functions
+     - Some built-in functions like `current-date()`, `format-number()`
+   - May not work for:
+     - Complex schema-aware transformations
+     - Advanced XPath 3.0/3.1 functions
+     - Some XSLT 3.0-specific features
+
+**For Production XSLT 2.0/3.0:**
+
+If you need full XSLT 2.0/3.0 support, consider these alternatives:
+
+1. **Server-side Saxon**
+   - Run Saxon-HE (open-source) on a Node.js server
+   - Full XSLT 2.0 support, no limitations
+   - Repository: [Saxonica/Saxon-HE](https://github.com/Saxonica/Saxon-HE)
+   
+2. **Pre-compile with Saxon-EE**
+   - Compile your XSLT to SEF format using Saxon-EE
+   - Load SEF files in this app (requires code modification)
+   - Contact Saxonica for Saxon-EE licensing
+
+3. **XSLT 1.0 Only**
+   - Stick to XSLT 1.0 features
+   - 100% reliable browser support
+   - No dependencies on external processors
+
+**This App's Approach:**
+- Includes Saxon-JS to provide *best-effort* XSLT 2.0/3.0 support
+- Works well for educational purposes and simple XSLT 2.0 features
+- For production use with complex XSLT 2.0/3.0, test thoroughly or use server-side processing
+- XSLT 1.0 remains the most reliable option for browser-based transformation
+
+**For complete details on XSLT version support, see [XSLT_SUPPORT_GUIDE.md](./XSLT_SUPPORT_GUIDE.md)**
+
+**License Compliance:**
+- ✅ Saxon-JS (MPL-2.0) is properly included in package.json
+- ✅ This app is MIT licensed and compatible with MPL-2.0
+- ✅ Saxon-JS source code and license available at: [Saxonica/Saxon-JS](https://github.com/Saxonica/Saxon-JS)
+- ✅ No proprietary code or closed-source dependencies
+- ✅ See [OPEN_SOURCE_INFO.md](./OPEN_SOURCE_INFO.md) for complete licensing details
+
 ### Themes
 - **3 App Themes**: Light, Dark, and Black themes with optimized colors
 - **10 Editor Themes**: VS Code Dark, GitHub Dark, Tokyo Night, Dracula, Monokai, Solarized Dark, Nord, Gruvbox Dark, Material Dark, Atom One
