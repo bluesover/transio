@@ -1,11 +1,28 @@
 # Git Remote Management Guide
 
-## Current Situation
+## 🎯 Current Situation
 You have two repositories:
 - **transio** (private) - Your private development repo
 - **transio.org** (public) - Your public production repo
 
-## Solution: Multiple Remotes
+## ⚡ Quick Solution - Automated Sync
+
+**Best approach: Use the automated sync script!**
+
+```bash
+# One-time setup
+chmod +x setup-remotes.sh sync-repos.sh
+./setup-remotes.sh
+
+# Daily usage - sync to both repos
+./sync-repos.sh "Your commit message"
+```
+
+See **QUICK_SYNC.md** for the fastest way to get started!
+
+---
+
+## 📚 Solution: Multiple Remotes
 
 Instead of having just one `origin`, you can have multiple remotes with different names.
 
