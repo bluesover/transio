@@ -66,7 +66,7 @@ export function CodeEditor({
 
   return (
     <div 
-      className="h-full w-full overflow-auto rounded-md border border-border/50"
+      className="h-full w-full overflow-hidden rounded-md border border-border/50"
       style={{ backgroundColor: getThemeBackground() }}
     >
       <CodeMirror
@@ -88,7 +88,12 @@ export function CodeEditor({
           syntaxHighlighting: true,
         }}
         className="text-sm font-mono h-full w-full codemirror-wrapper"
-        style={{ height: '100%', width: '100%', fontSize: '14px' }}
+        style={{ 
+          height: '100%', 
+          width: '100%', 
+          fontSize: '14px',
+          backgroundColor: getThemeBackground(),
+        }}
       />
     </div>
   )
