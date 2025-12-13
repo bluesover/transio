@@ -10,11 +10,39 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const SAXON_JAR = path.join(__dirname, 'saxon', 'saxon-he-12.5.jar');
 
-app.use(helmet());
-app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173', 'http://localhost:5000', 'https://transio.org']
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
+
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  'http://localhost:5000',
+  'http://localhost:4173',
+  'https://transio.org'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1 || origin.startsWith('http://localhost:')) {
+      callback(null, true);
+    } else {
+      callback(null, true);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'X-API-Key']
+}));
+
 app.use(express.json({ limit: '10mb' }));
+
+app.use((req, res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.path} - Origin: ${req.headers.origin || 'none'}`);
+  next();
+});
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -22,6 +50,8 @@ const limiter = rateLimit({
   message: { success: false, error: 'Too many requests, please try again later' }
 });
 app.use('/api/', limiter);
+
+app.options('*', cors());
 
 app.get('/api/health', (req, res) => {
   const saxonExists = fs.existsSync(SAXON_JAR);
@@ -164,16 +194,43 @@ app.post('/api/transform', async (req, res) => {
   }
 });
 
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log('\n🚀 Transio Saxon-HE API Server');
   console.log(`📍 Server running on http://localhost:${PORT}`);
   console.log(`🏥 Health check: http://localhost:${PORT}/api/health`);
   console.log(`⚡ Transform endpoint: POST http://localhost:${PORT}/api/transform`);
-  console.log(`\n📦 Saxon JAR: ${fs.existsSync(SAXON_JAR) ? '✅ Found' : '❌ Not found (run: npm run setup)'}\n`);
+  console.log(`🌐 CORS enabled for: ${allowedOrigins.join(', ')}`);
+  console.log(`📦 Saxon JAR: ${fs.existsSync(SAXON_JAR) ? '✅ Found' : '❌ Not found (run: npm run setup)'}`);
+  
+  if (!fs.existsSync(SAXON_JAR)) {
+    console.log('\n⚠️  WARNING: Saxon-HE JAR not found!');
+    console.log('   Run: cd server && npm run setup');
+    console.log('   Server will return 503 errors until Saxon is installed.\n');
+  } else {
+    console.log('✅ Server ready for transformations!\n');
+  }
+});
+
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`\n❌ Error: Port ${PORT} is already in use`);
+    console.error(`   Try: PORT=3002 npm start\n`);
+  } else {
+    console.error('Server error:', error);
+  }
+  process.exit(1);
 });
 
 process.on('SIGTERM', () => {
-  console.log('SIGTERM received, closing server...');
+  console.log('\nSIGTERM received, closing server...');
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('\n\nSIGINT received, closing server...');
   server.close(() => {
     console.log('Server closed');
     process.exit(0);

@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node index.js",
+    "test": "node test-connection.js",
     "download-saxon": "node scripts/download-saxon.js",
     "setup": "npm install && npm run download-saxon && node scripts/extract-saxon.js"
   },

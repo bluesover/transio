@@ -77,6 +77,54 @@ npm run dev
 
 ---
 
+## 🖥️ Optional Server Setup (for XSLT 2.0/3.0 Production Use)
+
+The app works great without a server, but you can optionally run a local Saxon-HE server for enhanced XSLT 2.0/3.0 support.
+
+### Quick Start
+
+**Start the server (one-time setup):**
+
+```bash
+# Mac/Linux
+./start-server.sh
+
+# Windows
+start-server.bat
+```
+
+Or manually:
+
+```bash
+cd server
+npm install
+npm run setup
+npm start
+```
+
+**Configure in the app:**
+
+1. Click the **☁️ Cloud icon** in the header
+2. Toggle "Enable Server-Side Processing"
+3. Enter URL: `http://localhost:3001/api`
+4. Click "Test Connection" → Should show "✅ Available"
+5. Click "Save Configuration"
+
+**Troubleshooting:**
+
+If "Test Connection" fails:
+- Make sure server is running (`npm start` in server directory)
+- Check server logs for errors
+- Verify Java is installed: `java -version`
+- See [SERVER_TROUBLESHOOTING.md](./SERVER_TROUBLESHOOTING.md)
+
+**Documentation:**
+- 📘 [Server Setup Guide](./SAXON_SERVER_SETUP.md) - Complete setup instructions
+- 🔧 [Troubleshooting Guide](./SERVER_TROUBLESHOOTING.md) - Fix connection issues
+- 🏗️ [Architecture Guide](./SAXON_SERVER_ARCHITECTURE.md) - How it works
+
+---
+
 ## Features
 
 ### Core Transformation
