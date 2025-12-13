@@ -1,27 +1,13 @@
 # Cloudflare Pages Configuration for Transio
-# This file helps Cloudflare understand your project structure
+# Note: Most Cloudflare Pages settings are configured in the dashboard
+# This file is optional for Pages but kept for reference
 
-name = "transio-xslt-transformer"
+name = "transio"
 compatibility_date = "2024-12-13"
 
-[build]
-command = "npm run build"
-cwd = "."
-watch_dirs = ["src"]
-
-[build.upload]
-format = "service-worker"
-dir = "dist"
-main = "./dist/index.html"
-
-[env.production]
-NODE_VERSION = "18"
-
-# Custom domain configuration
-[[routes]]
-pattern = "transio.org/*"
-zone_name = "transio.org"
-
-[[routes]]
-pattern = "www.transio.org/*"
-zone_name = "transio.org"
+# Pages projects don't use wrangler.toml for build settings
+# Configure these in Cloudflare Pages dashboard instead:
+# - Build command: npm run build
+# - Build output directory: dist
+# - Root directory: (leave empty)
+# - Node version: 18

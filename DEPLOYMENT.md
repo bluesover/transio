@@ -1,53 +1,339 @@
-# 🚀 Deployment Guide - Transio
+# 🚀 Cloudflare Pages Deployment Guide
 
-Deploy Transio to Cloudflare Pages with custom domain (transio.org).
+## Complete deployment guide for Transio on Cloudflare Pages with custom domain
 
-## Prerequisites
+---
 
-- GitHub account
-- Cloudflare account (free - no credit card required)
-- Domain: transio.org 
-- Local: Node.js 18+, npm, git
+## ✅ Prerequisites
 
-## Quick Deploy to Cloudflare Pages
+- ✓ GitHub account (repository already created)
+- ✓ Cloudflare account (free tier)
+- ✓ Domain: **transio.org** (managed in GoDaddy or Cloudflare)
+- ✓ Local: macOS with Node.js 18+, npm, git
 
-### 1. Prepare Repository
+---
+
+## 📦 Step 1: Prepare Your Local Project
 
 ```bash
-# Make sure you're in the project root
-cd /path/to/transio
+# Navigate to project
+cd ~/path/to/transio
 
-# Install dependencies
+# Clean install dependencies
+rm -rf node_modules package-lock.json
 npm install
 
 # Test build locally
 npm run build
 
-# Verify build output in dist/
+# Verify dist/ folder exists and contains index.html
 ls -la dist/
 ```
 
-### 2. Push to GitHub
+**Expected output in `dist/`:**
+- `index.html`
+- `assets/` folder with JS/CSS bundles
+- Other static assets
+
+---
+
+## 🔗 Step 2: GitHub Repository Setup
+
+You mentioned you have both `transio` (private) and `transio.org` (public).
+
+### Option A: Use Public Repository (Recommended for Open Source)
 
 ```bash
-# If not already a git repo
-git init
+# Check current remote
+git remote -v
+
+# If you need to switch to public repo
+git remote set-url origin https://github.com/bluesover/transio.org.git
+
+# Push latest changes
 git add .
-git commit -m "Initial commit: Transio XML/XSLT Transformer"
-
-# Create GitHub repo at: https://github.com/new
-# Name: transio
-# Make it PUBLIC for open source
-
-# Connect and push
-git remote add origin https://github.com/YOUR_USERNAME/transio.git
-git branch -M main
-git push -u origin main
+git commit -m "Prepare for Cloudflare Pages deployment"
+git push origin main
 ```
 
-### 3. Deploy to Cloudflare Pages
+### Option B: Keep Private & Make Deployment Branch Public
 
-1. **Login to Cloudflare**: https://dash.cloudflare.com/
+```bash
+# Stay on private repo but create public deployment branch
+git checkout -b deploy
+git push origin deploy
+
+# Then in GitHub, change repository visibility to Public
+# Or use GitHub Actions to sync to public repo
+```
+
+**🎯 Recommendation:** Use the **public repo** (`transio.org`) for Cloudflare Pages since it's open source.
+
+---
+
+## ☁️ Step 3: Deploy to Cloudflare Pages
+
+### 3.1 Create New Pages Project
+
+1. Login to Cloudflare: https://dash.cloudflare.com/
+2. Click **Workers & Pages** in left sidebar
+3. Click **Create application** → **Pages** → **Connect to Git**
+4. Select **GitHub** and authorize Cloudflare
+5. Select repository: **bluesover/transio.org**
+6. Click **Begin setup**
+
+### 3.2 Configure Build Settings
+
+**Project name:** `transio`
+
+**Production branch:** `main`
+
+**Build settings:**
+- Framework preset: **None** (or Vite)
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Root directory: `/` (leave empty)
+
+**Environment variables:** *(Optional)*
+- `NODE_VERSION`: `18`
+
+Click **Save and Deploy**
+
+---
+
+## 🌐 Step 4: Custom Domain Setup (transio.org)
+
+### Option A: Domain in Cloudflare (Recommended)
+
+If you transferred transio.org to Cloudflare nameservers:
+
+1. Go to **Workers & Pages** → **transio** → **Custom domains**
+2. Click **Set up a custom domain**
+3. Enter: `transio.org`
+4. Cloudflare auto-configures DNS (CNAME record)
+5. Click **Activate domain**
+6. Repeat for `www.transio.org`
+
+### Option B: Domain in GoDaddy
+
+If keeping DNS at GoDaddy:
+
+1. Get your Cloudflare Pages URL (e.g., `transio.pages.dev`)
+2. Login to GoDaddy DNS settings
+3. Add/Edit DNS records:
+
+```
+Type: CNAME
+Name: @
+Value: transio.pages.dev
+TTL: 600
+```
+
+```
+Type: CNAME  
+Name: www
+Value: transio.pages.dev
+TTL: 600
+```
+
+4. In Cloudflare Pages, add custom domains:
+   - `transio.org`
+   - `www.transio.org`
+5. Verify domain ownership (TXT record if needed)
+
+⏱️ **DNS propagation:** 5 minutes to 48 hours
+
+---
+
+## 🔐 Step 5: GitHub Actions Secrets (Optional Auto-Deploy)
+
+If using GitHub Actions for automated deployments:
+
+1. Get Cloudflare API Token:
+   - Cloudflare Dashboard → **My Profile** → **API Tokens**
+   - Click **Create Token** → **Edit Cloudflare Workers** template
+   - Or **Create Custom Token** with:
+     - Permissions: `Cloudflare Pages: Edit`
+     - Account Resources: `Include → Your Account`
+   - Copy the token
+
+2. Add to GitHub Secrets:
+   - Go to: `https://github.com/bluesover/transio.org/settings/secrets/actions`
+   - Click **New repository secret**
+   - Name: `CLOUDFLARE_API_TOKEN`
+   - Value: (paste your token)
+   - Click **Add secret**
+
+3. Get Cloudflare Account ID:
+   - Cloudflare Dashboard → **Workers & Pages** → **Overview**
+   - Copy **Account ID** from right sidebar
+   - Add as secret:
+     - Name: `CLOUDFLARE_ACCOUNT_ID`
+     - Value: (paste account ID)
+
+4. Project Name:
+   - Name: `CLOUDFLARE_PROJECT_NAME`
+   - Value: `transio`
+
+**GitHub Actions will now auto-deploy on every push to `main`**
+
+---
+
+## 🔄 Step 6: Sync Both Repositories (Private + Public)
+
+Edit `sync-repos.sh`:
+
+```bash
+#!/bin/bash
+COMMIT_MSG="${1:-Update repository}"
+
+echo "🔄 Syncing transio (private) and transio.org (public)..."
+
+# Push to private repo
+git push https://github.com/bluesover/transio.git main
+
+# Push to public repo
+git push https://github.com/bluesover/transio.org.git main
+
+echo "✅ Both repositories synced!"
+```
+
+Usage:
+```bash
+chmod +x sync-repos.sh
+./sync-repos.sh "Deploy to Cloudflare"
+```
+
+---
+
+## 🧪 Step 7: Test Deployment
+
+### Local Build Test
+```bash
+npm run build
+npm run preview
+# Visit http://localhost:4173
+```
+
+### Production Test
+1. Wait for Cloudflare build to complete (2-5 minutes)
+2. Visit: `https://transio.pages.dev`
+3. Test all features:
+   - XML/XSLT transformation
+   - Version saving
+   - Theme switching
+   - File import/export
+   - Server connection (if enabled)
+
+### Custom Domain Test
+Once DNS propagates:
+- Visit: `https://transio.org`
+- Visit: `https://www.transio.org`
+- Check HTTPS certificate (auto-issued by Cloudflare)
+
+---
+
+## 🐛 Troubleshooting
+
+### Build Fails: "npm ci" dependency mismatch
+
+**Error:** `Invalid: lock file's @github/spark@0.0.1 does not satisfy @github/spark@0.44.5`
+
+**Fix:**
+```bash
+# Local terminal
+rm -rf node_modules package-lock.json
+npm install
+git add package-lock.json
+git commit -m "Update package-lock.json"
+git push
+```
+
+### Build Fails: Output directory not found
+
+**Error:** `Could not find build output directory`
+
+**Fix:** In Cloudflare Pages settings:
+- Build output directory: `dist` (not `/dist` or `./dist`)
+
+### Custom Domain Not Working
+
+**Issue:** Domain shows "Unable to reach server"
+
+**Fix:**
+1. Check DNS propagation: https://dnschecker.org/
+2. Verify CNAME points to `transio.pages.dev`
+3. In Cloudflare Pages, verify custom domain status is "Active"
+4. Clear browser cache and try incognito mode
+
+### GitHub Actions Fails
+
+**Error:** `Authentication failed`
+
+**Fix:**
+1. Verify `CLOUDFLARE_API_TOKEN` is correct
+2. Check token permissions include Pages: Edit
+3. Verify `CLOUDFLARE_ACCOUNT_ID` matches your account
+4. Regenerate token if needed
+
+---
+
+## 📊 Deployment Status Check
+
+### Cloudflare Pages Dashboard
+- Build history: https://dash.cloudflare.com/ → Workers & Pages → transio
+- Custom domains: Check DNS records
+- Analytics: Page views, bandwidth usage
+
+### GitHub Actions
+- Workflow runs: https://github.com/bluesover/transio.org/actions
+- Build logs: Click on latest workflow run
+
+---
+
+## 🎉 Post-Deployment
+
+### Share Your Project
+- Open source repo: `https://github.com/bluesover/transio.org`
+- Live app: `https://transio.org`
+- Submit to:
+  - Product Hunt
+  - Hacker News
+  - Reddit r/opensource
+
+### Monitor Usage
+- Cloudflare Analytics: Free tier includes basic analytics
+- GitHub Stars: Track community interest
+- Issues: Monitor for bug reports
+
+---
+
+## 📞 Support
+
+- **Cloudflare Docs:** https://developers.cloudflare.com/pages/
+- **GitHub Issues:** https://github.com/bluesover/transio.org/issues
+- **Cloudflare Community:** https://community.cloudflare.com/
+
+---
+
+## ✅ Checklist
+
+- [ ] Local build works (`npm run build`)
+- [ ] Code pushed to GitHub public repo
+- [ ] Cloudflare Pages project created
+- [ ] Build settings configured correctly
+- [ ] First deployment successful
+- [ ] Custom domain added (transio.org)
+- [ ] DNS configured (CNAME records)
+- [ ] HTTPS working (Cloudflare auto-cert)
+- [ ] GitHub Actions secrets configured
+- [ ] Auto-deploy tested (push to main)
+- [ ] All features tested on production
+- [ ] Repository syncing works
+
+---
+
+**🚀 You're all set! Your Transio app is now live at https://transio.org**
 2. **Go to Pages**: Workers & Pages → Create Application → Pages → Connect to Git
 3. **Select Repository**: Choose your GitHub repo `transio`
 4. **Configure Build**:
