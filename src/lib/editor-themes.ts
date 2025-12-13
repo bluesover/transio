@@ -50,6 +50,10 @@ const vscodeDarkHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#ce9178' },
   { tag: tags.comment, color: '#6a9955' },
   { tag: tags.bracket, color: '#ffd700' },
+  { tag: tags.punctuation, color: '#d4d4d4' },
+  { tag: tags.content, color: '#d4d4d4' },
+  { tag: tags.literal, color: '#ce9178' },
+  { tag: tags.name, color: '#9cdcfe' },
 ])
 
 const githubDark = createTheme({
@@ -67,6 +71,10 @@ const githubDarkHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#a5d6ff' },
   { tag: tags.comment, color: '#8b949e' },
   { tag: tags.bracket, color: '#ffa657' },
+  { tag: tags.punctuation, color: '#c9d1d9' },
+  { tag: tags.content, color: '#c9d1d9' },
+  { tag: tags.literal, color: '#a5d6ff' },
+  { tag: tags.name, color: '#79c0ff' },
 ])
 
 const tokyoNight = createTheme({
@@ -84,6 +92,10 @@ const tokyoNightHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#9ece6a' },
   { tag: tags.comment, color: '#565f89' },
   { tag: tags.bracket, color: '#ff9e64' },
+  { tag: tags.punctuation, color: '#a9b1d6' },
+  { tag: tags.content, color: '#a9b1d6' },
+  { tag: tags.literal, color: '#9ece6a' },
+  { tag: tags.name, color: '#73daca' },
 ])
 
 const dracula = createTheme({
@@ -101,6 +113,10 @@ const draculaHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#f1fa8c' },
   { tag: tags.comment, color: '#6272a4' },
   { tag: tags.bracket, color: '#ffb86c' },
+  { tag: tags.punctuation, color: '#f8f8f2' },
+  { tag: tags.content, color: '#f8f8f2' },
+  { tag: tags.literal, color: '#f1fa8c' },
+  { tag: tags.name, color: '#50fa7b' },
 ])
 
 const monokai = createTheme({
@@ -118,6 +134,10 @@ const monokaiHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#e6db74' },
   { tag: tags.comment, color: '#75715e' },
   { tag: tags.bracket, color: '#fd971f' },
+  { tag: tags.punctuation, color: '#f8f8f2' },
+  { tag: tags.content, color: '#f8f8f2' },
+  { tag: tags.literal, color: '#e6db74' },
+  { tag: tags.name, color: '#66d9ef' },
 ])
 
 const solarizedDark = createTheme({
@@ -135,6 +155,10 @@ const solarizedDarkHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#2aa198' },
   { tag: tags.comment, color: '#586e75' },
   { tag: tags.bracket, color: '#cb4b16' },
+  { tag: tags.punctuation, color: '#839496' },
+  { tag: tags.content, color: '#839496' },
+  { tag: tags.literal, color: '#2aa198' },
+  { tag: tags.name, color: '#b58900' },
 ])
 
 const nord = createTheme({
@@ -152,6 +176,10 @@ const nordHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#a3be8c' },
   { tag: tags.comment, color: '#616e88' },
   { tag: tags.bracket, color: '#d08770' },
+  { tag: tags.punctuation, color: '#d8dee9' },
+  { tag: tags.content, color: '#d8dee9' },
+  { tag: tags.literal, color: '#a3be8c' },
+  { tag: tags.name, color: '#88c0d0' },
 ])
 
 const gruvboxDark = createTheme({
@@ -169,6 +197,10 @@ const gruvboxDarkHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#b8bb26' },
   { tag: tags.comment, color: '#928374' },
   { tag: tags.bracket, color: '#fe8019' },
+  { tag: tags.punctuation, color: '#ebdbb2' },
+  { tag: tags.content, color: '#ebdbb2' },
+  { tag: tags.literal, color: '#b8bb26' },
+  { tag: tags.name, color: '#fabd2f' },
 ])
 
 const materialDark = createTheme({
@@ -186,6 +218,10 @@ const materialDarkHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#c3e88d' },
   { tag: tags.comment, color: '#546e7a' },
   { tag: tags.bracket, color: '#89ddff' },
+  { tag: tags.punctuation, color: '#eeffff' },
+  { tag: tags.content, color: '#eeffff' },
+  { tag: tags.literal, color: '#c3e88d' },
+  { tag: tags.name, color: '#c3e88d' },
 ])
 
 const atomOne = createTheme({
@@ -203,6 +239,10 @@ const atomOneHighlight = HighlightStyle.define([
   { tag: tags.string, color: '#98c379' },
   { tag: tags.comment, color: '#5c6370' },
   { tag: tags.bracket, color: '#61afef' },
+  { tag: tags.punctuation, color: '#abb2bf' },
+  { tag: tags.content, color: '#abb2bf' },
+  { tag: tags.literal, color: '#98c379' },
+  { tag: tags.name, color: '#d19a66' },
 ])
 
 export const editorThemes: Record<string, Extension[]> = {
