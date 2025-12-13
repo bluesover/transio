@@ -675,7 +675,7 @@ function App() {
                 >
                   <CaretRight weight="bold" />
                 </Button>
-                <VersionPanel
+                  onLoad={handleLoadVersion}
                   versions={safeVersions}
                   onLoad={handleLoadVersion}
                   onDelete={handleDeleteVersion}
