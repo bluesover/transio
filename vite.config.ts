@@ -22,4 +22,20 @@ export default defineConfig({
       '@': resolve(projectRoot, 'src')
     }
   },
+  base: './',
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    minify: 'esbuild',
+    target: 'es2015',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom'],
+          'editor': ['@uiw/react-codemirror'],
+          'saxon': ['saxon-js']
+        }
+      }
+    }
+  }
 });

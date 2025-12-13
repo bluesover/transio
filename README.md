@@ -2,7 +2,7 @@
 
 A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, and 3.0 with comprehensive developer features.
 
-## 🚀 **FREE Deployment & Local-Only Data Storage**
+## 🚀 **Deploy for FREE in 5 Minutes!**
 
 ✅ **100% Free Hosting** - Deploy to GitHub Pages, Netlify, Vercel, or Cloudflare Pages  
 ✅ **No Backend Required** - Pure frontend application  
@@ -11,30 +11,49 @@ A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, a
 ✅ **Offline Capable** - Works without internet after loading  
 ✅ **Privacy First** - Zero tracking, zero data collection  
 
-### Quick Deploy Options
+### 🎯 Quick Deploy (Choose One)
 
-**GitHub Pages (Recommended):**
+**GitHub Pages (Most Popular):**
 ```bash
+npm install
 npm run deploy
-# Your app is live at: https://YOUR_USERNAME.github.io/xslt-transformer/
+# ✅ Live at: https://YOUR_USERNAME.github.io/xslt-transformer/
 ```
 
-**Netlify:**
+**Netlify (Drag & Drop - No Git Needed):**
 ```bash
+npm install
 npm run build
-# Drag the 'dist' folder to netlify.com/drop
+# ✅ Drag 'dist' folder to netlify.com/drop
 ```
 
-**Run Locally:**
+**Vercel (Fastest CLI):**
+```bash
+npm install -g vercel
+npm install
+vercel --prod
+# ✅ Follow prompts - live in 60 seconds
+```
+
+**Run Locally (Development):**
 ```bash
 npm install
 npm run dev
-# Open http://localhost:5173
+# ✅ Open http://localhost:5173
 ```
 
-📚 **Full Guides:**
-- [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) - Complete hosting instructions for 6 free platforms
-- [LOCAL_SETUP_GUIDE.md](./LOCAL_SETUP_GUIDE.md) - Run locally with all data on your PC
+### 📚 Complete Deployment Guides
+
+| Guide | Purpose | Who It's For |
+|-------|---------|--------------|
+| **[SIMPLE_DEPLOY_GUIDE.md](./SIMPLE_DEPLOY_GUIDE.md)** | 👶 Step-by-step for beginners | Non-technical users |
+| **[DEPLOY_NOW.md](./DEPLOY_NOW.md)** | ⚡ Quick 5-minute deployment | Developers |
+| **[QUICK_DEPLOY_REFERENCE.md](./QUICK_DEPLOY_REFERENCE.md)** | 📋 One-page command cheat sheet | Quick reference |
+| **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** | 📖 Complete hosting guide (6 platforms) | Comprehensive docs |
+| **[DEPLOY_CHECKLIST.md](./DEPLOY_CHECKLIST.md)** | ✅ Pre-deployment testing checklist | QA testing |
+| **[LOCAL_SETUP_GUIDE.md](./LOCAL_SETUP_GUIDE.md)** | 💻 Run locally with file system access | Local development |
+
+---
 
 ## Features
 
