@@ -27,9 +27,17 @@ A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, a
 - **Functionality**: Auto-detect XSLT version from stylesheet, manual override selector, appropriate processor selection (client-side Saxon-JS by default, optional server-side Saxon-HE)
 - **Purpose**: Support full XSLT specification range from basic 1.0 transforms to advanced 3.0 features
 - **Trigger**: User loads XSLT or clicks version selector dropdown
-- **Progression**: XSLT loaded → Version detected from version attribute → Badge displays detected version → User can override → Processor selected (Browser for 1.0, Saxon-JS for 2.0/3.0) → Transform executes
+- **Progression**: XSLT loaded → Version detected from version attribute → Badge displays detected version → User can override → Processor selected (Browser for 1.0, Saxon-JS/Server for 2.0/3.0) → Transform executes
 - **Success Criteria**: Version auto-detection accurate, manual override works, correct processor used, processor name shown in output
-- **Future Enhancement**: Optional server-side Saxon-HE integration for large files (>5MB) and advanced features
+- **Server Integration**: Optional Saxon-HE server for enhanced XSLT 2.0/3.0 support (see Server Configuration below)
+
+### Server Configuration (Optional)
+- **Functionality**: Configure optional Saxon-HE API server for enhanced XSLT 2.0/3.0 transformation
+- **Purpose**: Provide full XSLT 2.0/3.0 support with better performance for large files, with automatic fallback to client-side
+- **Trigger**: User clicks cloud icon (Server Config button) in header
+- **Progression**: User opens config → Enables server → Enters API URL → Tests connection → Sees status (Available/Unavailable) → Enables "Prefer Server" → Saves → Next transform uses server if available, falls back to client on failure
+- **Success Criteria**: Connection test works, server transformations succeed, fallback to client works on server failure, processor badge shows "Saxon-HE Server" when used
+- **Architecture**: RESTful API, CORS support, rate limiting, automatic temp file cleanup, 30s timeout, 10MB max file size
 
 ### Real-time Transformation
 - **Functionality**: Execute XSLT transform on XML input with selected version processor

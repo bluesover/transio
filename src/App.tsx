@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { toast, Toaster } from 'sonner'
-import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight, FileCsv, RocketLaunch, Flask, LockKey, LockKeyOpen } from '@phosphor-icons/react'
+import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight, FileCsv, RocketLaunch, Flask, LockKey, LockKeyOpen, CloudArrowUp } from '@phosphor-icons/react'
 import { CodeEditor } from './components/CodeEditor'
 import { VersionPanel } from './components/VersionPanel'
 import { SnippetsSheet } from './components/SnippetsSheet'
@@ -13,6 +13,7 @@ import { DeployInfoDialog } from './components/DeployInfoDialog'
 import { AboutDialog } from './components/AboutDialog'
 import { XSLTInfoDialog } from './components/XSLTInfoDialog'
 import { FooterInfo } from './components/FooterInfo'
+import { ServerConfigDialog } from './components/ServerConfigDialog'
 import { Button } from './components/ui/button'
 import { Badge } from './components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select'
@@ -24,7 +25,7 @@ import { useFileSystem } from './hooks/use-file-system'
 import { transformXML, detectXSLTVersion, formatXML } from './lib/xslt-processor'
 import { themeNames } from './lib/editor-themes'
 import { sampleXML, sampleXSLT, sampleXSLT20Grouping } from './lib/sample-data'
-import type { XSLTVersion, EditorTheme, TransformVersion, ActivityLogEntry, TransformResult } from './lib/types'
+import type { XSLTVersion, EditorTheme, TransformVersion, ActivityLogEntry, TransformResult, ServerConfig } from './lib/types'
 
 function App() {
   const isMobile = useIsMobile()
@@ -53,6 +54,22 @@ function App() {
   const [saveDialogOpen, setSaveDialogOpen] = useState(false)
   const [snippetsOpen, setSnippetsOpen] = useState(false)
   const [helpDialogOpen, setHelpDialogOpen] = useState(false)
+  const [serverConfigOpen, setServerConfigOpen] = useState(false)
+  
+  const [serverConfig, setServerConfig] = useKV<ServerConfig>('server-config', {
+    enabled: false,
+    apiUrl: 'http://localhost:3001/api',
+    apiKey: undefined,
+    timeout: 30000,
+    preferServer: false
+  })
+
+  const safeServerConfig = serverConfig || {
+    enabled: false,
+    apiUrl: 'http://localhost:3001/api',
+    timeout: 30000,
+    preferServer: false
+  }
   
   const {
     folderHandle,
@@ -108,10 +125,11 @@ function App() {
     if (isTransforming) return
 
     setIsTransforming(true)
-    addLogEntry('transform', `Starting transformation with XSLT ${safeXsltVersion}`)
+    const processingMode = safeServerConfig.enabled && safeServerConfig.preferServer ? 'server' : 'client'
+    addLogEntry('transform', `Starting transformation with XSLT ${safeXsltVersion} (${processingMode}-side)`)
 
     try {
-      const result = await transformXML(safeXmlInput, safeXsltInput, safeXsltVersion)
+      const result = await transformXML(safeXmlInput, safeXsltInput, safeXsltVersion, safeServerConfig)
       setLastResult(result)
 
       if (result.success) {
@@ -129,7 +147,7 @@ function App() {
     } finally {
       setIsTransforming(false)
     }
-  }, [safeXmlInput, safeXsltInput, safeXsltVersion, isTransforming, addLogEntry])
+  }, [safeXmlInput, safeXsltInput, safeXsltVersion, safeServerConfig, isTransforming, addLogEntry])
 
   const handleSaveVersion = useCallback((version: string, description: string) => {
     const newVersion: TransformVersion = {
@@ -337,6 +355,12 @@ function App() {
     addLogEntry('load', 'Loaded XSLT 2.0 for-each-group test example')
   }, [setXsltInput, setXsltVersion, addLogEntry])
 
+  const handleSaveServerConfig = useCallback((config: ServerConfig) => {
+    setServerConfig(config)
+    toast.success(config.enabled ? 'Server configuration enabled' : 'Server configuration disabled')
+    addLogEntry('settings', config.enabled ? `Server enabled: ${config.apiUrl}` : 'Server disabled')
+  }, [setServerConfig, addLogEntry])
+
   const shortcuts = useMemo(() => [
     { key: 'Enter', ctrl: true, action: handleTransform },
     { key: 's', ctrl: true, action: () => setSaveDialogOpen(true) },
@@ -445,6 +469,19 @@ function App() {
 
           <Button variant="outline" size="icon" onClick={cycleTheme} title={`Theme: ${safeAppTheme} (Click to cycle)`}>
             {safeAppTheme === 'light' ? <Sun weight="bold" /> : <Moon weight="bold" />}
+          </Button>
+
+          <Button 
+            variant={safeServerConfig.enabled ? "default" : "outline"} 
+            size="icon" 
+            onClick={() => setServerConfigOpen(true)} 
+            title="Server Configuration"
+            className="relative"
+          >
+            <CloudArrowUp weight="bold" />
+            {safeServerConfig.enabled && (
+              <span className="absolute -top-1 -right-1 w-2 h-2 bg-success rounded-full" />
+            )}
           </Button>
 
           <AboutDialog />
@@ -714,6 +751,12 @@ function App() {
       <KeyboardShortcutsDialog
         open={helpDialogOpen}
         onOpenChange={setHelpDialogOpen}
+      />
+      <ServerConfigDialog
+        open={serverConfigOpen}
+        onOpenChange={setServerConfigOpen}
+        config={safeServerConfig}
+        onSave={handleSaveServerConfig}
       />
     </div>
   );

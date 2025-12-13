@@ -35,7 +35,11 @@
         "optimize": "vite optimize",
         "preview": "vite preview",
         "deploy": "npm run build && npx gh-pages -d dist",
-        "deploy:cloudflare": "npm run build:cloudflare"
+        "deploy:cloudflare": "npm run build:cloudflare",
+        "server:install": "cd server && npm install",
+        "server:setup": "cd server && npm run setup",
+        "server:start": "cd server && npm start",
+        "server:dev": "cd server && npm run dev"
     },
     "dependencies": {
         "@codemirror/lang-html": "^6.4.11",

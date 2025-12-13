@@ -38,3 +38,16 @@ export interface XSLTSnippet {
 }
 
 export type EditorTheme = 'vscode-dark' | 'github-dark' | 'tokyo-night' | 'dracula' | 'monokai' | 'solarized-dark' | 'nord' | 'gruvbox-dark' | 'material-dark' | 'atom-one'
+
+export interface ServerConfig {
+  enabled: boolean
+  apiUrl: string
+  apiKey?: string
+  timeout: number
+  preferServer: boolean
+}
+
+export interface TransformOptions {
+  useServer?: boolean
+  timeout?: number
+}

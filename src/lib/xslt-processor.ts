@@ -1,4 +1,5 @@
-import type { XSLTVersion, TransformResult } from './types'
+import type { XSLTVersion, TransformResult, ServerConfig } from './types'
+import { transformViaServer } from './server-api'
 
 export function detectXSLTVersion(xslt: string): XSLTVersion {
   const match = xslt.match(/version=["'](\d+\.\d+)["']/)
@@ -211,7 +212,8 @@ async function transformWithSaxon(xml: string, xslt: string, version: XSLTVersio
 export async function transformXML(
   xml: string,
   xslt: string,
-  version: XSLTVersion
+  version: XSLTVersion,
+  serverConfig?: ServerConfig
 ): Promise<TransformResult> {
   const startTime = performance.now()
 
@@ -234,11 +236,25 @@ export async function transformXML(
   }
 
   let result: TransformResult
+  let serverAttempted = false
 
-  if (version === '1.0') {
-    result = await transformWithBrowser(xml, xslt)
+  if (serverConfig?.enabled && serverConfig.preferServer && version !== '1.0') {
+    try {
+      serverAttempted = true
+      console.log('Attempting server-side transformation...')
+      result = await transformViaServer(xml, xslt, version, serverConfig)
+      console.log('Server transformation successful')
+    } catch (error) {
+      console.warn('Server transformation failed, falling back to client-side:', error)
+      result = await transformWithSaxon(xml, xslt, version)
+      result.processorUsed = `${result.processorUsed} (server unavailable)`
+    }
   } else {
-    result = await transformWithSaxon(xml, xslt, version)
+    if (version === '1.0') {
+      result = await transformWithBrowser(xml, xslt)
+    } else {
+      result = await transformWithSaxon(xml, xslt, version)
+    }
   }
 
   const duration = performance.now() - startTime

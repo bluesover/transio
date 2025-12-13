@@ -1,0 +1,26 @@
+{
+  "name": "transio-saxon-server",
+  "version": "1.0.0",
+  "description": "Saxon-HE XSLT transformation API server for Transio",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
+    "download-saxon": "node scripts/download-saxon.js",
+    "setup": "npm install && npm run download-saxon && node scripts/extract-saxon.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "cors": "^2.8.5",
+    "helmet": "^8.0.0",
+    "express-rate-limit": "^7.5.0"
+  },
+  "keywords": [
+    "xslt",
+    "saxon",
+    "xml",
+    "transformation"
+  ],
+  "author": "Transio",
+  "license": "MIT"
+}

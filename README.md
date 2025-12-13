@@ -94,9 +94,66 @@ npm run dev
 - Works offline completely
 - No limitations
 
-**XSLT 2.0/3.0**: ⚠️ **Limited Browser Support**
+**XSLT 2.0/3.0**: ⚠️ **Limited Browser Support** | ✅ **Full Server Support (Optional)**
 
-This application uses **Saxon-JS** (by Saxonica) for XSLT 2.0/3.0 transformations. Saxon-JS is **open-source** and licensed under the Mozilla Public License 2.0 (MPL-2.0).
+This application uses **Saxon-JS** (by Saxonica) for client-side XSLT 2.0/3.0 transformations. Saxon-JS is **open-source** and licensed under the Mozilla Public License 2.0 (MPL-2.0).
+
+**Client-Side (Saxon-JS):**
+- ✅ **Open Source**: MPL-2.0 license - free to use, modify, and distribute
+- ✅ **Commercial Use Allowed**: Can be used in commercial applications
+- ⚠️ **Browser Limitations**: Saxon-JS has architectural constraints when running in browsers
+- Works for basic XSLT 2.0 features like `<xsl:for-each-group>` (simple grouping)
+- May fail on complex XSLT 2.0/3.0 features
+
+**Server-Side (Saxon-HE) - OPTIONAL:**
+- ✅ **Full XSLT 2.0/3.0 Support**: All features work without limitations
+- ✅ **Open Source**: Saxon-HE uses Mozilla Public License 2.0 (MPL-2.0)
+- ✅ **Better Performance**: Faster for large files (>5MB)
+- ✅ **Enterprise-Grade**: Production-ready Java implementation
+- ✅ **Automatic Fallback**: Falls back to client-side if server unavailable
+- 📦 **Easy Setup**: Docker container or local Node.js server
+- 💰 **Cost**: $0-12/month for hosting (or run locally for free)
+
+**Setting Up the Server (Optional):**
+
+```bash
+cd server
+npm install
+npm run setup
+npm start
+# Server runs on http://localhost:3001
+```
+
+Then in the Transio app:
+1. Click the **Server Config** button (cloud icon)
+2. Enable server-side processing
+3. Set API URL: `http://localhost:3001/api`
+4. Test connection
+5. Save configuration
+
+**Complete server setup guide:** [SAXON_SERVER_SETUP.md](./SAXON_SERVER_SETUP.md)
+
+**Architecture Options:**
+
+**Architecture Options:**
+
+1. **Client-Only (Default)** - Perfect for most users
+   - Works everywhere, no setup
+   - Free forever (static hosting)
+   - XSLT 1.0 fully supported
+   - Basic XSLT 2.0 features work
+
+2. **Hybrid (Client + Optional Server)** - Best for advanced users
+   - Client-side by default
+   - Server for heavy workloads
+   - Automatic fallback
+   - See [SAXON_SERVER_SETUP.md](./SAXON_SERVER_SETUP.md)
+
+3. **Server-First (Enterprise)** - For production environments
+   - All transformations via server
+   - Full XSLT 2.0/3.0 guaranteed
+   - Large file support
+   - Requires infrastructure
 
 **Key Facts about Saxon-JS:**
 - ✅ **Open Source**: MPL-2.0 license - free to use, modify, and distribute

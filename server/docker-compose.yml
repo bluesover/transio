@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  saxon-api:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - NODE_ENV=production
+      - ALLOWED_ORIGINS=https://transio.org,http://localhost:5173,http://localhost:5000
+    volumes:
+      - ./temp:/app/temp
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
