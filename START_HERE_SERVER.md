@@ -24,16 +24,14 @@ Done! Server at http://localhost:3001
 
 ---
 
-## 📚 Choose Your Documentation
+## 📚 Documentation
 
 | I want to... | Go to... |
 |-------------|----------|
-| **Install right now** | [SERVER_INSTALL_1_PAGE.md](./SERVER_INSTALL_1_PAGE.md) |
-| **See detailed guide** | [SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md) |
-| **See screenshots** | [INSTALL_SERVER_VISUAL.md](./INSTALL_SERVER_VISUAL.md) |
+| **See detailed install guide** | [SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md) |
 | **Decide if I need server** | [BROWSER_VS_SERVER.md](./BROWSER_VS_SERVER.md) |
-| **See all docs** | [SERVER_DOCUMENTATION_INDEX.md](./SERVER_DOCUMENTATION_INDEX.md) |
-| **Troubleshoot** | [SERVER_TROUBLESHOOTING.md](./SERVER_TROUBLESHOOTING.md) |
+| **Troubleshoot issues** | [SERVER_TROUBLESHOOTING.md](./SERVER_TROUBLESHOOTING.md) |
+| **Understand architecture** | [SAXON_SERVER_ARCHITECTURE.md](./SAXON_SERVER_ARCHITECTURE.md) |
 
 ---
 
@@ -95,12 +93,10 @@ sudo apt-get install openjdk-17-jdk
 
 ## 🔗 Quick Links
 
-- [One-Page Quick Start](./SERVER_INSTALL_1_PAGE.md)
 - [Complete Installation Guide](./SERVER_INSTALL_GUIDE.md)
-- [Visual Step-by-Step Guide](./INSTALL_SERVER_VISUAL.md)
 - [Browser vs Server Comparison](./BROWSER_VS_SERVER.md)
-- [All Documentation](./SERVER_DOCUMENTATION_INDEX.md)
-- [Troubleshooting](./SERVER_TROUBLESHOOTING.md)
+- [Troubleshooting Guide](./SERVER_TROUBLESHOOTING.md)
+- [Architecture Details](./SAXON_SERVER_ARCHITECTURE.md)
 
 ---
 
@@ -119,7 +115,7 @@ sudo apt-get install openjdk-17-jdk
 
 - **Can't install Java?** See [SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)
 - **Connection fails?** See [SERVER_TROUBLESHOOTING.md](./SERVER_TROUBLESHOOTING.md)
-- **Want to understand?** See [SAXON_SERVER_ARCHITECTURE.md](./SAXON_SERVER_ARCHITECTURE.md)
+- **Want to understand architecture?** See [SAXON_SERVER_ARCHITECTURE.md](./SAXON_SERVER_ARCHITECTURE.md)
 
 ---
 

@@ -64,29 +64,15 @@ npm run dev
 # ✅ Open http://localhost:5173
 ```
 
-### 📚 Complete Deployment Guides
+### 📚 Documentation
 
-| Guide | Purpose | Who It's For |
-|-------|---------|--------------|
-| **[SIMPLE_DEPLOY_GUIDE.md](./SIMPLE_DEPLOY_GUIDE.md)** | 👶 Step-by-step for beginners | Non-technical users |
-| **[DEPLOY_NOW.md](./DEPLOY_NOW.md)** | ⚡ Quick 5-minute deployment | Developers |
-| **[QUICK_DEPLOY_REFERENCE.md](./QUICK_DEPLOY_REFERENCE.md)** | 📋 One-page command cheat sheet | Quick reference |
-| **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** | 📖 Complete hosting guide (6 platforms) | Comprehensive docs |
-| **[DEPLOY_CHECKLIST.md](./DEPLOY_CHECKLIST.md)** | ✅ Pre-deployment testing checklist | QA testing |
-| **[LOCAL_SETUP_GUIDE.md](./LOCAL_SETUP_GUIDE.md)** | 💻 Run locally with file system access | Local development |
+**📖 [DOCUMENTATION_SUMMARY.md](./DOCUMENTATION_SUMMARY.md) - Complete documentation index**
 
-### 🌐 Cloudflare Pages + Custom Domain (transio.org)
-
-| Guide | Purpose | Who It's For |
-|-------|---------|--------------|
-| **[DEPLOYMENT_COMPLETE_GUIDE.md](./DEPLOYMENT_COMPLETE_GUIDE.md)** | 📘 Complete Cloudflare + GoDaddy setup | Full deployment walkthrough |
-| **[CLOUDFLARE_DEPLOY_GUIDE.md](./CLOUDFLARE_DEPLOY_GUIDE.md)** | 🚀 Cloudflare Pages deployment guide | Cloudflare users |
-| **[DEPLOY_QUICK_START.md](./DEPLOY_QUICK_START.md)** | ⚡ 5-minute quick start | Fast deployment |
-| **[DEPLOY_CHEATSHEET.md](./DEPLOY_CHEATSHEET.md)** | 📄 One-page reference card | Quick lookup |
-| **[DNS_SETUP_VISUAL.md](./DNS_SETUP_VISUAL.md)** | 🎨 Visual DNS setup diagrams | Visual learners |
-| **[DNS_SETUP_GUIDE.md](./DNS_SETUP_GUIDE.md)** | 🌍 DNS configuration for transio.org | Domain owners |
-| **[CUSTOM_DOMAIN_QUICK_REFERENCE.md](./CUSTOM_DOMAIN_QUICK_REFERENCE.md)** | 📋 DNS setup cheat sheet | Quick reference |
-| **[DNS_ARCHITECTURE.md](./DNS_ARCHITECTURE.md)** | 🏗️ Infrastructure diagrams | Technical deep dive |
+**Quick Links:**
+- **Deployment:** [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) | [SIMPLE_DEPLOY_GUIDE.md](./SIMPLE_DEPLOY_GUIDE.md)
+- **Server Setup:** [START_HERE_SERVER.md](./START_HERE_SERVER.md) | [SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)
+- **Testing:** [TESTING_INSTALLER.md](./TESTING_INSTALLER.md)
+- **Status:** [STATUS.md](./STATUS.md)
 
 ---
 
@@ -98,8 +84,7 @@ The app works great without a server, but you can optionally run a local Saxon-H
 
 ### ⚡ One-Click Installation
 
-**📖 Complete Installation Guide: [SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)**  
-**📊 All Server Docs: [SERVER_DOCUMENTATION_INDEX.md](./SERVER_DOCUMENTATION_INDEX.md)**
+**📖 Complete Installation Guide: [SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)**
 
 #### Windows
 1. Navigate to the `server` folder
@@ -139,9 +124,10 @@ The installer will automatically:
 
 **Documentation:**
 - 📘 **[SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)** - Complete installation guide for all platforms
-- 🔧 [SERVER_TROUBLESHOOTING.md](./SERVER_TROUBLESHOOTING.md) - Fix connection issues
-- 📖 [server/README.md](./server/README.md) - API reference and configuration
-- 🏗️ [SAXON_SERVER_ARCHITECTURE.md](./SAXON_SERVER_ARCHITECTURE.md) - How it works
+- 🔧 **[SERVER_TROUBLESHOOTING.md](./SERVER_TROUBLESHOOTING.md)** - Fix connection issues
+- 🏗️ **[SAXON_SERVER_ARCHITECTURE.md](./SAXON_SERVER_ARCHITECTURE.md)** - How it works
+- 🤔 **[BROWSER_VS_SERVER.md](./BROWSER_VS_SERVER.md)** - Do you need the server?
+- 📖 **[server/README.md](./server/README.md)** - Server API reference
 
 ---
 
