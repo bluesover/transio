@@ -4,8 +4,8 @@
 
 A professional, free, open-source XML to XSLT transformation tool supporting XSLT 1.0, 2.0, and 3.0. Privacy-first design - all processing happens locally in your browser.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![Open Source](https://img.shields.io/badge/Open%20Source-100%25-green.svg)](./LICENSE_SUMMARY.md)
+[![License: MPL-2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](./LICENSE)
+[![Open Source](https://img.shields.io/badge/Open%20Source-100%25-green.svg)](https://github.com)
 
 ---
 
@@ -84,7 +84,7 @@ npm run build
 # Drag 'dist' folder to netlify.com/drop
 ```
 
-See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for detailed instructions.
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
 
 ---
 
@@ -122,7 +122,7 @@ chmod +x install.sh start-server.sh
 4. Click "Test Connection"
 5. Save
 
-📖 **Complete Server Guide:** [SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)
+📖 **Complete Server Guide:** See DEPLOYMENT.md
 
 ---
 
@@ -172,30 +172,23 @@ chmod +x install.sh start-server.sh
 
 ## 🛠️ Tech Stack
 
-All dependencies are **100% open source**:
+All dependencies are **100% open source** with permissive licenses:
 
-- **React 19** + TypeScript
-- **Vite 7** - Build tool
-- **Tailwind CSS 4** - Styling
-- **shadcn/ui v4** - Component library
-- **CodeMirror 6** - Code editor
-- **Saxon-JS 2.7** - XSLT 2.0/3.0 (MPL-2.0)
-- **Phosphor Icons** - Icon library
-- **Sonner** - Toast notifications
-
-📄 **License Compliance:** [LICENSE_SUMMARY.md](./LICENSE_SUMMARY.md)
+- **React 19** + TypeScript - MIT
+- **Vite 7** - MIT
+- **Tailwind CSS 4** - MIT
+- **shadcn/ui v4** - MIT
+- **CodeMirror 6** - MIT
+- **Saxon-JS 2.7** - MPL-2.0
+- **Phosphor Icons** - MIT
+- **Sonner** - MIT
 
 ---
 
 ## 📚 Documentation
 
-- **[PRD.md](./PRD.md)** - Product Requirements & Design Decisions
-- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Deploy to production
-- **[SERVER_INSTALL_GUIDE.md](./SERVER_INSTALL_GUIDE.md)** - Optional server setup
-- **[SERVER_TROUBLESHOOTING_GUIDE.md](./SERVER_TROUBLESHOOTING_GUIDE.md)** - Fix common issues
-- **[XSLT_SUPPORT_GUIDE.md](./XSLT_SUPPORT_GUIDE.md)** - XSLT version support details
-- **[BROWSER_VS_SERVER.md](./BROWSER_VS_SERVER.md)** - Should you use the server?
-- **[LICENSE_SUMMARY.md](./LICENSE_SUMMARY.md)** - Open source compliance
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deploy to production with Cloudflare Pages
+- **[LICENSE](./LICENSE)** - Mozilla Public License 2.0
 
 ---
 
@@ -220,7 +213,7 @@ Convert XML to JSON, CSV, or other formats.
 
 ## 🤝 Contributing
 
-This is an open-source project under the MIT License. Contributions welcome!
+This is an open-source project under MPL-2.0. Contributions welcome!
 
 1. Fork the repository
 2. Create a feature branch
@@ -231,13 +224,13 @@ This is an open-source project under the MIT License. Contributions welcome!
 
 ## 📄 License
 
-**MIT License** - See [LICENSE](./LICENSE) file
+**Mozilla Public License 2.0 (MPL-2.0)** - See [LICENSE](./LICENSE) file
+
+This ensures the project remains open source while allowing commercial use.
 
 **Third-Party Licenses:**
 - Saxon-JS: Mozilla Public License 2.0 (MPL-2.0)
 - All other dependencies: MIT or compatible open-source licenses
-
-See [LICENSE_SUMMARY.md](./LICENSE_SUMMARY.md) for complete details.
 
 ---
 
