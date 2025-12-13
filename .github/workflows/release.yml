@@ -1,0 +1,85 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Create ZIP archive
+        run: |
+          cd dist
+          zip -r ../transio-${{ github.ref_name }}.zip .
+          cd ..
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s (%h)" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            transio-*.zip
+            launch-windows.bat
+            launch-mac-linux.sh
+          body: |
+            ## Transio - XML/XSLT Transformer Release
+            
+            ### What's New
+            ${{ steps.changelog.outputs.CHANGELOG }}
+            
+            ### Download Options
+            - **Web App**: Visit [transio.org](https://transio.org)
+            - **Standalone ZIP**: Download the zip file below and open index.html
+            - **Local Setup**: Use launch scripts for development
+            
+            ### Features
+            - XSLT 1.0, 2.0, and 3.0 support
+            - Version control and project management
+            - File System Access API integration
+            - 40+ XSLT snippet templates
+            - Export to CSV and launcher generation
+            - Offline-capable PWA
+            
+            ### System Requirements
+            - Modern browser (Chrome, Edge, or Chromium-based)
+            - For File System API: Chrome 86+ or Edge 86+
+            
+            ### License
+            MIT License - Free and open source
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
