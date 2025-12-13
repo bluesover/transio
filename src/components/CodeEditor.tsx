@@ -48,8 +48,27 @@ export function CodeEditor({
     ...(editorThemes[theme] || editorThemes['vscode-dark'])
   ].flat()
 
+  const getThemeBackground = () => {
+    const themeBackgrounds: Record<string, string> = {
+      'vscode-dark': '#1e1e1e',
+      'github-dark': '#0d1117',
+      'tokyo-night': '#1a1b26',
+      'dracula': '#282a36',
+      'monokai': '#272822',
+      'solarized-dark': '#002b36',
+      'nord': '#2e3440',
+      'gruvbox-dark': '#282828',
+      'material-dark': '#212121',
+      'atom-one': '#282c34',
+    }
+    return themeBackgrounds[theme] || '#1e1e1e'
+  }
+
   return (
-    <div className="h-full w-full overflow-auto rounded-md border border-border/50 bg-transparent">
+    <div 
+      className="h-full w-full overflow-auto rounded-md border border-border/50"
+      style={{ backgroundColor: getThemeBackground() }}
+    >
       <CodeMirror
         value={value}
         onChange={handleChange}
