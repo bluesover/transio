@@ -8,7 +8,8 @@ echo "  ✓ Remove ALL unnecessary documentation files"
 echo "  ✓ Remove redundant GitHub workflows and configs"
 echo "  ✓ Remove unused scripts and shell files"
 echo "  ✓ Remove empty or unnecessary directories"
-echo "  ✓ Fix package-lock.json synchronization"
+echo "  ✓ Remove build artifacts and temporary files"
+echo "  ✓ Fix package-lock.json synchronization issues"
 echo "  ✓ Keep ONLY essential project files"
 echo ""
 read -p "Continue? (y/n) " -n 1 -r
@@ -46,12 +47,22 @@ FILES_TO_REMOVE=(
     "SETUP_PUBLIC_SYNC.md"
     "TEST_DESKTOP_BUILD.md"
     "CLEANUP_GUIDE.md"
+    "MAINTAINER_GUIDE.md"
+    "PRE_RELEASE_CHECKLIST.md"
+    "RELEASE.md"
+    "RELEASE_FIXES.md"
+    "RELEASE_GUIDE.md"
+    "RELEASE_SUMMARY.md"
+    "CHANGELOG.md"
     
     # Unused scripts
     "prepare-public-sync.sh"
     "final-cleanup.sh"
     "build-release.sh"
     "sync-repos.sh"
+    "validate-release.sh"
+    "prepare-release.sh"
+    "prepare-release.bat"
     
     # Cloudflare config (not needed for Pages)
     "wrangler.toml"
@@ -67,12 +78,24 @@ FILES_TO_REMOVE=(
     
     # Package directories that shouldn't be in repo
     "packages/spark-tools/.gitkeep"
+    
+    # Build artifacts (should be gitignored but clean anyway)
+    ".DS_Store"
+    "Thumbs.db"
+    "desktop.ini"
+    
+    # Spark metadata (not needed in production)
+    ".spark-initial-sha"
+    ".spark-workbench-id"
+    "spark.meta.json"
+    ".file-manifest"
 )
 
 DIRECTORIES_TO_REMOVE=(
     "pids"
     "packages/spark-tools"
     "packages"
+    ".devcontainer"
 )
 
 REMOVED_COUNT=0
@@ -107,12 +130,45 @@ for dir in "${DIRECTORIES_TO_REMOVE[@]}"; do
 done
 
 echo ""
+echo "🔍 Scanning for additional temporary files..."
+echo ""
+
+# Find and remove common temporary/build artifacts
+TEMP_FILES_FOUND=0
+
+# Remove .DS_Store files (macOS)
+if find . -name ".DS_Store" -type f 2>/dev/null | grep -q .; then
+    find . -name ".DS_Store" -type f -delete 2>/dev/null
+    echo "✓ Removed .DS_Store files"
+    ((TEMP_FILES_FOUND++))
+fi
+
+# Remove Thumbs.db files (Windows)
+if find . -name "Thumbs.db" -type f 2>/dev/null | grep -q .; then
+    find . -name "Thumbs.db" -type f -delete 2>/dev/null
+    echo "✓ Removed Thumbs.db files"
+    ((TEMP_FILES_FOUND++))
+fi
+
+# Remove .log files from root (but keep in node_modules and server)
+if find . -maxdepth 1 -name "*.log" -type f 2>/dev/null | grep -q .; then
+    find . -maxdepth 1 -name "*.log" -type f -delete 2>/dev/null
+    echo "✓ Removed root-level .log files"
+    ((TEMP_FILES_FOUND++))
+fi
+
+if [ $TEMP_FILES_FOUND -eq 0 ]; then
+    echo "⊘ No temporary files found"
+fi
+
+echo ""
 echo "📊 Cleanup Summary:"
-echo "   Items removed: $REMOVED_COUNT"
+echo "   Files/directories removed: $REMOVED_COUNT"
+echo "   Temporary artifacts cleaned: $TEMP_FILES_FOUND"
 echo "   Items already removed: $SKIPPED_COUNT"
 echo ""
 
-if [ $REMOVED_COUNT -gt 0 ]; then
+if [ $REMOVED_COUNT -gt 0 ] || [ $TEMP_FILES_FOUND -gt 0 ]; then
     echo "✨ File cleanup complete!"
 else
     echo "✨ No files to remove - already clean!"
@@ -131,23 +187,81 @@ echo ""
 echo "🔧 Fixing package-lock.json..."
 echo ""
 
-# Remove old package-lock.json if it exists
+# Check if package-lock.json is out of sync
 if [ -f "package-lock.json" ]; then
-    echo "Removing old package-lock.json..."
-    rm package-lock.json
+    echo "Checking package-lock.json synchronization..."
+    npm ci --dry-run 2>&1 | grep -q "lock file" && NEEDS_SYNC=1 || NEEDS_SYNC=0
+    
+    if [ $NEEDS_SYNC -eq 1 ]; then
+        echo "⚠️  package-lock.json is out of sync with package.json"
+        echo "Regenerating package-lock.json..."
+        rm package-lock.json
+        npm install
+        
+        if [ $? -eq 0 ]; then
+            echo ""
+            echo "✅ Package dependencies synchronized successfully!"
+        else
+            echo ""
+            echo "❌ npm install failed. Please check the error messages above."
+            exit 1
+        fi
+    else
+        echo "✅ package-lock.json is already synchronized"
+    fi
+else
+    echo "Generating package-lock.json..."
+    npm install
+    
+    if [ $? -eq 0 ]; then
+        echo ""
+        echo "✅ Package dependencies installed successfully!"
+    else
+        echo ""
+        echo "❌ npm install failed. Please check the error messages above."
+        exit 1
+    fi
 fi
 
-# Regenerate package-lock.json
-echo "Running npm install to regenerate package-lock.json..."
-npm install
-
-if [ $? -eq 0 ]; then
+# Also sync server package-lock.json if needed
+if [ -d "server" ] && [ -f "server/package.json" ]; then
     echo ""
-    echo "✅ Package dependencies updated successfully!"
-else
-    echo ""
-    echo "❌ npm install failed. Please check the error messages above."
-    exit 1
+    echo "🔧 Checking server dependencies..."
+    cd server
+    
+    if [ -f "package-lock.json" ]; then
+        npm ci --dry-run 2>&1 | grep -q "lock file" && SERVER_NEEDS_SYNC=1 || SERVER_NEEDS_SYNC=0
+        
+        if [ $SERVER_NEEDS_SYNC -eq 1 ]; then
+            echo "⚠️  server/package-lock.json is out of sync"
+            echo "Regenerating server/package-lock.json..."
+            rm package-lock.json
+            npm install
+            
+            if [ $? -eq 0 ]; then
+                echo "✅ Server dependencies synchronized!"
+            else
+                echo "❌ Server npm install failed"
+                cd ..
+                exit 1
+            fi
+        else
+            echo "✅ server/package-lock.json is synchronized"
+        fi
+    else
+        echo "Generating server/package-lock.json..."
+        npm install
+        
+        if [ $? -eq 0 ]; then
+            echo "✅ Server dependencies installed!"
+        else
+            echo "❌ Server npm install failed"
+            cd ..
+            exit 1
+        fi
+    fi
+    
+    cd ..
 fi
 
 echo ""
@@ -160,6 +274,12 @@ echo ""
 echo "💰 Budget Savings:"
 echo "   ✗ Dependabot disabled (was consuming Actions minutes)"
 echo "   ✗ Sync workflows removed (redundant automation)"
+echo ""
+echo "📦 Project Structure:"
+echo "   ✓ Root: Web app source code"
+echo "   ✓ electron/: Desktop app (Electron wrapper)"
+echo "   ✓ server/: Optional Saxon-HE server for enterprise use"
+echo "   ✓ desktop-resources/: Icons and installers for desktop apps"
 echo ""
 echo "🔄 Next Steps:"
 echo ""
@@ -177,5 +297,8 @@ echo "4. Verify Cloudflare deployment:"
 echo "   https://dash.cloudflare.com/pages"
 echo "   (Should auto-deploy on push)"
 echo ""
-echo "💡 Run this script anytime to clean up the project!"
+echo "💡 Tips:"
+echo "   • Run this script anytime to clean up the project"
+echo "   • Automatic cleanup runs before desktop releases"
+echo "   • Keep documentation in README.md only"
 echo ""

@@ -1,3 +1,16 @@
+# Dependencies
+node_modules
+server/node_modules
+
+# Build outputs
+dist
+dist-ssr
+dist-desktop
+dist-electron
+*-dist
+build/
+release/
+
 # Logs
 logs
 *.log
@@ -7,43 +20,68 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*-dist
+# Environment and local files
+.env
+.env.local
+.env.*.local
 *.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-.env
-**/agent-eval-report*
-packages
-pids
-.file-manifest
-.devcontainer/
+# OS specific files
+.DS_Store
+Thumbs.db
+desktop.ini
 
-# Spark-specific files (do not sync to public repo)
+# Spark-specific files (development only)
 .spark-workbench-id
 .spark-initial-sha
 spark.meta.json
 runtime.config.json
+.file-manifest
 
-# Build artifacts
-dist-electron
+# Temporary files and directories
+packages
+pids
+*.pid
+.devcontainer/
+**/agent-eval-report*
 
-# Electron build output
-release/
-build/
+# Saxon-HE temporary files
+server/*.jar
+server/saxon-he-*.jar
 
-# OS specific
-Thumbs.db
+# Package manager lock files (optional - comment out if you want to track them)
+# package-lock.json
+# server/package-lock.json
 
+# Test coverage
+coverage/
+.nyc_output/
+
+# Certificates and keys (if any)
+*.pem
+*.key
+*.crt
+*.cer
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Cloudflare wrangler files (not needed for Pages)
+.wrangler/
+wrangler.toml
+
+# GitHub Actions artifacts
+.github/cache/
