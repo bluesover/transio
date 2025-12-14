@@ -26,6 +26,7 @@
     ],
     "private": false,
     "type": "module",
+    "main": "dist-electron/main.js",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
@@ -33,7 +34,14 @@
         "preview": "vite preview",
         "server:install": "cd server && npm install",
         "server:start": "cd server && npm start",
-        "server:dev": "cd server && npm run dev"
+        "server:dev": "cd server && npm run dev",
+        "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+        "electron:build": "npm run build && tsc -p tsconfig.electron.json && electron-builder",
+        "electron:build:mac": "npm run build && tsc -p tsconfig.electron.json && electron-builder --mac",
+        "electron:build:win": "npm run build && tsc -p tsconfig.electron.json && electron-builder --win",
+        "electron:build:linux": "npm run build && tsc -p tsconfig.electron.json && electron-builder --linux",
+        "electron:build:all": "npm run build && tsc -p tsconfig.electron.json && electron-builder --mac --win --linux",
+        "postinstall": "electron-builder install-app-deps"
     },
     "dependencies": {
         "@codemirror/lang-html": "^6.4.11",
@@ -102,14 +110,23 @@
         "tw-animate-css": "^1.2.4",
         "uuid": "^11.1.0",
         "vaul": "^1.1.2",
-        "zod": "^3.25.76"
+        "zod": "^3.25.76",
+        "archiver": "^6.0.1",
+        "electron-log": "^5.0.1",
+        "electron-store": "^8.1.0",
+        "electron-updater": "^6.1.7",
+        "extract-zip": "^2.0.1"
     },
     "devDependencies": {
         "@eslint/js": "^9.21.0",
         "@tailwindcss/postcss": "^4.1.8",
+        "@types/node": "^20.10.0",
         "@types/react": "^19.0.10",
         "@types/react-dom": "^19.0.4",
         "@vitejs/plugin-react-swc": "^4.2.2",
+        "concurrently": "^8.2.2",
+        "electron": "^28.1.0",
+        "electron-builder": "^24.9.1",
         "eslint": "^9.28.0",
         "eslint-plugin-react-hooks": "^5.2.0",
         "eslint-plugin-react-refresh": "^0.4.19",
@@ -117,7 +134,8 @@
         "tailwindcss": "^4.1.11",
         "typescript": "~5.7.2",
         "typescript-eslint": "^8.38.0",
-        "vite": "^7.2.6"
+        "vite": "^7.2.6",
+        "wait-on": "^7.2.0"
     },
     "workspaces": {
         "packages": [
