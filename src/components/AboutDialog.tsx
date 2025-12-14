@@ -192,7 +192,7 @@ export function AboutDialog() {
                 </p>
                 
                 <Button variant="default" size="sm" className="w-full text-xs" asChild>
-                  <a href="https://github.com/bluesover/transio.org" target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/bluesover/transio" target="_blank" rel="noopener noreferrer">
                     <GithubLogo weight="bold" className="w-4 h-4 mr-2" />
                     View on GitHub - Contribute & Share Ideas
                   </a>

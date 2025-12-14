@@ -18,7 +18,7 @@ export function FooterInfo() {
         <span className="hidden sm:inline">•</span>
         
         <a 
-          href="https://github.com/bluesover/transio.org" 
+          href="https://github.com/bluesover/transio" 
           target="_blank" 
           rel="noopener noreferrer"
           className="hidden sm:flex items-center gap-1.5 hover:text-primary transition-colors"
@@ -41,7 +41,7 @@ export function FooterInfo() {
         <div className="hidden lg:flex items-center gap-1.5">
           <span>•</span>
           <a 
-            href="https://github.com/bluesover/transio.org/blob/main/XSLT_SUPPORT_GUIDE.md" 
+            href="https://github.com/bluesover/transio/blob/main/XSLT_SUPPORT_GUIDE.md" 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center gap-1 hover:text-primary transition-colors"

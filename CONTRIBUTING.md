@@ -5,13 +5,13 @@ Thank you for your interest in contributing to Transio! We welcome contributions
 ## 🤝 How to Contribute
 
 ### Report Bugs
-- Open an issue on [GitHub](https://github.com/bluesover/transio.org/issues)
+- Open an issue on [GitHub](https://github.com/bluesover/transio/issues)
 - Include steps to reproduce
 - Describe expected vs actual behavior
 - Include browser/OS version
 
 ### Suggest Features
-- Open a discussion on [GitHub Discussions](https://github.com/bluesover/transio.org/discussions)
+- Open a discussion on [GitHub Discussions](https://github.com/bluesover/transio/discussions)
 - Describe the use case
 - Explain why it would benefit users
 
@@ -20,8 +20,8 @@ Thank you for your interest in contributing to Transio! We welcome contributions
 1. **Fork the repository**
    ```bash
    # Click "Fork" on GitHub
-   git clone https://github.com/YOUR_USERNAME/transio.org.git
-   cd transio.org
+   git clone https://github.com/YOUR_USERNAME/transio.git
+   cd transio
    ```
 
 2. **Create a feature branch**
@@ -56,8 +56,8 @@ Thank you for your interest in contributing to Transio! We welcome contributions
 
 ```bash
 # Clone the repository
-git clone https://github.com/bluesover/transio.org.git
-cd transio.org
+git clone https://github.com/bluesover/transio.git
+cd transio
 
 # Install dependencies
 npm install
@@ -99,7 +99,7 @@ npm run preview
 
 ## 🎯 Areas for Contribution
 
-- **Bug fixes**: Check [open issues](https://github.com/bluesover/transio.org/issues)
+- **Bug fixes**: Check [open issues](https://github.com/bluesover/transio/issues)
 - **XSLT snippets**: Add more useful templates
 - **Documentation**: Improve guides and examples
 - **Accessibility**: Improve keyboard navigation and screen reader support
@@ -113,7 +113,7 @@ By contributing, you agree that your contributions will be licensed under the MP
 
 ## 💬 Questions?
 
-Open a discussion on [GitHub Discussions](https://github.com/bluesover/transio.org/discussions)
+Open a discussion on [GitHub Discussions](https://github.com/bluesover/transio/discussions)
 
 ---
 

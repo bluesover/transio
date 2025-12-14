@@ -187,8 +187,8 @@ jobs:
             
             ### 📚 Documentation
             - [User Guide](https://transio.org)
-            - [README](https://github.com/bluesover/transio.org/blob/main/README.md)
-            - [Report Issues](https://github.com/bluesover/transio.org/issues)
+            - [README](https://github.com/bluesover/transio/blob/main/README.md)
+            - [Report Issues](https://github.com/bluesover/transio/issues)
             
             ### 🔐 Security
             All downloads are open-source and can be verified against the source code in this repository.

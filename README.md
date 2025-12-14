@@ -2,13 +2,13 @@
 
 **🌐 Official Website: [https://transio.org](https://transio.org)**
 
-**📂 GitHub Repository: [https://github.com/bluesover/transio.org](https://github.com/bluesover/transio.org)**
+**📂 GitHub Repository: [https://github.com/bluesover/transio](https://github.com/bluesover/transio)**
 
 A professional, free, open-source XML to XSLT transformation tool supporting XSLT 1.0, 2.0, and 3.0. Privacy-first design - all processing happens locally in your browser.
 
 [![License: MPL-2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](./LICENSE)
-[![Open Source](https://img.shields.io/badge/Open%20Source-100%25-green.svg)](https://github.com/bluesover/transio.org)
-[![Contribute](https://img.shields.io/badge/Contribute-Welcome-brightgreen.svg)](https://github.com/bluesover/transio.org/issues)
+[![Open Source](https://img.shields.io/badge/Open%20Source-100%25-green.svg)](https://github.com/bluesover/transio)
+[![Contribute](https://img.shields.io/badge/Contribute-Welcome-brightgreen.svg)](https://github.com/bluesover/transio/issues)
 
 ---
 
@@ -16,10 +16,10 @@ A professional, free, open-source XML to XSLT transformation tool supporting XSL
 
 We welcome contributions, ideas, and issues from the community!
 
-- **💡 Share Ideas**: [Open a discussion](https://github.com/bluesover/transio.org/discussions)
-- **🐛 Report Issues**: [Submit a bug report](https://github.com/bluesover/transio.org/issues)
-- **🔧 Contribute Code**: [Fork and create a PR](https://github.com/bluesover/transio.org/pulls)
-- **⭐ Star the Repo**: Show your support on [GitHub](https://github.com/bluesover/transio.org)
+- **💡 Share Ideas**: [Open a discussion](https://github.com/bluesover/transio/discussions)
+- **🐛 Report Issues**: [Submit a bug report](https://github.com/bluesover/transio/issues)
+- **🔧 Contribute Code**: [Fork and create a PR](https://github.com/bluesover/transio/pulls)
+- **⭐ Star the Repo**: Show your support on [GitHub](https://github.com/bluesover/transio)
 
 ---
 
@@ -29,12 +29,12 @@ Download standalone desktop apps for **Windows, macOS, and Linux**!
 
 ### 📥 Download
 
-**Latest Release**: [View all releases](https://github.com/bluesover/transio.org/releases/latest)
+**Latest Release**: [View all releases](https://github.com/bluesover/transio/releases/latest)
 
 **Quick Downloads**:
-- **macOS**: [Download .dmg](https://github.com/bluesover/transio.org/releases/latest/download/Transio-1.0.0.dmg) (Intel & Apple Silicon)
-- **Windows**: [Download .exe](https://github.com/bluesover/transio.org/releases/latest/download/Transio-Setup-1.0.0.exe) (64-bit)
-- **Linux**: [Download .AppImage](https://github.com/bluesover/transio.org/releases/latest/download/Transio-1.0.0.AppImage) | [.deb](https://github.com/bluesover/transio.org/releases/latest/download/Transio-1.0.0.deb) | [.rpm](https://github.com/bluesover/transio.org/releases/latest/download/Transio-1.0.0.rpm)
+- **macOS**: [Download .dmg](https://github.com/bluesover/transio/releases/latest/download/Transio-1.0.0.dmg) (Intel & Apple Silicon)
+- **Windows**: [Download .exe](https://github.com/bluesover/transio/releases/latest/download/Transio-Setup-1.0.0.exe) (64-bit)
+- **Linux**: [Download .AppImage](https://github.com/bluesover/transio/releases/latest/download/Transio-1.0.0.AppImage) | [.deb](https://github.com/bluesover/transio/releases/latest/download/Transio-1.0.0.deb) | [.rpm](https://github.com/bluesover/transio/releases/latest/download/Transio-1.0.0.rpm)
 
 ### ✨ Desktop Features
 

@@ -7,10 +7,10 @@
     "homepage": "https://transio.org",
     "repository": {
         "type": "git",
-        "url": "https://github.com/bluesover/transio.org.git"
+        "url": "https://github.com/bluesover/transio.git"
     },
     "bugs": {
-        "url": "https://github.com/bluesover/transio.org/issues"
+        "url": "https://github.com/bluesover/transio/issues"
     },
     "keywords": [
         "xml",
@@ -261,7 +261,7 @@
         "publish": {
             "provider": "github",
             "owner": "bluesover",
-            "repo": "transio.org"
+            "repo": "transio"
         }
     }
 }

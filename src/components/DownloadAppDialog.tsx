@@ -6,7 +6,7 @@ import { Card } from './ui/card'
 
 export function DownloadAppDialog() {
   const checkReleaseAvailability = (filename: string) => {
-    return `https://github.com/bluesover/transio.org/releases/latest/download/${filename}`
+    return `https://github.com/bluesover/transio/releases/latest/download/${filename}`
   }
 
   const downloads = [
@@ -85,11 +85,11 @@ export function DownloadAppDialog() {
                             if (response.ok) {
                               window.location.href = url
                             } else {
-                              window.open('https://github.com/bluesover/transio.org/releases', '_blank')
+                              window.open('https://github.com/bluesover/transio/releases', '_blank')
                             }
                           })
                           .catch(() => {
-                            window.open('https://github.com/bluesover/transio.org/releases', '_blank')
+                            window.open('https://github.com/bluesover/transio/releases', '_blank')
                           })
                       }}
                     >
@@ -120,7 +120,7 @@ export function DownloadAppDialog() {
                 <span>Open Source on GitHub</span>
               </div>
               <Button variant="outline" size="sm" asChild>
-                <a href="https://github.com/bluesover/transio.org/releases" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/bluesover/transio/releases" target="_blank" rel="noopener noreferrer">
                   View All Releases
                 </a>
               </Button>

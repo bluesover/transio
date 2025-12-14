@@ -42,7 +42,7 @@ jobs:
         env:
           PUBLIC_REPO_TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
         run: |
-          git remote add public https://$PUBLIC_REPO_TOKEN@github.com/bluesover/transio.org.git || true
+          git remote add public https://$PUBLIC_REPO_TOKEN@github.com/bluesover/transio.git || true
           git push public main --force
       
       - name: Create release tag
