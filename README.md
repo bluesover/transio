@@ -23,20 +23,61 @@ We welcome contributions, ideas, and issues from the community!
 
 ---
 
-## 💻 Desktop Applications (Coming Soon!)
+## 💻 Desktop Applications
 
-On-premise desktop apps for **Windows, Mac, and Linux** are in development! These will include:
+Download standalone desktop apps for **Windows, macOS, and Linux**!
 
-- ✅ **One-click installation** with all dependencies
-- ✅ **Auto-install Saxon-HE** (Java-based) and Java runtime
-- ✅ **Full XSLT 2.0/3.0 support** with native Saxon-HE processor
-- ✅ **Local file processing** for large XML files (100MB+)
-- ✅ **Offline operation** - no internet required
-- ✅ **Same UI/UX** as the web version
+### 📥 Download
 
-**Timeline**: Beta testing Q1 2025, Public release Q2 2025
+**Latest Release**: [View all releases](https://github.com/bluesover/transio.org/releases/latest)
 
-Desktop icons are included in the `desktop-resources/` directory.
+**Quick Downloads**:
+- **macOS**: [Download .dmg](https://github.com/bluesover/transio.org/releases/latest/download/Transio-1.0.0.dmg) (Intel & Apple Silicon)
+- **Windows**: [Download .exe](https://github.com/bluesover/transio.org/releases/latest/download/Transio-Setup-1.0.0.exe) (64-bit)
+- **Linux**: [Download .AppImage](https://github.com/bluesover/transio.org/releases/latest/download/Transio-1.0.0.AppImage) | [.deb](https://github.com/bluesover/transio.org/releases/latest/download/Transio-1.0.0.deb) | [.rpm](https://github.com/bluesover/transio.org/releases/latest/download/Transio-1.0.0.rpm)
+
+### ✨ Desktop Features
+
+- ✅ **One-click installation** - No manual setup required
+- ✅ **Built-in Saxon-HE server** - Auto-installs for full XSLT 2.0/3.0 support
+- ✅ **Full offline operation** - Works without internet
+- ✅ **Large file support** - Process XML files 100MB+
+- ✅ **Auto-updates** - Get new features automatically
+- ✅ **Native performance** - Faster than web version
+- ✅ **Same familiar UI** - Identical to web app
+
+### 🔧 Installation
+
+**macOS**:
+1. Download `.dmg` file
+2. Open and drag to Applications
+3. Right-click → Open (first launch only)
+
+**Windows**:
+1. Download `.exe` installer
+2. Run and follow setup wizard
+3. Click "More info" → "Run anyway" if SmartScreen appears
+
+**Linux (AppImage)**:
+```bash
+chmod +x Transio-*.AppImage
+./Transio-*.AppImage
+```
+
+**Linux (DEB)**:
+```bash
+sudo dpkg -i Transio-*.deb
+```
+
+**Linux (RPM)**:
+```bash
+sudo rpm -i Transio-*.rpm
+```
+
+### 📚 More Info
+
+- **Building from source**: See [BUILD_DESKTOP_APP.md](./BUILD_DESKTOP_APP.md)
+- **Release process**: See [PUBLISH_AND_RELEASE_GUIDE.md](./PUBLISH_AND_RELEASE_GUIDE.md)
 
 ---
 

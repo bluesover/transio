@@ -9,20 +9,22 @@ on:
       version:
         description: 'Version to release (e.g., v1.0.0)'
         required: true
+        default: 'v1.0.0'
 
 jobs:
   release:
+    name: Build ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
         include:
           - os: macos-latest
-            platform: mac
+            platform: macOS
           - os: windows-latest
-            platform: win
+            platform: Windows
           - os: ubuntu-latest
-            platform: linux
+            platform: Linux
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
@@ -54,25 +56,31 @@ jobs:
         run: npm ci --prefer-offline --no-audit
 
       - name: Install server dependencies
-        run: cd server && npm ci --prefer-offline --no-audit
+        run: |
+          cd server
+          npm ci --prefer-offline --no-audit
+          cd ..
 
       - name: Build web app
         run: npm run build
         env:
           NODE_ENV: production
 
+      - name: Build Electron TypeScript
+        run: npx tsc -p tsconfig.electron.json
+
       - name: Build Electron app (macOS)
-        if: matrix.platform == 'mac'
+        if: runner.os == 'macOS'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_LINK: ${{ secrets.MAC_CERTIFICATE }}
           CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
         run: npm run electron:build:mac
 
       - name: Build Electron app (Windows)
-        if: matrix.platform == 'win'
+        if: runner.os == 'Windows'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_LINK: ${{ secrets.WIN_CERTIFICATE }}
@@ -80,32 +88,32 @@ jobs:
         run: npm run electron:build:win
 
       - name: Build Electron app (Linux)
-        if: matrix.platform == 'linux'
+        if: runner.os == 'Linux'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run electron:build:linux
 
       - name: Upload artifacts (macOS)
-        if: matrix.platform == 'mac'
+        if: runner.os == 'macOS'
         uses: actions/upload-artifact@v4
         with:
           name: macos-builds
           path: |
             dist-desktop/*.dmg
             dist-desktop/*.zip
-          retention-days: 7
+          retention-days: 30
 
       - name: Upload artifacts (Windows)
-        if: matrix.platform == 'win'
+        if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: windows-builds
           path: |
             dist-desktop/*.exe
-          retention-days: 7
+          retention-days: 30
 
       - name: Upload artifacts (Linux)
-        if: matrix.platform == 'linux'
+        if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
           name: linux-builds
@@ -113,12 +121,15 @@ jobs:
             dist-desktop/*.AppImage
             dist-desktop/*.deb
             dist-desktop/*.rpm
-          retention-days: 7
+          retention-days: 30
 
   create-release:
+    name: Create GitHub Release
     needs: release
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout code
@@ -131,27 +142,70 @@ jobs:
         with:
           path: artifacts
 
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/**/*
+          files: |
+            artifacts/**/*.dmg
+            artifacts/**/*.zip
+            artifacts/**/*.exe
+            artifacts/**/*.AppImage
+            artifacts/**/*.deb
+            artifacts/**/*.rpm
           draft: false
           prerelease: false
           generate_release_notes: true
           body: |
-            ## 🎉 Desktop App Release
+            ## 🎉 Transio Desktop App Release
             
-            ### Downloads
-            - **macOS**: `.dmg` for installation, `.zip` for portable
-            - **Windows**: `.exe` installer
-            - **Linux**: `.AppImage` (portable), `.deb` (Debian/Ubuntu), `.rpm` (Fedora/RHEL)
+            Professional XML to XSLT transformation tool for Windows, macOS, and Linux.
             
-            ### What's Included
-            - Full offline XSLT transformation capabilities
-            - Saxon-HE server for XSLT 2.0/3.0 support
-            - All dependencies bundled
-            - Auto-updates enabled
+            ### ✨ Features
+            - Full offline XSLT transformation (1.0, 2.0, 3.0)
+            - Built-in Saxon-HE server for advanced XSLT support
+            - Auto-detects and formats output (HTML, XML, JSON, CSV, SVG)
+            - Version control and project management
+            - 40+ XSLT snippets
+            - Dark/Light/Black themes with 13 editor themes
             
-            See [README.md](https://github.com/bluesover/transio.org/blob/main/README.md) for installation instructions.
+            ### 📥 Downloads
+            
+            **macOS**:
+            - `.dmg` - Installer (Recommended)
+            - `.zip` - Portable version
+            
+            **Windows**:
+            - `.exe` - Installer
+            
+            **Linux**:
+            - `.AppImage` - Portable (All distributions)
+            - `.deb` - Debian/Ubuntu
+            - `.rpm` - Fedora/RHEL/CentOS
+            
+            ### 📚 Documentation
+            - [User Guide](https://transio.org)
+            - [README](https://github.com/bluesover/transio.org/blob/main/README.md)
+            - [Report Issues](https://github.com/bluesover/transio.org/issues)
+            
+            ### 🔐 Security
+            All downloads are open-source and can be verified against the source code in this repository.
+            
+            ### ⚠️ Installation Notes
+            
+            **macOS**: First launch may show "unidentified developer" warning. Right-click the app and select "Open", or run:
+            ```bash
+            xattr -cr /Applications/Transio.app
+            ```
+            
+            **Windows**: SmartScreen may show a warning. Click "More info" → "Run anyway".
+            
+            **Linux**: Make AppImage executable:
+            ```bash
+            chmod +x Transio-*.AppImage
+            ./Transio-*.AppImage
+            ```
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
