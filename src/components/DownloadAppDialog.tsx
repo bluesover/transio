@@ -75,22 +75,26 @@ export function DownloadAppDialog() {
                   </div>
                   <div className="text-right">
                     <Badge variant="outline" className="mb-2">{download.size}</Badge>
-                    <Button size="sm" className="w-full" asChild>
-                      <a 
-                        href={checkReleaseAvailability(download.file)} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        onClick={(e) => {
-                          fetch(checkReleaseAvailability(download.file), { method: 'HEAD' })
-                            .catch(() => {
-                              e.preventDefault()
+                    <Button 
+                      size="sm" 
+                      className="w-full"
+                      onClick={() => {
+                        const url = checkReleaseAvailability(download.file)
+                        fetch(url, { method: 'HEAD' })
+                          .then(response => {
+                            if (response.ok) {
+                              window.location.href = url
+                            } else {
                               window.open('https://github.com/bluesover/transio.org/releases', '_blank')
-                            })
-                        }}
-                      >
-                        <Download weight="bold" className="mr-2 w-4 h-4" />
-                        Download
-                      </a>
+                            }
+                          })
+                          .catch(() => {
+                            window.open('https://github.com/bluesover/transio.org/releases', '_blank')
+                          })
+                      }}
+                    >
+                      <Download weight="bold" className="mr-2 w-4 h-4" />
+                      Download
                     </Button>
                   </div>
                 </div>
@@ -122,7 +126,7 @@ export function DownloadAppDialog() {
               </Button>
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              Note: Desktop builds are created on-demand. If a download link doesn't work, check the releases page or build locally from source.
+              <strong>Note:</strong> Desktop releases are built on-demand. If a download link redirects to the releases page, the build for that platform may not be available yet. You can also build from source locally.
             </p>
           </div>
         </div>
