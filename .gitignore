@@ -31,4 +31,19 @@ pids
 .file-manifest
 .devcontainer/
 
+# Spark-specific files (do not sync to public repo)
 .spark-workbench-id
+.spark-initial-sha
+spark.meta.json
+runtime.config.json
+
+# Build artifacts
+dist-electron
+
+# Electron build output
+release/
+build/
+
+# OS specific
+Thumbs.db
+

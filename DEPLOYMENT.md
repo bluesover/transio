@@ -1,133 +1,15 @@
-# 🚀 Transio Deployment Guide
+# Deployment Guide - Transio
 
-Complete guide to deploy Transio (transio.org) to Cloudflare Pages with custom domain and automated deployments.
+This guide covers deploying Transio to Cloudflare Pages with your custom domain (transio.org).
 
----
+## Quick Deploy to Cloudflare Pages
 
-## 📋 Prerequisites
+### Prerequisites
+- Cloudflare account (free)
+- GitHub account
+- Custom domain (transio.org) registered with GoDaddy
 
-- ✅ GitHub account with repository access
-- ✅ Cloudflare account (free tier works)
-- ✅ Domain name (transio.org via GoDaddy)
-- ✅ Node.js 18+ installed locally
-
----
-
-## 🎯 Cloudflare Pages Deployment
-
-### Step 1: Connect GitHub Repository to Cloudflare Pages
-
-1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
-2. Select **Workers & Pages** from the sidebar
-3. Click **Create** → **Pages** → **Connect to Git**
-4. Authorize Cloudflare to access your GitHub account
-5. Select your repository: `bluesover/transio.org`
-
-### Step 2: Configure Build Settings
-
-**Framework preset:** None (or Framework-agnostic)
-
-**Build command:**
-```bash
-npm run build
-```
-
-**Build output directory:**
-```
-dist
-```
-
-**Root directory:**
-```
-/
-```
-
-**Environment variables:** None required (all client-side)
-
-### Step 3: Deploy
-
-- Click **Save and Deploy**
-- Wait for the build to complete (~2-3 minutes)
-- Your app will be available at `https://transio.pages.dev`
-
----
-
-## 🌐 Custom Domain Configuration
-
-### Add transio.org to Cloudflare Pages
-
-1. In your Cloudflare Pages project, go to **Custom domains**
-2. Click **Set up a custom domain**
-3. Enter: `transio.org`
-4. Click **Continue**
-5. Follow the DNS configuration prompts
-
-### Configure DNS at GoDaddy
-
-1. Log in to [GoDaddy](https://www.godaddy.com/)
-2. Go to **My Products** → **DNS**
-3. Add the following records:
-
-**For Root Domain (transio.org):**
-```
-Type: CNAME
-Name: @
-Value: transio.pages.dev
-TTL: 600 seconds
-```
-
-**For www subdomain:**
-```
-Type: CNAME
-Name: www
-Value: transio.pages.dev
-TTL: 600 seconds
-```
-
-4. Save changes and wait for DNS propagation (5-30 minutes)
-
----
-
-## 🤖 Automated Deployments with GitHub Actions
-
-### Configure GitHub Secrets
-
-1. Go to your repository: `https://github.com/bluesover/transio.org`
-2. Navigate to **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret** and add:
-
-**CLOUDFLARE_API_TOKEN:**
-- Go to [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens)
-- Click **Create Token** → Use template **Edit Cloudflare Workers**
-- Or create custom token with permissions:
-  - `Account.Cloudflare Pages` - Edit
-- Copy the token and paste as secret value
-
-**CLOUDFLARE_ACCOUNT_ID:**
-- Go to Cloudflare Dashboard
-- Select **Workers & Pages**
-- Click on your **transio** project
-- Copy the **Account ID** from the right sidebar
-- Paste as secret value
-
-### How It Works
-
-The GitHub Actions workflow (`.github/workflows/deploy-cloudflare.yml`) automatically:
-1. Runs on every push to `main` or `master` branch
-2. Installs dependencies
-3. Builds the project
-4. Deploys to Cloudflare Pages
-
-**Manual Trigger:**
-- Go to **Actions** tab in your repository
-- Select **Deploy to Cloudflare Pages**
-- Click **Run workflow**
-
----
-
-## 💻 Local Development
-
-### Clone and Install
+### Step 1: Build the Project Locally
 
 ```bash
 # Clone the repository
@@ -137,81 +19,114 @@ cd transio.org
 # Install dependencies
 npm install
 
-# Start development server
-npm run dev
-```
-
-### Build for Production
-
-```bash
-# Build the app
+# Build for production
 npm run build
-
-# Preview the build
-npm run preview
 ```
 
-### Optional: Saxon-HE Server (XSLT 2.0/3.0 Processing)
+This creates a `dist` folder with your production build.
 
-For advanced XSLT 2.0/3.0 features with server-side processing:
+### Step 2: Deploy to Cloudflare Pages
+
+#### Option A: Using Wrangler CLI (Recommended)
 
 ```bash
-# Install server dependencies
-cd server
-npm install
+# Deploy to Cloudflare Pages
+npx wrangler pages deploy dist --project-name=transio
 
-# Start the server (Mac/Linux)
-chmod +x start-server.sh
-./start-server.sh
-
-# Or use npm directly
-npm start
+# Or use the npm script
+npm run deploy
 ```
 
-The server runs on `http://localhost:3001` and provides enhanced XSLT transformation capabilities.
+#### Option B: Using Cloudflare Dashboard
 
----
+1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. Navigate to **Workers & Pages**
+3. Click **Create application** → **Pages** → **Upload assets**
+4. Name your project: `transio`
+5. Upload the `dist` folder
+6. Click **Deploy site**
 
-## 🔧 Configuration Files
+### Step 3: Connect GitHub for Auto-Deploy (Optional)
 
-### wrangler.toml
-```toml
-name = "transio"
-compatibility_date = "2024-12-13"
-```
+1. In Cloudflare Dashboard → **Workers & Pages** → **transio**
+2. Click **Settings** → **Builds & deployments**
+3. Click **Connect to Git**
+4. Select your repository: `bluesover/transio.org`
+5. Configure build settings:
+   - **Build command**: `npm run build`
+   - **Build output directory**: `dist`
+   - **Root directory**: `/` (leave blank)
+6. Click **Save and Deploy**
 
-### package.json Scripts
-```json
-{
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview",
-  "deploy": "npm run build && npx wrangler pages deploy dist --project-name=transio"
-}
-```
+Now every push to your repository will automatically deploy!
 
----
+### Step 4: Add Custom Domain (transio.org)
 
-## 📊 Deployment Status
+#### A. Add Domain to Cloudflare
 
-After deployment, verify:
-- ✅ App loads at `https://transio.org`
-- ✅ XSLT 1.0 transformations work
-- ✅ Code editors display correctly
-- ✅ Version control saves/loads properly
-- ✅ File imports/exports function
-- ✅ Theme switching works
-- ✅ All UI components render
+1. Go to Cloudflare Dashboard → **Websites**
+2. Click **Add a site**
+3. Enter: `transio.org`
+4. Select **Free** plan
+5. Cloudflare will scan your DNS records
+6. Click **Continue**
 
----
+#### B. Update Nameservers in GoDaddy
 
-## 🐛 Troubleshooting
+1. Cloudflare will show you 2 nameservers (e.g., `alice.ns.cloudflare.com`, `bob.ns.cloudflare.com`)
+2. Go to [GoDaddy Domain Settings](https://account.godaddy.com/products)
+3. Find `transio.org` → Click **DNS**
+4. Scroll to **Nameservers** → Click **Change**
+5. Select **Enter my own nameservers**
+6. Enter the 2 Cloudflare nameservers
+7. Click **Save**
 
-### Build Fails with "lock file out of sync"
+**⏰ Wait 24-48 hours** for nameserver propagation (usually completes in 1-4 hours).
 
-**Solution:**
+#### C. Connect Domain to Cloudflare Pages
+
+1. Go to **Workers & Pages** → **transio**
+2. Click **Custom domains** tab
+3. Click **Set up a custom domain**
+4. Enter: `transio.org`
+5. Click **Continue**
+6. Cloudflare will automatically add DNS records
+7. Enable **Automatic HTTPS Rewrites**
+
+#### D. Configure SSL/TLS
+
+1. Go to **SSL/TLS** in Cloudflare Dashboard
+2. Set encryption mode to **Full (strict)**
+3. Go to **Edge Certificates**
+4. Enable:
+   - ✅ Always Use HTTPS
+   - ✅ Automatic HTTPS Rewrites
+   - ✅ Certificate Transparency Monitoring
+
+### Step 5: Verify Deployment
+
+1. Visit `https://transio.org`
+2. Verify SSL certificate (🔒 icon in browser)
+3. Test XML transformation functionality
+4. Check all features work
+
+## Environment Variables (If Needed)
+
+If you need environment variables:
+
+1. Go to **Workers & Pages** → **transio** → **Settings**
+2. Click **Environment variables**
+3. Add variables for **Production** environment
+4. Redeploy to apply changes
+
+## Troubleshooting
+
+### Build Fails in Cloudflare
+
+**Error**: `npm ci` fails with package mismatches
+
+**Solution**: Make sure your `package-lock.json` is up to date:
 ```bash
-# Delete lock file and reinstall
 rm package-lock.json
 npm install
 git add package-lock.json
@@ -219,101 +134,113 @@ git commit -m "Update package-lock.json"
 git push
 ```
 
-### DNS Not Resolving
+### Custom Domain Not Working
 
-**Solution:**
-- Wait 30 minutes for DNS propagation
-- Clear browser cache
-- Test with: `nslookup transio.org`
-- Verify CNAME points to `transio.pages.dev`
-
-### GitHub Actions Deployment Fails
-
-**Solution:**
-- Verify `CLOUDFLARE_API_TOKEN` has correct permissions
-- Verify `CLOUDFLARE_ACCOUNT_ID` is correct
-- Check build logs in Actions tab
-- Ensure `dist` folder is created during build
-
-### Port 3001 Already in Use (Saxon Server)
-
-**Solution:**
+**Check DNS Propagation**:
 ```bash
-# Find and kill the process
-lsof -i :3001
-kill -9 <PID>
-
-# Or use a different port
-PORT=3002 npm start
+nslookup transio.org
+# Should show Cloudflare nameservers
 ```
 
----
+**Check DNS Records**:
+- Ensure CNAME record points to your Cloudflare Pages URL
+- Ensure no A records conflict with CNAME
 
-## 📝 Environment Variables
+### SSL Certificate Issues
 
-No environment variables are required for client-side deployment. All processing happens in the browser.
+- Wait 15-30 minutes for SSL provisioning
+- Verify SSL mode is **Full (strict)**
+- Clear browser cache and try incognito mode
 
-**Optional (for Saxon-HE Server):**
-- `PORT`: Server port (default: 3001)
-- `NODE_ENV`: Environment mode (default: development)
+## Monitoring & Analytics
 
----
+### Cloudflare Web Analytics (Free)
 
-## 🔄 Update Deployment
+1. Go to **Analytics & Logs** → **Web Analytics**
+2. Enable for `transio.org`
+3. View real-time traffic and performance metrics
 
-### Method 1: Git Push (Automatic)
-```bash
-# Make changes
-git add .
-git commit -m "Your changes"
-git push
+### Cloudflare Logs (Enterprise only)
 
-# GitHub Actions automatically deploys
+For free users, basic analytics are available in the dashboard.
+
+## Performance Optimization
+
+### Enable Caching
+
+Cloudflare automatically caches static assets. Verify:
+
+1. Go to **Caching** → **Configuration**
+2. Ensure **Caching Level** is set to **Standard**
+3. Enable **Auto Minify** for JS, CSS, HTML
+
+### Enable Speed Features
+
+1. Go to **Speed** → **Optimization**
+2. Enable:
+   - ✅ Auto Minify (JavaScript, CSS, HTML)
+   - ✅ Brotli compression
+   - ✅ Early Hints
+   - ✅ Rocket Loader™ (test first)
+
+## Rollback
+
+If deployment fails or has issues:
+
+1. Go to **Workers & Pages** → **transio** → **Deployments**
+2. Find previous working deployment
+3. Click **⋯** → **Rollback to this deployment**
+
+## GitHub Actions (Advanced)
+
+For automated deployments with GitHub Actions, add this workflow file:
+
+`.github/workflows/deploy.yml`:
+```yaml
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=transio
 ```
 
-### Method 2: Manual Deploy
-```bash
-# Build locally
-npm run build
+**Setup Secrets**:
+1. Go to GitHub repository → **Settings** → **Secrets and variables** → **Actions**
+2. Add secrets:
+   - `CLOUDFLARE_API_TOKEN`: Get from Cloudflare → **My Profile** → **API Tokens**
+   - `CLOUDFLARE_ACCOUNT_ID`: Get from Cloudflare → **Workers & Pages** → **Account ID**
 
-# Deploy manually
-npm run deploy
-```
-
----
-
-## 📚 Additional Resources
-
-- [Cloudflare Pages Documentation](https://developers.cloudflare.com/pages/)
-- [Wrangler CLI Reference](https://developers.cloudflare.com/workers/wrangler/)
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [GoDaddy DNS Management](https://www.godaddy.com/help/manage-dns-680)
-
----
-
-## 🆘 Support
+## Support
 
 For issues or questions:
-- GitHub Issues: https://github.com/bluesover/transio.org/issues
-- Repository: https://github.com/bluesover/transio.org
+- **GitHub Issues**: [https://github.com/bluesover/transio.org/issues](https://github.com/bluesover/transio.org/issues)
+- **Cloudflare Docs**: [https://developers.cloudflare.com/pages/](https://developers.cloudflare.com/pages/)
 
 ---
 
-## ✅ Deployment Checklist
-
-- [ ] Repository connected to Cloudflare Pages
-- [ ] Build settings configured correctly
-- [ ] Initial deployment successful
-- [ ] Custom domain added in Cloudflare
-- [ ] DNS records configured at GoDaddy
-- [ ] GitHub secrets configured (API Token + Account ID)
-- [ ] Automatic deployments tested
-- [ ] App accessible at transio.org
-- [ ] All features working in production
-
----
-
-**Last Updated:** December 2024
-**Deployment Platform:** Cloudflare Pages
-**Custom Domain:** transio.org
-**Repository:** https://github.com/bluesover/transio.org
+**🎉 Congratulations!** Your Transio instance is now deployed and accessible at [https://transio.org](https://transio.org)

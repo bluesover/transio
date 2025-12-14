@@ -1,2 +1,4 @@
 name = "transio"
 compatibility_date = "2024-12-13"
+
+pages_build_output_dir = "dist"
