@@ -320,28 +320,29 @@ For detailed cleanup instructions, see **[CLEANUP_GUIDE.md](./CLEANUP_GUIDE.md)*
 
 ### Fixing Build Errors
 
-**If you encounter `npm run build` errors (Rollup/package-lock issues):**
+**If you encounter any build errors (Vite, Rollup, dependency issues):**
 
-The issue is that `package-lock.json` is out of sync with `package.json`. Run the fix script:
+Use the automated fix script:
 
 **Mac/Linux:**
 ```bash
-chmod +x fix-lockfile.sh
-./fix-lockfile.sh
+chmod +x fix-dependencies.sh
+./fix-dependencies.sh
 ```
 
 **Windows:**
 ```bash
-fix-lockfile.bat
+fix-dependencies.bat
 ```
 
-**Or manually:**
-```bash
-rm -f package-lock.json
-rm -rf node_modules
-npm install
-npm run build
-```
+This script will:
+- Remove corrupted node_modules
+- Clean npm cache
+- Reinstall all dependencies
+- Fix server dependencies
+- Verify installation
+
+**For detailed troubleshooting, see [BUILD_TROUBLESHOOTING.md](./BUILD_TROUBLESHOOTING.md)**
 
 **For Cloudflare deployment errors:**
 After fixing locally, commit and push:

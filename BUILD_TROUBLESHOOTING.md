@@ -1,6 +1,65 @@
 # Build Troubleshooting Guide
 
+## Quick Fix Scripts
+
+Before diving into specific errors, try these automated fix scripts:
+
+**Mac/Linux:**
+```bash
+chmod +x fix-dependencies.sh
+./fix-dependencies.sh
+```
+
+**Windows:**
+```bash
+fix-dependencies.bat
+```
+
+These scripts will automatically:
+- Remove corrupted node_modules
+- Clean npm cache
+- Reinstall all dependencies
+- Fix server dependencies
+- Verify installation
+
+---
+
 ## Common Build Errors and Solutions
+
+### Error: `Cannot find module 'vite/dist/node/chunks/dist.js'`
+
+**Full Error:**
+```
+Cannot find module '/workspaces/spark-template/node_modules/vite/dist/node/chunks/dist.js' imported from /workspaces/spark-template/node_modules/vite/dist/node/chunks/config.js
+```
+
+**Cause:** Vite installation is corrupted or incomplete, usually due to interrupted npm install or network issues.
+
+**Solution 1 - Use Fix Script (Recommended):**
+```bash
+# Mac/Linux
+./fix-dependencies.sh
+
+# Windows
+fix-dependencies.bat
+```
+
+**Solution 2 - Manual Fix:**
+```bash
+# Remove corrupted installations
+rm -rf node_modules package-lock.json
+
+# Clean npm cache
+npm cache clean --force
+
+# Reinstall everything
+npm install
+
+# Verify Vite is properly installed
+ls node_modules/vite/dist/node/chunks/dist.js
+```
+
+---
 
 ### Error: `Cannot find module @rollup/rollup-darwin-arm64`
 
@@ -28,13 +87,13 @@ npm run build
 
 Mac/Linux:
 ```bash
-chmod +x fix-lockfile.sh
-./fix-lockfile.sh
+chmod +x fix-dependencies.sh
+./fix-dependencies.sh
 ```
 
 Windows:
 ```bash
-fix-lockfile.bat
+fix-dependencies.bat
 ```
 
 **Solution 3 - Manual Cleanup:**
@@ -88,16 +147,27 @@ electron/main.ts:11:34 - error TS1343: The 'import.meta' meta-property is only a
 
 **Cause:** TypeScript configuration for Electron is incorrect.
 
-**Solution:** This has been fixed in `tsconfig.electron.json`. If you still see it:
-```bash
-# Check your tsconfig.electron.json has:
+**Solution:** This has been fixed in `tsconfig.electron.json`. The configuration now uses:
+```json
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "node16",
+    "moduleResolution": "node16",
     "target": "ES2022"
   }
 }
+```
+
+If you still see this error, verify your `tsconfig.electron.json` matches the above, then:
+```bash
+# Remove build artifacts
+rm -rf dist-electron
+
+# Rebuild TypeScript
+npx tsc -p tsconfig.electron.json
+
+# Verify no errors
+npx tsc -p tsconfig.electron.json --noEmit
 ```
 
 ---
@@ -109,11 +179,25 @@ electron/main.ts:11:34 - error TS1343: The 'import.meta' meta-property is only a
 error TS7016: Could not find a declaration file for module 'archiver'. '/workspaces/spark-template/node_modules/archiver/index.js' implicitly has an 'any' type.
 ```
 
-**Cause:** Type definitions are not installed.
+**Cause:** Type definitions are already in `package.json` devDependencies but may not be installed.
 
 **Solution:**
 ```bash
-npm install --save-dev @types/archiver
+# Reinstall dependencies to get types
+npm install
+
+# Or specifically install types if missing
+npm install --save-dev @types/archiver @types/node
+```
+
+If error persists after installation:
+```bash
+# Check types are installed
+ls node_modules/@types/archiver
+
+# If not, use fix script
+./fix-dependencies.sh  # Mac/Linux
+fix-dependencies.bat   # Windows
 ```
 
 ---

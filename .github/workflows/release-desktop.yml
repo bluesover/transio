@@ -58,7 +58,7 @@ jobs:
       - name: Install server dependencies
         run: |
           cd server
-          npm install --prefer-offline --no-audit
+          npm ci --prefer-offline --no-audit
           cd ..
 
       - name: Build web app
