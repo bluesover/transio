@@ -22,6 +22,7 @@ export default defineConfig({
       '@': resolve(projectRoot, 'src')
     }
   },
+  publicDir: 'public',
   base: './',
   build: {
     outDir: 'dist',

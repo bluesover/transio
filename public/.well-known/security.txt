@@ -1,0 +1,5 @@
+Contact: https://github.com/bluesover/transio/security
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://transio.org/.well-known/security.txt
+Policy: https://github.com/bluesover/transio/blob/main/SECURITY.md
