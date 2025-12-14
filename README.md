@@ -36,30 +36,7 @@ On-premise desktop apps for **Windows, Mac, and Linux** are in development! Thes
 
 **Timeline**: Beta testing Q1 2025, Public release Q2 2025
 
-📖 **Learn More**: See [DESKTOP_APP_ROADMAP.md](./DESKTOP_APP_ROADMAP.md) for complete details
-
-### 🎨 Desktop App Icons
-
-Before building desktop apps, you need to generate icons for all platforms:
-
-**Quick Setup:**
-```bash
-# Cross-platform (requires ImageMagick)
-npm run icons
-
-# macOS/Linux
-npm run icons:shell
-
-# Windows
-npm run icons:batch
-```
-
-This generates:
-- 🪟 **icon.ico** - Windows multi-resolution icon
-- 🍎 **icon.icns** - macOS icon bundle  
-- 🐧 **PNG set** - Linux icons (16×16 to 1024×1024)
-
-📖 **Detailed Guide**: See [ICON_GENERATION_GUIDE.md](./ICON_GENERATION_GUIDE.md) and [desktop-resources/ICONS_README.md](./desktop-resources/ICONS_README.md)
+Desktop icons are included in the `desktop-resources/` directory.
 
 ---
 
@@ -134,11 +111,8 @@ Or use the npm script:
 npm run deploy
 ```
 
-📖 **Complete Deployment Guide:** See [CLOUDFLARE_DEPLOYMENT.md](./CLOUDFLARE_DEPLOYMENT.md) for:
-- Custom domain setup (transio.org)
-- GitHub Actions auto-deploy
-- Troubleshooting
-- Production configuration
+**GitHub Actions Auto-Deploy:**
+The repository includes automated deployment via GitHub Actions. Every push to `main` automatically deploys to Cloudflare Pages and syncs to the public repository.
 
 ---
 
@@ -176,7 +150,7 @@ chmod +x install.sh start-server.sh
 4. Click "Test Connection"
 5. Save
 
-📖 **Complete Server Guide:** See server/README.md
+📖 **Complete Server Guide:** See [server/README.md](./server/README.md)
 
 ---
 
@@ -242,9 +216,9 @@ All dependencies are **100% open source** with permissive licenses:
 ## 📚 Documentation
 
 - **[PRD.md](./PRD.md)** - Product Requirements Document
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deploy to production with Cloudflare Pages
-- **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)** - Project organization guide
-- **[LICENSE](./LICENSE)** - MIT License
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute
+- **[SECURITY.md](./SECURITY.md)** - Security policy
+- **[LICENSE](./LICENSE)** - MPL-2.0 License
 
 ---
 
@@ -273,18 +247,14 @@ Convert XML to JSON, CSV, or other formats.
 **Registrar:** GoDaddy  
 **Hosting:** Cloudflare Pages
 
-### Quick Setup
-See **[DOMAIN_SETUP_QUICK.md](./DOMAIN_SETUP_QUICK.md)** for 5-minute setup guide.
-
-### Detailed Guide
-See **[CUSTOM_DOMAIN_SETUP.md](./CUSTOM_DOMAIN_SETUP.md)** for comprehensive DNS configuration, SSL setup, and troubleshooting.
-
-**Key Steps:**
+**Quick Steps:**
 1. Add domain to Cloudflare
 2. Update GoDaddy nameservers to Cloudflare
 3. Add CNAME records in Cloudflare DNS
 4. Connect custom domain in Cloudflare Pages
 5. Configure SSL/TLS (Full strict mode)
+
+SSL certificates are automatically provisioned by Cloudflare.
 
 ---
 
