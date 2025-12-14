@@ -53,7 +53,7 @@ Transio is committed to ensuring the security and privacy of our users. This doc
 We take security seriously. If you discover a vulnerability:
 
 ### Private Disclosure (Preferred)
-1. **Email**: Create an issue at [github.com/bluesover/transio.org/issues](https://github.com/bluesover/transio.org/issues) marked as "Security"
+1. **GitHub Issues**: Create an issue at [github.com/bluesover/transio/issues](https://github.com/bluesover/transio/issues) marked as "Security"
 2. **Include**:
    - Description of the vulnerability
    - Steps to reproduce
@@ -171,8 +171,8 @@ Subscribe to security updates:
 
 ## Contact
 
-- **Security Issues**: [Create Security Issue](https://github.com/bluesover/transio.org/issues/new?labels=security)
-- **General Questions**: [GitHub Discussions](https://github.com/bluesover/transio.org/discussions)
+- **Security Issues**: [Create Security Issue](https://github.com/bluesover/transio/issues/new?labels=security)
+- **General Questions**: [GitHub Discussions](https://github.com/bluesover/transio/discussions)
 - **Project Website**: [transio.org](https://transio.org)
 
 ## Acknowledgments
