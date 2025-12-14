@@ -188,8 +188,15 @@ export function AboutDialog() {
               
               <div className="space-y-2 text-xs">
                 <p className="text-muted-foreground">
-                  Transio is 100% open source (MIT License). All dependencies are open source and free for commercial use.
+                  Transio is 100% open source (MIT License). Contribute, share ideas, report issues, and collaborate with the community!
                 </p>
+                
+                <Button variant="default" size="sm" className="w-full text-xs" asChild>
+                  <a href="https://github.com/bluesover/transio.org" target="_blank" rel="noopener noreferrer">
+                    <GithubLogo weight="bold" className="w-4 h-4 mr-2" />
+                    View on GitHub - Contribute & Share Ideas
+                  </a>
+                </Button>
                 
                 <div className="bg-muted p-3 rounded-lg border border-border space-y-2">
                   <p className="font-medium">Technology Stack:</p>
@@ -201,9 +208,56 @@ export function AboutDialog() {
                     <Badge variant="outline" className="text-[10px]">shadcn/ui v4 (MIT)</Badge>
                     <Badge variant="outline" className="text-[10px]">CodeMirror 6 (MIT)</Badge>
                     <Badge variant="outline" className="text-[10px]">Saxon-JS 2.7 (MPL-2.0)</Badge>
+                    <Badge variant="outline" className="text-[10px]">Saxon-HE (MPL-2.0)</Badge>
                   </div>
                   <p className="text-[11px] text-muted-foreground pt-1">
                     See <span className="font-mono">OPEN_SOURCE_INFO.md</span> for complete license details
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="space-y-3">
+              <h3 className="font-semibold text-sm flex items-center gap-2">
+                <Globe weight="bold" className="w-4 h-4" />
+                Desktop Applications (Coming Soon)
+              </h3>
+              
+              <div className="space-y-2 text-xs">
+                <p className="text-muted-foreground">
+                  On-premise desktop applications for Windows, Mac, and Linux are in development. These will include:
+                </p>
+                
+                <div className="bg-primary/10 border border-primary/20 p-3 rounded-lg space-y-1.5">
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary">✓</span>
+                    <span><strong>Auto-installation</strong> of Saxon-HE (Java-based) and all dependencies</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary">✓</span>
+                    <span><strong>Full XSLT 2.0/3.0 support</strong> with Saxon-HE processor</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary">✓</span>
+                    <span><strong>Local file processing</strong> for large XML files</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary">✓</span>
+                    <span><strong>Offline operation</strong> with local server</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary">✓</span>
+                    <span><strong>One-click installation</strong> - no manual setup required</span>
+                  </div>
+                </div>
+                
+                <div className="bg-muted p-3 rounded-lg border border-border">
+                  <p className="font-medium mb-1">Current Status:</p>
+                  <p className="text-muted-foreground">
+                    Server-side Saxon-HE integration is ready. Desktop packaging with Electron/Tauri is planned for Q1 2025.
+                    Watch the GitHub repository for updates!
                   </p>
                 </div>
               </div>

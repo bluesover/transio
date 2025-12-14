@@ -2,9 +2,13 @@
 
 **Official Website: [https://transio.org](https://transio.org)**
 
+**GitHub Repository: [https://github.com/bluesover/transio.org](https://github.com/bluesover/transio.org)**
+
 A professional-grade XML to XSLT transformation tool supporting XSLT 1.0, 2.0, and 3.0 with comprehensive developer features including version control, project management, code snippets, and real-time validation.
 
 **Open Source & Privacy-First**: Transio is open source software (MPL-2.0 License) that can be deployed anywhere for free. All processing happens locally in the browser with zero data collection. Optional Saxon-HE server for enhanced XSLT 2.0/3.0 support.
+
+**Desktop Applications (Coming Soon)**: On-premise desktop apps for Windows, Mac, and Linux are in development with one-click installation, auto-install of Saxon-HE and Java runtime, and full offline operation. Beta testing Q1 2025, public release Q2 2025. See [DESKTOP_APP_ROADMAP.md](./DESKTOP_APP_ROADMAP.md) for details.
 
 **Experience Qualities**:
 1. **Efficient**: Streamlined workflow with keyboard shortcuts, auto-save, and instant transformations that keep developers in their flow state

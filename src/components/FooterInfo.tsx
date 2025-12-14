@@ -15,7 +15,20 @@ export function FooterInfo() {
           <span className="font-medium">transio.org</span>
         </a>
         
-        <div className="hidden sm:flex items-center gap-1.5">
+        <span className="hidden sm:inline">•</span>
+        
+        <a 
+          href="https://github.com/bluesover/transio.org" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="hidden sm:flex items-center gap-1.5 hover:text-primary transition-colors"
+          title="View on GitHub - Contribute & Share Ideas"
+        >
+          <GithubLogo weight="bold" className="w-3.5 h-3.5" />
+          <span className="font-medium">GitHub</span>
+        </a>
+        
+        <div className="hidden md:flex items-center gap-1.5">
           <span>•</span>
           <Badge variant="outline" className="text-[10px] px-1.5 py-0">
             Open Source
@@ -28,7 +41,7 @@ export function FooterInfo() {
         <div className="hidden lg:flex items-center gap-1.5">
           <span>•</span>
           <a 
-            href="https://github.com/YOUR_USERNAME/transio/blob/main/XSLT_SUPPORT_GUIDE.md" 
+            href="https://github.com/bluesover/transio.org/blob/main/XSLT_SUPPORT_GUIDE.md" 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center gap-1 hover:text-primary transition-colors"

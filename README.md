@@ -2,10 +2,41 @@
 
 **🌐 Official Website: [https://transio.org](https://transio.org)**
 
+**📂 GitHub Repository: [https://github.com/bluesover/transio.org](https://github.com/bluesover/transio.org)**
+
 A professional, free, open-source XML to XSLT transformation tool supporting XSLT 1.0, 2.0, and 3.0. Privacy-first design - all processing happens locally in your browser.
 
 [![License: MPL-2.0](https://img.shields.io/badge/License-MPL%202.0-blue.svg)](./LICENSE)
-[![Open Source](https://img.shields.io/badge/Open%20Source-100%25-green.svg)](https://github.com)
+[![Open Source](https://img.shields.io/badge/Open%20Source-100%25-green.svg)](https://github.com/bluesover/transio.org)
+[![Contribute](https://img.shields.io/badge/Contribute-Welcome-brightgreen.svg)](https://github.com/bluesover/transio.org/issues)
+
+---
+
+## 🤝 Contribute & Collaborate
+
+We welcome contributions, ideas, and issues from the community!
+
+- **💡 Share Ideas**: [Open a discussion](https://github.com/bluesover/transio.org/discussions)
+- **🐛 Report Issues**: [Submit a bug report](https://github.com/bluesover/transio.org/issues)
+- **🔧 Contribute Code**: [Fork and create a PR](https://github.com/bluesover/transio.org/pulls)
+- **⭐ Star the Repo**: Show your support on [GitHub](https://github.com/bluesover/transio.org)
+
+---
+
+## 💻 Desktop Applications (Coming Soon!)
+
+On-premise desktop apps for **Windows, Mac, and Linux** are in development! These will include:
+
+- ✅ **One-click installation** with all dependencies
+- ✅ **Auto-install Saxon-HE** (Java-based) and Java runtime
+- ✅ **Full XSLT 2.0/3.0 support** with native Saxon-HE processor
+- ✅ **Local file processing** for large XML files (100MB+)
+- ✅ **Offline operation** - no internet required
+- ✅ **Same UI/UX** as the web version
+
+**Timeline**: Beta testing Q1 2025, Public release Q2 2025
+
+📖 **Learn More**: See [DESKTOP_APP_ROADMAP.md](./DESKTOP_APP_ROADMAP.md) for complete details
 
 ---
 
