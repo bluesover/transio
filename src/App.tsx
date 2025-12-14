@@ -11,6 +11,7 @@ import { KeyboardShortcutsDialog } from './components/KeyboardShortcutsDialog'
 import { DonationDialog } from './components/DonationDialog'
 import { DeployInfoDialog } from './components/DeployInfoDialog'
 import { AboutDialog } from './components/AboutDialog'
+import { DownloadAppDialog } from './components/DownloadAppDialog'
 import { XSLTInfoDialog } from './components/XSLTInfoDialog'
 import { FooterInfo } from './components/FooterInfo'
 import { ServerConfigDialog } from './components/ServerConfigDialog'
@@ -613,6 +614,8 @@ function App() {
           <Button variant="outline" size="icon" onClick={() => setSaveDialogOpen(true)} title="Save Version (Ctrl+S)">
             <FloppyDisk weight="bold" />
           </Button>
+
+          <DownloadAppDialog />
 
           <Button variant="default" onClick={handleTransform} disabled={isTransforming} className="bg-accent hover:bg-accent/90 text-accent-foreground">
             <Lightning weight="bold" className="mr-2" />
