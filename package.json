@@ -140,11 +140,7 @@
         "vite": "^7.2.6",
         "wait-on": "^7.2.0"
     },
-    "workspaces": {
-        "packages": [
-            "packages/*"
-        ]
-    },
+
     "build": {
         "appId": "org.transio.app",
         "productName": "Transio",
