@@ -28,10 +28,12 @@ echo ""
 FILES_TO_REMOVE=(
     # Deployment and build guides (info in README)
     "BUILD_DESKTOP_APP.md"
+    "BUILD_TROUBLESHOOTING.md"
     "CLOUDFLARE_DEPLOYMENT_FIX.md"
     "CLOUDFLARE_PAGES_SETUP.md"
     "DEPLOY.md"
     "DEPLOYMENT_CHECKLIST.md"
+    "DEPLOYMENT_SEO.md"
     "DESKTOP_APP_RELEASE.md"
     "DESKTOP_APP_ROADMAP.md"
     "FIX_DOWNLOAD_404.md"
@@ -43,8 +45,12 @@ FILES_TO_REMOVE=(
     "PUBLISH_AND_RELEASE_GUIDE.md"
     "QUICK_REFERENCE.md"
     "REPOSITORY_UPDATE_SUMMARY.md"
+    "SEARCH_ENGINE_SUBMISSION.md"
     "SECURITY_AUDIT_REPORT.md"
+    "SEO_CHECKLIST.md"
+    "SEO_GUIDE.md"
     "SETUP_PUBLIC_SYNC.md"
+    "SUBMIT_NOW.md"
     "TEST_DESKTOP_BUILD.md"
     "CLEANUP_GUIDE.md"
     "MAINTAINER_GUIDE.md"
@@ -65,6 +71,8 @@ FILES_TO_REMOVE=(
     "prepare-release.bat"
     "fix-lockfile.sh"
     "fix-lockfile.bat"
+    "fix-dependencies.sh"
+    "fix-dependencies.bat"
     
     # Cloudflare config (not needed for Pages)
     "wrangler.toml"
@@ -98,6 +106,7 @@ DIRECTORIES_TO_REMOVE=(
     "packages/spark-tools"
     "packages"
     ".devcontainer"
+    "scripts"
 )
 
 REMOVED_COUNT=0
