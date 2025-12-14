@@ -213,6 +213,27 @@ Convert XML to JSON, CSV, or other formats.
 
 ---
 
+## 🌐 Custom Domain Setup
+
+**Domain:** transio.org  
+**Registrar:** GoDaddy  
+**Hosting:** Cloudflare Pages
+
+### Quick Setup
+See **[DOMAIN_SETUP_QUICK.md](./DOMAIN_SETUP_QUICK.md)** for 5-minute setup guide.
+
+### Detailed Guide
+See **[CUSTOM_DOMAIN_SETUP.md](./CUSTOM_DOMAIN_SETUP.md)** for comprehensive DNS configuration, SSL setup, and troubleshooting.
+
+**Key Steps:**
+1. Add domain to Cloudflare
+2. Update GoDaddy nameservers to Cloudflare
+3. Add CNAME records in Cloudflare DNS
+4. Connect custom domain in Cloudflare Pages
+5. Configure SSL/TLS (Full strict mode)
+
+---
+
 ## 🤝 Contributing
 
 This is an open-source project under MPL-2.0. Contributions welcome!
