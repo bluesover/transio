@@ -862,9 +862,9 @@ function App() {
                   size="icon" 
                   className="absolute -left-4 top-4 z-10 h-8 w-8 rounded-full bg-card border border-border shadow-md hover:bg-accent"
                   onClick={() => setSidebarOpen(true)}
-                  title="Show Version Panel"
-                >
-                  <CaretLeft weight="bold" />
+                </Button>
+              </div>
+            )}
                 </Button>
               </div>
             )}
