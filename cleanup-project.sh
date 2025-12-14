@@ -4,11 +4,12 @@ echo "🧹 Transio Project Cleanup Script"
 echo "=================================="
 echo ""
 echo "This script will:"
-echo "  ✓ Remove unnecessary documentation files"
-echo "  ✓ Remove redundant GitHub workflows"
-echo "  ✓ Disable Dependabot (saves GitHub Actions budget)"
+echo "  ✓ Remove ALL unnecessary documentation files"
+echo "  ✓ Remove redundant GitHub workflows and configs"
+echo "  ✓ Remove unused scripts and shell files"
+echo "  ✓ Remove empty or unnecessary directories"
 echo "  ✓ Fix package-lock.json synchronization"
-echo "  ✓ Update all dependencies"
+echo "  ✓ Keep ONLY essential project files"
 echo ""
 read -p "Continue? (y/n) " -n 1 -r
 echo ""
@@ -22,14 +23,18 @@ echo ""
 echo "Starting cleanup..."
 echo ""
 
+# Comprehensive list of files to remove
 FILES_TO_REMOVE=(
+    # Deployment and build guides (info in README)
     "BUILD_DESKTOP_APP.md"
     "CLOUDFLARE_DEPLOYMENT_FIX.md"
     "CLOUDFLARE_PAGES_SETUP.md"
     "DEPLOY.md"
     "DEPLOYMENT_CHECKLIST.md"
     "DESKTOP_APP_RELEASE.md"
+    "DESKTOP_APP_ROADMAP.md"
     "FIX_DOWNLOAD_404.md"
+    "FIXES_APPLIED.md"
     "GITHUB_ACTIONS_OPTIMIZATION.md"
     "MACOS_BUILD_GUIDE.md"
     "MIGRATION_GUIDE.md"
@@ -40,17 +45,41 @@ FILES_TO_REMOVE=(
     "SECURITY_AUDIT_REPORT.md"
     "SETUP_PUBLIC_SYNC.md"
     "TEST_DESKTOP_BUILD.md"
+    "CLEANUP_GUIDE.md"
+    
+    # Unused scripts
     "prepare-public-sync.sh"
     "final-cleanup.sh"
     "build-release.sh"
+    "sync-repos.sh"
+    
+    # Cloudflare config (not needed for Pages)
     "wrangler.toml"
+    
+    # GitHub workflows to remove (budget-consuming)
     ".github/workflows/sync-repos.yml"
     ".github/workflows/sync-to-public.yml"
     ".github/dependabot.yml"
+    ".github/README.md"
+    
+    # PID files (runtime artifacts)
+    "pids/server.pid"
+    
+    # Package directories that shouldn't be in repo
+    "packages/spark-tools/.gitkeep"
+)
+
+DIRECTORIES_TO_REMOVE=(
+    "pids"
+    "packages/spark-tools"
+    "packages"
 )
 
 REMOVED_COUNT=0
 SKIPPED_COUNT=0
+
+echo "🗑️  Removing unnecessary files..."
+echo ""
 
 for file in "${FILES_TO_REMOVE[@]}"; do
     if [ -f "$file" ]; then
@@ -58,15 +87,29 @@ for file in "${FILES_TO_REMOVE[@]}"; do
         echo "✓ Removed: $file"
         ((REMOVED_COUNT++))
     else
-        echo "⊘ Not found (already removed): $file"
+        echo "⊘ Not found: $file"
         ((SKIPPED_COUNT++))
     fi
 done
 
 echo ""
+echo "🗑️  Removing unnecessary directories..."
+echo ""
+
+for dir in "${DIRECTORIES_TO_REMOVE[@]}"; do
+    if [ -d "$dir" ]; then
+        rm -rf "$dir"
+        echo "✓ Removed directory: $dir"
+        ((REMOVED_COUNT++))
+    else
+        echo "⊘ Directory not found: $dir"
+    fi
+done
+
+echo ""
 echo "📊 Cleanup Summary:"
-echo "   Files removed: $REMOVED_COUNT"
-echo "   Files already removed: $SKIPPED_COUNT"
+echo "   Items removed: $REMOVED_COUNT"
+echo "   Items already removed: $SKIPPED_COUNT"
 echo ""
 
 if [ $REMOVED_COUNT -gt 0 ]; then
@@ -76,13 +119,12 @@ else
 fi
 
 echo ""
-echo "📝 Kept essential files:"
-echo "   ✓ README.md (Project documentation)"
-echo "   ✓ CLEANUP_GUIDE.md (This guide)"
+echo "📝 Essential files kept:"
+echo "   ✓ README.md (Complete project documentation)"
+echo "   ✓ PRD.md (Product requirements document)"
 echo "   ✓ CONTRIBUTING.md (Contribution guidelines)"
-echo "   ✓ LICENSE (MIT License)"
+echo "   ✓ LICENSE (MPL-2.0 License)"
 echo "   ✓ SECURITY.md (Security policy)"
-echo "   ✓ PRD.md (Product requirements)"
 echo ""
 
 echo "🔧 Fixing package-lock.json..."
@@ -110,28 +152,29 @@ fi
 echo ""
 echo "🎉 Cleanup Complete!"
 echo ""
-echo "📋 GitHub Actions Status:"
-echo "   ✓ deploy-cloudflare.yml (Active - auto-deploys on push)"
-echo "   ✓ release-desktop.yml (Active - builds desktop apps on tag)"
-echo "   ✗ sync-repos.yml (Removed - was consuming budget)"
-echo "   ✗ sync-to-public.yml (Removed - was consuming budget)"
-echo "   ✗ dependabot.yml (Removed - was consuming budget)"
+echo "📋 Active GitHub Actions:"
+echo "   ✓ deploy-cloudflare.yml (Auto-deploy to Cloudflare Pages)"
+echo "   ✓ release-desktop.yml (Build desktop apps on version tag)"
+echo ""
+echo "💰 Budget Savings:"
+echo "   ✗ Dependabot disabled (was consuming Actions minutes)"
+echo "   ✗ Sync workflows removed (redundant automation)"
 echo ""
 echo "🔄 Next Steps:"
 echo ""
 echo "1. Review changes:"
 echo "   git status"
 echo ""
-echo "2. Commit changes:"
+echo "2. Commit cleanup:"
 echo "   git add ."
-echo "   git commit -m 'Clean up project and fix dependencies'"
+echo "   git commit -m 'chore: comprehensive project cleanup'"
 echo ""
 echo "3. Push to repository:"
 echo "   git push origin main"
 echo ""
 echo "4. Verify Cloudflare deployment:"
-echo "   - Should succeed now with fixed package-lock.json"
-echo "   - Check: https://dash.cloudflare.com/pages"
+echo "   https://dash.cloudflare.com/pages"
+echo "   (Should auto-deploy on push)"
 echo ""
-echo "💡 Tip: This script is safe to run multiple times!"
+echo "💡 Run this script anytime to clean up the project!"
 echo ""
