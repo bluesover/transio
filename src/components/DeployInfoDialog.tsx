@@ -29,8 +29,8 @@ export function DeployInfoDialog() {
               <div className="flex items-start gap-3">
                 <Check weight="bold" className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-medium text-sm">100% Free Hosting</p>
-                  <p className="text-xs text-muted-foreground">Deploy to Cloudflare Pages - free forever with unlimited bandwidth</p>
+                  <p className="font-medium text-sm">Static Site Deployment</p>
+                  <p className="text-xs text-muted-foreground">Deploy to any static hosting service - Netlify, Vercel, GitHub Pages, etc.</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -67,15 +67,14 @@ export function DeployInfoDialog() {
               <div className="space-y-3">
                 <div className="p-3 bg-muted rounded-lg border border-border">
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary">Cloudflare Pages</Badge>
+                    <Badge variant="secondary">Build for Production</Badge>
                     <span className="text-xs text-muted-foreground">Recommended</span>
                   </div>
                   <code className="text-xs block bg-background p-2 rounded border border-border font-mono">
-                    npm run build<br/>
-                    npx wrangler pages deploy dist --project-name=transio
+                    npm run build
                   </code>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Free hosting with custom domain support
+                    Deploy the dist/ folder to any static hosting service
                   </p>
                 </div>
 
@@ -116,10 +115,6 @@ export function DeployInfoDialog() {
               </h3>
               
               <div className="space-y-2 text-xs">
-                <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
-                  <span>Complete Deployment Guide</span>
-                  <Badge variant="outline" className="text-[10px]">DEPLOYMENT.md</Badge>
-                </div>
                 <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
                   <span>User Documentation</span>
                   <Badge variant="outline" className="text-[10px]">README.md</Badge>

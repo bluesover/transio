@@ -134,24 +134,14 @@ npm run dev
 # Open http://localhost:5173
 ```
 
-### Deploy Your Own (5 Minutes)
+### Deploy Your Own
 
-**Cloudflare Pages (Free, Recommended):**
+**Build the project:**
 ```bash
-# Build the project
 npm run build
-
-# Deploy to Cloudflare Pages
-npx wrangler pages deploy dist --project-name=transio
 ```
 
-Or use the npm script:
-```bash
-npm run deploy
-```
-
-**GitHub Actions Auto-Deploy:**
-The repository includes automated deployment via GitHub Actions. Every push to `main` automatically deploys to Cloudflare Pages and syncs to the public repository.
+The build output will be in the `dist/` directory, ready to deploy to any static hosting service (Netlify, Vercel, GitHub Pages, etc.).
 
 ---
 
@@ -281,23 +271,6 @@ Convert XML to JSON, CSV, or other formats.
 
 ---
 
-## 🌐 Custom Domain Setup
-
-**Domain:** transio.org  
-**Registrar:** GoDaddy  
-**Hosting:** Cloudflare Pages
-
-**Quick Steps:**
-1. Add domain to Cloudflare
-2. Update GoDaddy nameservers to Cloudflare
-3. Add CNAME records in Cloudflare DNS
-4. Connect custom domain in Cloudflare Pages
-5. Configure SSL/TLS (Full strict mode)
-
-SSL certificates are automatically provisioned by Cloudflare.
-
----
-
 ## 🧹 Project Maintenance
 
 ### Cleaning Up Unnecessary Files
@@ -319,36 +292,12 @@ For detailed cleanup instructions, see **[CLEANUP_GUIDE.md](./CLEANUP_GUIDE.md)*
 
 ### Fixing Build Errors
 
-**If you encounter any build errors (Vite, Rollup, dependency issues):**
+**If you encounter dependency synchronization issues:**
 
-Use the automated fix script:
-
-**Mac/Linux:**
 ```bash
-chmod +x fix-dependencies.sh
-./fix-dependencies.sh
-```
-
-**Windows:**
-```bash
-fix-dependencies.bat
-```
-
-This script will:
-- Remove corrupted node_modules
-- Clean npm cache
-- Reinstall all dependencies
-- Fix server dependencies
-- Verify installation
-
-**For detailed troubleshooting, see [BUILD_TROUBLESHOOTING.md](./BUILD_TROUBLESHOOTING.md)**
-
-**For Cloudflare deployment errors:**
-After fixing locally, commit and push:
-```bash
-git add package-lock.json
-git commit -m "fix: synchronize package-lock.json"
-git push origin main
+rm -rf node_modules package-lock.json
+npm install
+npm run build
 ```
 
 ---
