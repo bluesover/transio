@@ -268,7 +268,34 @@ All dependencies are **100% open source** with permissive licenses:
 - **[CLEANUP_GUIDE.md](./CLEANUP_GUIDE.md)** - Project cleanup and maintenance
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute
 - **[SECURITY.md](./SECURITY.md)** - Security policy
+- **[SEO_GUIDE.md](./SEO_GUIDE.md)** - Complete SEO optimization guide
+- **[SEARCH_ENGINE_SUBMISSION.md](./SEARCH_ENGINE_SUBMISSION.md)** - Submit to Google & Bing
 - **[LICENSE](./LICENSE)** - MPL-2.0 License
+
+---
+
+## 🔍 SEO & Search Engine Submission
+
+Transio is optimized for search engines with:
+- ✅ Comprehensive meta tags (Open Graph, Twitter Cards, Schema.org)
+- ✅ XML sitemap at [transio.org/sitemap.xml](https://transio.org/sitemap.xml)
+- ✅ Robots.txt configured
+- ✅ Fast loading (Cloudflare CDN)
+- ✅ Mobile-responsive design
+
+### Submit to Search Engines
+
+**Quick submission (5 minutes):**
+1. **Google Search Console**: https://search.google.com/search-console
+2. **Bing Webmaster Tools**: https://www.bing.com/webmasters
+
+**Step-by-step guide:** See [SEARCH_ENGINE_SUBMISSION.md](./SEARCH_ENGINE_SUBMISSION.md)
+
+**Verify SEO setup:**
+```bash
+chmod +x scripts/verify-seo.sh
+./scripts/verify-seo.sh
+```
 
 ---
 

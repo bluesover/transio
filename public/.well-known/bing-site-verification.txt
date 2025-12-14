@@ -1,0 +1,13 @@
+# Bing Webmaster Tools Verification File
+# 
+# Instructions:
+# 1. Go to https://www.bing.com/webmasters
+# 2. Add site: https://transio.org
+# 3. Choose "HTML file" verification method
+# 4. Download the BingSiteAuth.xml file
+# 5. Add it to the /public/ directory
+# 6. Commit and push to deploy
+# 7. Click "Verify" in Bing Webmaster Tools
+#
+# Alternative: Import from Google Search Console (easiest!)
+# Alternative: Use the meta tag method in index.html instead
