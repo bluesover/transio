@@ -118,16 +118,6 @@ For building desktop apps from source, see the `electron/` directory in the repo
 - **Keyboard Shortcuts**: Full keyboard navigation (Ctrl+Enter, Ctrl+S, Ctrl+K, etc.)
 - **Mobile Responsive**: Optimized layouts for phone, tablet, and desktop
 - **Toast Notifications**: Visual feedback for all actions
-
-### SEO & Discovery (NEW! 🎉)
-- **Comprehensive Meta Tags**: Optimized for Google, Bing, and other search engines
-- **Structured Data (JSON-LD)**: SoftwareApplication, WebSite, and Organization schemas
-- **Open Graph Tags**: Rich social media previews on Twitter, Facebook, LinkedIn
-- **Sitemap & Robots.txt**: Full search engine crawler support
-- **PWA Manifest**: Installable as a Progressive Web App
-- **Security.txt**: Standardized security contact information
-- **Performance Optimized**: Fast loading for better search rankings
-
 ---
 
 ## 🚀 Quick Start
