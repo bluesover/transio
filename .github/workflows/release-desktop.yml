@@ -58,13 +58,16 @@ jobs:
       - name: Install server dependencies
         run: |
           cd server
-          npm ci --prefer-offline --no-audit
+          npm install --prefer-offline --no-audit
           cd ..
 
       - name: Build web app
         run: npm run build
         env:
           NODE_ENV: production
+
+      - name: Verify Electron TypeScript compilation
+        run: npx tsc -p tsconfig.electron.json --noEmit
 
       - name: Build Electron TypeScript
         run: npx tsc -p tsconfig.electron.json

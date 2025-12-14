@@ -122,6 +122,18 @@ else
     print_success "Dependencies already installed"
 fi
 
+# Verify server dependencies
+print_info "Verifying server dependencies..."
+if [ ! -d "server/node_modules" ]; then
+    print_warning "server/node_modules not found. Installing server dependencies..."
+    cd server
+    npm install
+    cd ..
+    print_success "Server dependencies installed"
+else
+    print_success "Server dependencies already installed"
+fi
+
 # Test build
 print_info "Testing web build..."
 if npm run build; then
