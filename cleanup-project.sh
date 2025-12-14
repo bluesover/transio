@@ -5,6 +5,7 @@ echo "=================================="
 echo ""
 echo "This script will:"
 echo "  ✓ Remove ALL unnecessary documentation files"
+echo "  ✓ Remove SEO-related files (sitemap.xml, robots.txt, meta tags)"
 echo "  ✓ Remove redundant GitHub workflows and configs"
 echo "  ✓ Remove unused scripts and shell files"
 echo "  ✓ Remove empty or unnecessary directories"
@@ -49,7 +50,13 @@ FILES_TO_REMOVE=(
     "SECURITY_AUDIT_REPORT.md"
     "SEO_CHECKLIST.md"
     "SEO_GUIDE.md"
+    "SEO_OPTIMIZATION.md"
+    "SEO_README.md"
     "SETUP_PUBLIC_SYNC.md"
+    
+    # SEO-related public files
+    "public/sitemap.xml"
+    "public/robots.txt"
     "SUBMIT_NOW.md"
     "TEST_DESKTOP_BUILD.md"
     "CLEANUP_GUIDE.md"
@@ -60,6 +67,11 @@ FILES_TO_REMOVE=(
     "RELEASE_GUIDE.md"
     "RELEASE_SUMMARY.md"
     "CHANGELOG.md"
+    "CLEANUP_INSTRUCTIONS.md"
+    "READY_TO_DEPLOY.md"
+    "RUN_CLEANUP_NOW.md"
+    "START_HERE.md"
+    "PRODUCTION_READY_REPORT.md"
     
     # Unused scripts
     "prepare-public-sync.sh"
