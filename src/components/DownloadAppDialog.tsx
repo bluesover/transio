@@ -5,6 +5,10 @@ import { Badge } from './ui/badge'
 import { Card } from './ui/card'
 
 export function DownloadAppDialog() {
+  const checkReleaseAvailability = (filename: string) => {
+    return `https://github.com/bluesover/transio.org/releases/latest/download/${filename}`
+  }
+
   const downloads = [
     {
       platform: 'Windows',
@@ -72,7 +76,18 @@ export function DownloadAppDialog() {
                   <div className="text-right">
                     <Badge variant="outline" className="mb-2">{download.size}</Badge>
                     <Button size="sm" className="w-full" asChild>
-                      <a href={`https://github.com/bluesover/transio.org/releases/latest/download/${download.file}`} target="_blank" rel="noopener noreferrer">
+                      <a 
+                        href={checkReleaseAvailability(download.file)} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        onClick={(e) => {
+                          fetch(checkReleaseAvailability(download.file), { method: 'HEAD' })
+                            .catch(() => {
+                              e.preventDefault()
+                              window.open('https://github.com/bluesover/transio.org/releases', '_blank')
+                            })
+                        }}
+                      >
                         <Download weight="bold" className="mr-2 w-4 h-4" />
                         Download
                       </a>
@@ -94,16 +109,21 @@ export function DownloadAppDialog() {
             </ul>
           </div>
 
-          <div className="border-t pt-4 mt-4 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <GithubLogo weight="bold" className="w-4 h-4" />
-              <span>Open Source on GitHub</span>
+          <div className="border-t pt-4 mt-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <GithubLogo weight="bold" className="w-4 h-4" />
+                <span>Open Source on GitHub</span>
+              </div>
+              <Button variant="outline" size="sm" asChild>
+                <a href="https://github.com/bluesover/transio.org/releases" target="_blank" rel="noopener noreferrer">
+                  View All Releases
+                </a>
+              </Button>
             </div>
-            <Button variant="outline" size="sm" asChild>
-              <a href="https://github.com/bluesover/transio.org" target="_blank" rel="noopener noreferrer">
-                View Releases
-              </a>
-            </Button>
+            <p className="text-xs text-muted-foreground mt-2">
+              Note: Desktop builds are created on-demand. If a download link doesn't work, check the releases page or build locally from source.
+            </p>
           </div>
         </div>
       </DialogContent>
