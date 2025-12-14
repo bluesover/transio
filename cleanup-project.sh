@@ -63,6 +63,8 @@ FILES_TO_REMOVE=(
     "validate-release.sh"
     "prepare-release.sh"
     "prepare-release.bat"
+    "fix-lockfile.sh"
+    "fix-lockfile.bat"
     
     # Cloudflare config (not needed for Pages)
     "wrangler.toml"

@@ -318,17 +318,36 @@ This will:
 
 For detailed cleanup instructions, see **[CLEANUP_GUIDE.md](./CLEANUP_GUIDE.md)**
 
-### Fixing Cloudflare Deployment Errors
+### Fixing Build Errors
 
-If you see `npm ci` errors during Cloudflare deployment:
+**If you encounter `npm run build` errors (Rollup/package-lock issues):**
 
+The issue is that `package-lock.json` is out of sync with `package.json`. Run the fix script:
+
+**Mac/Linux:**
 ```bash
-# Fix package-lock.json
-npm install
+chmod +x fix-lockfile.sh
+./fix-lockfile.sh
+```
 
-# Commit and push
+**Windows:**
+```bash
+fix-lockfile.bat
+```
+
+**Or manually:**
+```bash
+rm -f package-lock.json
+rm -rf node_modules
+npm install
+npm run build
+```
+
+**For Cloudflare deployment errors:**
+After fixing locally, commit and push:
+```bash
 git add package-lock.json
-git commit -m "Fix: Update package-lock.json"
+git commit -m "fix: synchronize package-lock.json"
 git push origin main
 ```
 
