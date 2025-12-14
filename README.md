@@ -76,8 +76,7 @@ sudo rpm -i Transio-*.rpm
 
 ### 📚 More Info
 
-- **Building from source**: See [BUILD_DESKTOP_APP.md](./BUILD_DESKTOP_APP.md)
-- **Release process**: See [PUBLISH_AND_RELEASE_GUIDE.md](./PUBLISH_AND_RELEASE_GUIDE.md)
+For building desktop apps from source, see the `electron/` directory in the repository.
 
 ---
 
@@ -257,6 +256,7 @@ All dependencies are **100% open source** with permissive licenses:
 ## 📚 Documentation
 
 - **[PRD.md](./PRD.md)** - Product Requirements Document
+- **[CLEANUP_GUIDE.md](./CLEANUP_GUIDE.md)** - Project cleanup and maintenance
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute
 - **[SECURITY.md](./SECURITY.md)** - Security policy
 - **[LICENSE](./LICENSE)** - MPL-2.0 License
@@ -296,6 +296,41 @@ Convert XML to JSON, CSV, or other formats.
 5. Configure SSL/TLS (Full strict mode)
 
 SSL certificates are automatically provisioned by Cloudflare.
+
+---
+
+## 🧹 Project Maintenance
+
+### Cleaning Up Unnecessary Files
+
+If you're forking or maintaining this project, use the cleanup script to remove temporary documentation files:
+
+```bash
+chmod +x cleanup-project.sh
+./cleanup-project.sh
+```
+
+This will:
+- Remove all temporary documentation and build guides
+- Fix package-lock.json synchronization issues
+- Update dependencies to latest versions
+- Keep only essential documentation (README, PRD, CONTRIBUTING, LICENSE, SECURITY)
+
+For detailed cleanup instructions, see **[CLEANUP_GUIDE.md](./CLEANUP_GUIDE.md)**
+
+### Fixing Cloudflare Deployment Errors
+
+If you see `npm ci` errors during Cloudflare deployment:
+
+```bash
+# Fix package-lock.json
+npm install
+
+# Commit and push
+git add package-lock.json
+git commit -m "Fix: Update package-lock.json"
+git push origin main
+```
 
 ---
 
