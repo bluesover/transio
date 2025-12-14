@@ -46,13 +46,36 @@ Desktop App
 - [x] Error handling
 - [x] XSLT version detection
 
-### Phase 2: Desktop Packaging (Planned Q1 2025)
-- [ ] Evaluate Electron vs Tauri
-- [ ] Create build scripts for Windows/Mac/Linux
+### Phase 2: Desktop Packaging (In Progress)
+- [x] Electron configuration setup
+- [x] Build scripts for Windows/Mac/Linux
+- [x] **App icon generation (Windows, macOS, Linux)** ✨ NEW
 - [ ] Bundle Java runtime (JRE 11+)
 - [ ] Bundle Saxon-HE JAR
 - [ ] Auto-start local server on launch
 - [ ] Installer creation (NSIS/DMG/AppImage)
+
+#### 🎨 Icon Generation (✅ Complete)
+
+All desktop app icons can be generated with one command:
+
+```bash
+npm run icons
+```
+
+This creates:
+- **Windows**: `icon.ico` (multi-resolution)
+- **macOS**: `icon.icns` (Retina-ready)
+- **Linux**: PNG set (16×16 to 1024×1024)
+
+**Requirements**: ImageMagick
+**Source**: `src/assets/images/E8CE4860-D5D3-4364-83BB-B0F6E7699240.png`
+**Location**: `desktop-resources/icons/`
+
+📖 **Guides**:
+- Quick Start: [ICON_QUICK_START.md](./ICON_QUICK_START.md)
+- Full Guide: [ICON_GENERATION_GUIDE.md](./ICON_GENERATION_GUIDE.md)
+- Icon Specs: [desktop-resources/ICONS_README.md](./desktop-resources/ICONS_README.md)
 
 ### Phase 3: Installation Experience (Planned Q1 2025)
 - [ ] One-click installers

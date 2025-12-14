@@ -1,0 +1,10 @@
+# Generated icon files (run 'npm run icons' to create them)
+*.ico
+*.icns
+*.png
+*.iconset/
+
+# Keep this directory in git
+!.gitignore
+!README.md
+!.gitkeep

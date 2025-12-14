@@ -38,6 +38,29 @@ On-premise desktop apps for **Windows, Mac, and Linux** are in development! Thes
 
 📖 **Learn More**: See [DESKTOP_APP_ROADMAP.md](./DESKTOP_APP_ROADMAP.md) for complete details
 
+### 🎨 Desktop App Icons
+
+Before building desktop apps, you need to generate icons for all platforms:
+
+**Quick Setup:**
+```bash
+# Cross-platform (requires ImageMagick)
+npm run icons
+
+# macOS/Linux
+npm run icons:shell
+
+# Windows
+npm run icons:batch
+```
+
+This generates:
+- 🪟 **icon.ico** - Windows multi-resolution icon
+- 🍎 **icon.icns** - macOS icon bundle  
+- 🐧 **PNG set** - Linux icons (16×16 to 1024×1024)
+
+📖 **Detailed Guide**: See [ICON_GENERATION_GUIDE.md](./ICON_GENERATION_GUIDE.md) and [desktop-resources/ICONS_README.md](./desktop-resources/ICONS_README.md)
+
 ---
 
 ## ✨ Features
