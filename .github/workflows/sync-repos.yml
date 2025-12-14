@@ -1,16 +1,6 @@
 name: Sync Repositories
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'src/**'
-      - 'index.html'
-      - 'package.json'
-      - 'README.md'
-      - 'PRD.md'
-      - 'LICENSE'
   workflow_dispatch:
 
 jobs:
