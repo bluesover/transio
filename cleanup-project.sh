@@ -74,12 +74,16 @@ FILES_TO_REMOVE=(
     "fix-dependencies.sh"
     "fix-dependencies.bat"
     
+    # Electron/Desktop app config (not needed for web-only)
+    "tsconfig.electron.json"
+    
     # Cloudflare config (not needed for Pages)
     "wrangler.toml"
     
     # GitHub workflows to remove (budget-consuming)
     ".github/workflows/sync-repos.yml"
     ".github/workflows/sync-to-public.yml"
+    ".github/workflows/release-desktop.yml"
     ".github/dependabot.yml"
     ".github/README.md"
     
@@ -107,6 +111,8 @@ DIRECTORIES_TO_REMOVE=(
     "packages"
     ".devcontainer"
     "scripts"
+    "desktop-resources"
+    "electron"
 )
 
 REMOVED_COUNT=0
