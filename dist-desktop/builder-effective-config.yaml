@@ -1,0 +1,86 @@
+directories:
+  output: dist-desktop
+  buildResources: desktop-resources
+appId: org.transio.app
+productName: Transio
+files:
+  - filter:
+      - dist/**/*
+      - dist-electron/**/*
+      - server/**/*
+      - '!server/node_modules'
+      - package.json
+extraResources:
+  - from: server
+    to: server
+    filter:
+      - '**/*'
+      - '!node_modules'
+mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+    - target: zip
+      arch:
+        - x64
+        - arm64
+  icon: desktop-resources/icon.icns
+  category: public.app-category.developer-tools
+  darkModeSupport: true
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: desktop-resources/entitlements.mac.plist
+  entitlementsInherit: desktop-resources/entitlements.mac.plist
+dmg:
+  contents:
+    - x: 130
+      'y': 220
+    - x: 410
+      'y': 220
+      type: link
+      path: /Applications
+  window:
+    width: 540
+    height: 380
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: desktop-resources/icon.ico
+  publisherName: Transio
+  verifyUpdateCodeSignature: false
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Transio
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  icon: desktop-resources/icons
+  category: Development
+  maintainer: transio.org
+  vendor: Transio
+  synopsis: XML to XSLT Transformation Tool
+  description: Professional XML to XSLT transformation tool supporting XSLT 1.0, 2.0, and 3.0
+appImage:
+  license: LICENSE
+deb:
+  depends:
+    - gconf2
+    - gconf-service
+    - libnotify4
+    - libappindicator1
+    - libxtst6
+    - libnss3
+publish:
+  provider: github
+  owner: bluesover
+  repo: transio
+electronVersion: 28.3.3
