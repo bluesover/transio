@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { toast, Toaster } from 'sonner'
-import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, GitBranch, CaretLeft, CaretRight, FileCsv, RocketLaunch, Flask, LockKey, LockKeyOpen, CloudArrowUp } from '@phosphor-icons/react'
+import { Lightning, FloppyDisk, Folder, Code, Question, Moon, Sun, TextIndent, DownloadSimple, Upload, GitBranch, CaretLeft, CaretRight, FileCsv, RocketLaunch, Flask, LockKey, LockKeyOpen, CloudArrowUp } from '@phosphor-icons/react'
 import { CodeEditor } from './components/CodeEditor'
 import { VersionPanel } from './components/VersionPanel'
 import { SnippetsSheet } from './components/SnippetsSheet'
@@ -305,6 +305,68 @@ function App() {
     input.click()
   }, [addLogEntry])
 
+  const handleExportXML = useCallback(() => {
+    const blob = new Blob([safeXmlInput], { type: 'application/xml' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'input.xml'
+    a.click()
+    URL.revokeObjectURL(url)
+    toast.success('XML downloaded')
+    addLogEntry('export', 'Exported XML file')
+  }, [safeXmlInput, addLogEntry])
+
+  const handleExportXSLT = useCallback(() => {
+    const blob = new Blob([safeXsltInput], { type: 'application/xml' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'stylesheet.xslt'
+    a.click()
+    URL.revokeObjectURL(url)
+    toast.success('XSLT downloaded')
+    addLogEntry('export', 'Exported XSLT file')
+  }, [safeXsltInput, addLogEntry])
+
+  const handleExportOutput = useCallback(() => {
+    if (!output) {
+      toast.error('No output to export')
+      return
+    }
+    
+    const extensionMap: Record<OutputLanguage, string> = {
+      'html': 'html',
+      'xml': 'xml',
+      'json': 'json',
+      'text': 'txt',
+      'csv': 'csv',
+      'svg': 'svg'
+    }
+    
+    const mimeTypeMap: Record<OutputLanguage, string> = {
+      'html': 'text/html',
+      'xml': 'application/xml',
+      'json': 'application/json',
+      'text': 'text/plain',
+      'csv': 'text/csv',
+      'svg': 'image/svg+xml'
+    }
+    
+    const extension = extensionMap[outputLanguage]
+    const mimeType = mimeTypeMap[outputLanguage]
+    
+    const blob = new Blob([output], { type: mimeType })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `output.${extension}`
+    a.click()
+    URL.revokeObjectURL(url)
+    toast.success(`Output downloaded as ${extension.toUpperCase()}`)
+    addLogEntry('export', `Exported output as ${extension.toUpperCase()}`)
+  }, [output, outputLanguage, addLogEntry])
+
   const handleSelectFolder = useCallback(async () => {
     try {
       const handle = await selectFolder()
@@ -387,9 +449,12 @@ function App() {
     { key: 'h', ctrl: true, shift: true, action: handleFormatOutput },
     { key: 'i', ctrl: true, shift: true, action: handleImportXML },
     { key: 'o', ctrl: true, shift: true, action: handleImportXSLT },
-    { key: 'e', ctrl: true, shift: true, action: handleImportOutput },
+    { key: 'p', ctrl: true, shift: true, action: handleImportOutput },
+    { key: 'x', ctrl: true, shift: true, action: handleExportXML },
+    { key: 'y', ctrl: true, shift: true, action: handleExportXSLT },
+    { key: 'd', ctrl: true, shift: true, action: handleExportOutput },
     { key: '?', shift: true, action: () => setHelpDialogOpen(true) },
-  ], [handleTransform, handleFormatXML, handleFormatXSLT, handleFormatOutput, handleImportXML, handleImportXSLT, handleImportOutput])
+  ], [handleTransform, handleFormatXML, handleFormatXSLT, handleFormatOutput, handleImportXML, handleImportXSLT, handleImportOutput, handleExportXML, handleExportXSLT, handleExportOutput])
 
   useKeyboardShortcuts(shortcuts)
 
@@ -573,10 +638,13 @@ function App() {
                   <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XML Input</h3>
                     <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" onClick={handleImportXML}>
+                      <Button variant="ghost" size="sm" onClick={handleImportXML} title="Import XML">
+                        <Upload weight="bold" className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={handleExportXML} title="Download XML">
                         <DownloadSimple weight="bold" className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={handleFormatXML}>
+                      <Button variant="ghost" size="sm" onClick={handleFormatXML} title="Format XML">
                         <TextIndent weight="bold" className="w-4 h-4" />
                       </Button>
                     </div>
@@ -592,13 +660,16 @@ function App() {
                   <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XSLT Stylesheet</h3>
                     <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" onClick={() => setSnippetsOpen(true)}>
+                      <Button variant="ghost" size="sm" onClick={() => setSnippetsOpen(true)} title="Snippets">
                         <Code weight="bold" className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={handleImportXSLT}>
+                      <Button variant="ghost" size="sm" onClick={handleImportXSLT} title="Import XSLT">
+                        <Upload weight="bold" className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={handleExportXSLT} title="Download XSLT">
                         <DownloadSimple weight="bold" className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={handleFormatXSLT}>
+                      <Button variant="ghost" size="sm" onClick={handleFormatXSLT} title="Format XSLT">
                         <TextIndent weight="bold" className="w-4 h-4" />
                       </Button>
                     </div>
@@ -626,11 +697,14 @@ function App() {
                       )}
                     </div>
                     <div className="flex gap-1">
+                      <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output">
+                        <Upload weight="bold" className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={handleExportOutput} title="Download Output" disabled={!output}>
+                        <DownloadSimple weight="bold" className="w-4 h-4" />
+                      </Button>
                       <Button variant="ghost" size="sm" onClick={handleFormatOutput} title="Format Output" disabled={!output}>
                         <TextIndent weight="bold" className="w-4 h-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output">
-                        <DownloadSimple weight="bold" className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>
@@ -674,7 +748,10 @@ function App() {
                   <div className="flex items-center justify-between mb-2 px-1">
                     <h3 className="text-sm font-medium">XML Input</h3>
                     <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" onClick={handleImportXML} title="Import XML">
+                      <Button variant="ghost" size="sm" onClick={handleImportXML} title="Import XML (Ctrl+Shift+I)">
+                        <Upload weight="bold" className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={handleExportXML} title="Download XML (Ctrl+Shift+X)">
                         <DownloadSimple weight="bold" className="w-4 h-4" />
                       </Button>
                       <Button variant="ghost" size="sm" onClick={handleFormatXML} title="Format XML (Ctrl+Shift+F)">
@@ -694,7 +771,10 @@ function App() {
                       <Button variant="ghost" size="sm" onClick={() => setSnippetsOpen(true)} title="Snippets (Ctrl+K)">
                         <Code weight="bold" className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={handleImportXSLT} title="Import XSLT">
+                      <Button variant="ghost" size="sm" onClick={handleImportXSLT} title="Import XSLT (Ctrl+Shift+O)">
+                        <Upload weight="bold" className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={handleExportXSLT} title="Download XSLT (Ctrl+Shift+Y)">
                         <DownloadSimple weight="bold" className="w-4 h-4" />
                       </Button>
                       <Button variant="ghost" size="sm" onClick={handleFormatXSLT} title="Format XSLT (Ctrl+Shift+G)">
@@ -723,11 +803,14 @@ function App() {
                       )}
                     </div>
                     <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" onClick={handleFormatOutput} title="Format Output" disabled={!output}>
-                        <TextIndent weight="bold" className="w-4 h-4" />
+                      <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output (Ctrl+Shift+P)">
+                        <Upload weight="bold" className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={handleImportOutput} title="Import Output">
+                      <Button variant="ghost" size="sm" onClick={handleExportOutput} title="Download Output (Ctrl+Shift+D)" disabled={!output}>
                         <DownloadSimple weight="bold" className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={handleFormatOutput} title="Format Output (Ctrl+Shift+H)" disabled={!output}>
+                        <TextIndent weight="bold" className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>

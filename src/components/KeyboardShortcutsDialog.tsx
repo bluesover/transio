@@ -15,7 +15,10 @@ const shortcuts = [
   { keys: 'Ctrl+Shift+H', description: 'Format Output (auto-detects language)' },
   { keys: 'Ctrl+Shift+I', description: 'Import XML file' },
   { keys: 'Ctrl+Shift+O', description: 'Import XSLT file' },
-  { keys: 'Ctrl+Shift+E', description: 'Export output' },
+  { keys: 'Ctrl+Shift+P', description: 'Import Output file' },
+  { keys: 'Ctrl+Shift+X', description: 'Download XML file' },
+  { keys: 'Ctrl+Shift+Y', description: 'Download XSLT file' },
+  { keys: 'Ctrl+Shift+D', description: 'Download Output file' },
   { keys: '?', description: 'Show this help dialog' },
 ]
 
