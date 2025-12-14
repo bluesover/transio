@@ -4,12 +4,20 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'src/**'
+      - 'index.html'
+      - 'package.json'
+      - 'README.md'
+      - 'PRD.md'
+      - 'LICENSE'
   workflow_dispatch:
 
 jobs:
   sync:
     name: Sync to Public Repository
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     
     steps:
       - name: Checkout Code
@@ -20,12 +28,12 @@ jobs:
       
       - name: Configure Git
         run: |
-          git config --global user.name "GitHub Actions Bot"
-          git config --global user.email "actions@github.com"
+          git config --global user.name "Transio Bot"
+          git config --global user.email "bot@transio.org"
       
       - name: Add Public Remote
         run: |
-          git remote add public https://x-access-token:${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/bluesover/transio.org.git || true
+          git remote add public https://x-access-token:${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/bluesover/transio.org.git || echo "Remote already exists"
           git remote -v
       
       - name: Push to Public Repository
